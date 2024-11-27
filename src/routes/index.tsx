@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/auth/login.page";
-import AdminLayouts from "../layouts/admin.layouts";
+import AdminLayouts from "../layouts/admin.layout";
 import LoadingPages from "../components/loadings/loading-pages";
 
 const AppRoutes = () => {

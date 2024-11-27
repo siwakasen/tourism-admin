@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import ProtectedRoutes from "../helper/routes/protected-route";
+import ProtectedRoutes from "../_helper/routes/protected-route";
 
 interface AdminLayoutsProps {
   children?: React.ReactNode; // Definisikan tipe children
