@@ -1,5 +1,26 @@
 import { TourPackage } from "../../__interface/tourpackage.interface";
+import ActionButtonTable from "../../components/button/action-table.button";
 import { Columns } from "../../components/table";
+import { RiEdit2Fill } from "react-icons/ri";
+import { MdDelete } from "react-icons/md";
+import { BiSolidHide } from "react-icons/bi";
+const menuOptions = [
+  {
+    label: "Edit",
+    action: () => alert("View Edit clicked!"),
+    icon: <RiEdit2Fill />,
+  },
+  {
+    label: "Hide",
+    action: () => alert("Hide clicked!"),
+    icon: <BiSolidHide />,
+  },
+  {
+    label: "Delete",
+    action: () => alert("Delete clicked!"),
+    icon: <MdDelete />,
+  },
+];
 
 export const HeaderTourPackage =
   (): //   handleDeletePopUp: (id: string) => void,
@@ -22,10 +43,10 @@ export const HeaderTourPackage =
       },
       {
         fieldId: "id",
-        label: "",
+        label: "Action",
         render: (data) => (
           <>
-            <div>{data?.id}</div>
+            <ActionButtonTable menuOptions={menuOptions} />
           </>
         ),
       },

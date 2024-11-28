@@ -7,7 +7,7 @@ interface PaginationDefaultI {
 
 interface props<T, P extends PaginationDefaultI> {
   title: string;
-  params: {
+  params?: {
     value: P;
     setValue: React.Dispatch<React.SetStateAction<P>>;
   };
@@ -60,13 +60,13 @@ const TableLayout = <T, P extends PaginationDefaultI>({
         //   menu={title}
         // />
       )}
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-6 p-6  ">
         <div className="col-span-1">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4"></div>
             <div className="flex items-center justify-between gap-4 ml-4">
               <button
-                onClick={handleCreate}
+                onClick={handleCreate}  
                 className="bg-blue-ribbon text-white hover:bg-blue-ribbon/90 rounded-xl font-medium"
               >
                 Create {title}

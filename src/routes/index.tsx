@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/auth/login.page";
 import AdminLayouts from "../layouts/admin.layout";
 import LoadingPages from "../components/loadings/loading-pages";
+import TourPackagePage from "../pages/package-tour";
 
 const AppRoutes = () => {
   return (
@@ -21,7 +22,7 @@ const AppRoutes = () => {
         <Route path="/admin" element={<AdminLayouts />}>
           <Route index element={<div>Admin Dashboard</div>} />
           <Route path="users" element={<div>Manage Users</div>} />
-          <Route path="settings" element={<div>Settings</div>} />
+          <Route path="tour-package" element={<TourPackagePage />} />
         </Route>
       </Routes>
     </Suspense>

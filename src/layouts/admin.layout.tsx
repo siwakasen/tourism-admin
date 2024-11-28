@@ -10,10 +10,12 @@ const AdminLayouts: React.FC<AdminLayoutsProps> = ({ children }) => {
   return (
     <ProtectedRoutes>
       <div className="admin-layout">
-        {/* Tambahkan Header, Sidebar, atau lainnya */}
+        {/* tambahkan header */}
         <main>
-          {children || <Outlet />}{" "}
-          {/* Gunakan Outlet jika children tidak ada */}
+          <div className="grid grid-cols-12">
+            <div className="col-span-2">{/* isi side bar nanti */}</div>
+            <div className="col-span-10">{children || <Outlet />} </div>
+          </div>
         </main>
       </div>
     </ProtectedRoutes>

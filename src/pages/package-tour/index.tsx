@@ -1,31 +1,18 @@
 import { Params, TourPackage } from "../../__interface/tourpackage.interface";
+import { tourPackagesDummy } from "../../data/dummy/tour-package.dummy";
+import { HeaderTourPackage } from "../../data/header-table/tour-package.header";
 import TableLayout from "../../layouts/table/table.layout";
 
-export default function ClassPage(): React.ReactElement {
+export default function TourPackagePage(): React.ReactElement {
   return (
     <>
       <TableLayout<TourPackage, Params>
         title="Tour Package"
-        data={listData?.data ?? []}
-        params={{ value: searchParams, setValue: setSearchParams }}
+        data={tourPackagesDummy}
         headerTable={HeaderTourPackage}
-        handleCreate={handleCreateStart} // Memanggil handler untuk membuat data baru
-        setSelectedId={setSelectedColumn}
-        remove={{
-          isOpen: isDeletePopupOpen,
-          handlerClose: handleClosePopUp,
-          handler: handleDeletePopUp,
-        }}
-        handleEdit={handleUpdateStart} // Memanggil handler untuk memulai update data
-        loading={isFetchLoading}
-        modal={
-          <ClassModal
-            handler={handleModalUpsert}
-            isOpen={modalUpsert}
-            type={type}
-            id={selectedId}
-          />
-        }
+        handleCreate={() => {}} // Memanggil handler untuk membuat data baru
+        setSelectedId={() => {}}
+        loading={false}
       />
     </>
   );
