@@ -9,7 +9,7 @@ interface AdminLayoutsProps {
 const AdminLayouts: React.FC<AdminLayoutsProps> = ({ children }) => {
   return (
     <ProtectedRoutes>
-      <div className="admin-layout">
+      <div className="admin-layout bg-slate-200 h-[100vh]">
         {/* tambahkan header */}
         <main>
           <div className="grid grid-cols-12">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, ReactNode } from "react";
+import { FaEllipsisV } from "react-icons/fa";
 
 interface MenuOption {
   label: string;
@@ -45,7 +46,7 @@ const ActionButtonTable: React.FC<ActionButtonTableProps> = ({
         onClick={toggleMenu}
         className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-800 focus:outline-none"
       >
-        ...
+        <FaEllipsisV />
       </button>
 
       {/* Menu */}
