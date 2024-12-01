@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { isEmpty } from "lodash";
+import Pagination from "../paginations/pagination";
 
 export interface Columns<T> {
   fieldId: string;
@@ -13,7 +14,7 @@ export interface Columns<T> {
 interface Props<T> {
   data?: any[];
   columns: Columns<T>[];
-  loading?: boolean;
+  isLoading?: boolean;
   error?: string;
   action?: boolean;
   onRowClick?: (item: T) => void;
@@ -28,7 +29,7 @@ function classNames(...classes: string[]): string {
 export function Table<T>({
   data = [],
   columns = [],
-  loading = false,
+  isLoading = false,
   error = "",
   action = false,
   onRowClick,
@@ -40,112 +41,114 @@ export function Table<T>({
       onRowClick(item);
     }
   };
-
+  isLoading = false;
   return (
     <div className="flex flex-col">
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <div className="border rounded-lg divide-y divide-gray-200">
-            {/* Search Section */}
-            <div className="py-3 px-4">
-              <div className="relative max-w-xs">
-                <label className="sr-only">Search</label>
-                <input
-                  type="text"
-                  name="hs-table-with-pagination-search"
-                  id="hs-table-with-pagination-search"
-                  className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="Search for items"
-                />
-                <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
-                  <svg
-                    className="size-4 text-gray-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
+          <div className="bg-white border-2 rounded-2xl divide-y divide-gray-200">
             {/* Table Section */}
-            <div className="overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
+            <div className="overflow-hidden px-4">
+              <table className="w-full">
+                <thead className="flex w-full py-4 ">
+                  <tr
+                    className={`bg-gray-200 w-full rounded-xl flex items-center `}
+                  >
                     {columns.map((column, index) => (
                       <th
                         key={index}
-                        scope="col"
-                        className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                        className={` px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-w-normal  ${
+                          column.label !== "checkbox" &&
+                          column.label !== "No" &&
+                          column.label !== "Action" &&
+                          "grow"
+                        } ${column.label === "Action" && ""} ${
+                          column.label === "No" && "w-[70px]"
+                        }`}
                       >
                         {column.label === "checkbox" ? (
-                          <div className="flex items-center h-5">
-                            <input
-                              type="checkbox"
-                              className="w-4 h-4 border-gray-200 rounded text-blue-600 focus:ring-blue-500"
-                              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                if (setIsChecked) {
-                                  if (e.target.checked) {
-                                    setIsChecked(data.map((el) => el.id));
-                                  } else {
-                                    setIsChecked([]);
-                                  }
+                          <input
+                            type="checkbox"
+                            className="max-w-4 h-4 cursor-pointer"
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                              if (setIsChecked) {
+                                if (e.target.checked) {
+                                  setIsChecked(data.map((el) => el.id));
+                                } else {
+                                  setIsChecked([]);
                                 }
-                              }}
-                            />
-                          </div>
+                              }
+                            }}
+                          />
                         ) : (
-                          column.label
+                          <div>
+                            {column.renderHeader
+                              ? column.renderHeader()
+                              : column.label}
+                          </div>
                         )}
-                        {column.renderHeader && column.renderHeader()}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {loading &&
-                    Array.from({ length: 5 }).map((_, idx) => (
-                      <tr key={idx}>
-                        <td
-                          colSpan={columns.length}
-                          className="px-6 py-4 text-center text-gray-500"
+                <tbody className="flex flex-col w-full">
+                  {isLoading
+                    ? Array.from({ length: 5 }).map((_, index) => (
+                        <tr
+                          key={index}
+                          className="animate-pulse flex w-full items-center py-4 px-2 "
                         >
-                          Loading...
-                        </td>
-                      </tr>
-                    ))}
-                  {!loading &&
-                    isEmpty(error) &&
-                    !isEmpty(data) &&
-                    data.map((item, rowIndex) => (
-                      <tr
-                        key={rowIndex}
-                        className={classNames(
-                          action ? "hover:bg-gray-100 cursor-pointer" : "",
-                          id.includes(item?.id) ? "bg-gray-100" : ""
-                        )}
-                        onClick={() => handleRowClick(item)}
-                      >
-                        {columns.map((column, colIndex) => (
-                          <td
-                            key={colIndex}
-                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-800"
-                          >
-                            {column.fieldId === "checkbox" ? (
-                              <div className="flex items-center h-5">
+                          {columns.map((column, colIndex) => (
+                            <td
+                              key={colIndex}
+                              className={`px-6 py-3 flex ${
+                                column.label !== "checkbox" &&
+                                column.label !== "No" &&
+                                column.label !== "Action" &&
+                                "grow"
+                              } ${column.label === "Action" && "mr-4"}
+                              ${column.label === "No" && "w-[70px]"}`}
+                            >
+                              <div
+                                className={`h-4 bg-gray-300 rounded w-full text-transparent`}
+                              >
+                                {column.label === "checkbox"
+                                  ? "ha"
+                                  : column.label}
+                              </div>
+                            </td>
+                          ))}
+                        </tr>
+                      ))
+                    : data.map((data, colIndex) => (
+                        <tr
+                          key={colIndex}
+                          className={` w-full flex items-center py-2 border-b-2`}
+                        >
+                          {columns.map((column, rowIndex) => (
+                            <td
+                              key={rowIndex}
+                              className={` px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-w-normal  ${
+                                column.label !== "checkbox" &&
+                                column.label !== "No" &&
+                                column.label !== "Action" &&
+                                "grow"
+                              } ${column.label === "Action" && "mr-4"} ${
+                                column.label === "No" && "w-[70px]"
+                              }`}
+                            >
+                              {column.fieldId === "index" && (
+                                <p className="font-semibold">
+                                  {rowIndex + 1 + (rowIndex - 1) * 0}
+                                </p>
+                              )}
+                              {column.fieldId === "checkbox" && (
                                 <input
+                                  id={data?.id + "checkbox"}
+                                  value={data?.id}
                                   type="checkbox"
-                                  className="w-4 h-4 border-gray-200 rounded text-blue-600 focus:ring-blue-500"
-                                  checked={id.includes(item?.id)}
+                                  checked={id.includes(data?.id)}
+                                  className="max-w-4 h-4 cursor-pointer"
                                   onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                   ) => {
@@ -153,79 +156,44 @@ export function Table<T>({
                                       if (e.target.checked) {
                                         setIsChecked((prev) => [
                                           ...prev,
-                                          item.id,
+                                          e.target.value,
                                         ]);
                                       } else {
                                         setIsChecked(
-                                          id.filter((el) => el !== item.id)
+                                          id.filter((item) => item !== data.id)
                                         );
                                       }
                                     }
                                   }}
                                 />
-                              </div>
-                            ) : column.render ? (
-                              column.render(item)
-                            ) : (
-                              item[column.fieldId]
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  {!loading && isEmpty(data) && (
-                    <tr>
-                      <td
-                        colSpan={columns.length}
-                        className="px-6 py-4 text-center text-gray-500"
-                      >
-                        No Data Here
-                      </td>
-                    </tr>
-                  )}
+                              )}
+                              <p className="font-semibold">
+                                {column?.render === undefined &&
+                                  data[column.fieldId]}
+                              </p>
+                              <p className="text-gray-500">
+                                {column?.fieldId2 !== undefined &&
+                                  data[column.fieldId2]}
+                              </p>
+                              {column?.render !== undefined &&
+                                column.render(data)}
+                              <span>
+                                {column?.fieldId3 !== undefined &&
+                                  data[column.fieldId3]}
+                              </span>
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
                 </tbody>
               </table>
-            </div>
-            {/* Pagination */}
-            <div className="py-1 px-4">
-              <nav
-                className="flex items-center space-x-1"
-                aria-label="Pagination"
-              >
-                <button
-                  type="button"
-                  className="p-2.5 min-w-[40px] flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full"
-                  aria-label="Previous"
-                >
-                  «
-                </button>
-                <button
-                  type="button"
-                  className="min-w-[40px] flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full"
-                  aria-current="page"
-                >
-                  1
-                </button>
-                <button
-                  type="button"
-                  className="min-w-[40px] flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full"
-                >
-                  2
-                </button>
-                <button
-                  type="button"
-                  className="min-w-[40px] flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full"
-                >
-                  3
-                </button>
-                <button
-                  type="button"
-                  className="p-2.5 min-w-[40px] flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full"
-                  aria-label="Next"
-                >
-                  »
-                </button>
-              </nav>
+              <div className="py-5 flex justify-end">
+                <Pagination
+                  currentPage={1}
+                  totalPages={2}
+                  onPageChange={() => {}}
+                />
+              </div>
             </div>
           </div>
         </div>

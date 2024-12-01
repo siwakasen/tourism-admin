@@ -4,6 +4,7 @@ import { Columns } from "../../components/table";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { BiSolidHide } from "react-icons/bi";
+
 const menuOptions = [
   {
     label: "Edit",
@@ -44,7 +45,7 @@ export const HeaderTourPackage =
       {
         fieldId: "id",
         label: "Action",
-        render: (data) => (
+        render: () => (
           <>
             <ActionButtonTable menuOptions={menuOptions} />
           </>

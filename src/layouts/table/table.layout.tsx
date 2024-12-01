@@ -1,5 +1,9 @@
 import { SetStateAction, useEffect, useState } from "react";
 import { Columns, Table } from "../../components/table";
+import SearchForm from "../../components/input/search-input";
+import ActionButtonTable from "../../components/button/action-table.button";
+import ActionButton from "../../components/button/action.button";
+import { AiFillEdit } from "react-icons/ai";
 interface PaginationDefaultI {
   page: number;
   limit: number;
@@ -61,16 +65,33 @@ const TableLayout = <T, P extends PaginationDefaultI>({
         // />
       )}
       <div className="grid grid-cols-1 gap-6 p-6  ">
+        <div className="bg-slate-700 p-6 grid grid-cols-4 rounded-2xl">
+          <div className="col-span-3">
+            <h1 className="font-bold text-2xl text-white">
+              Manage Your Package Tour
+            </h1>
+            <p className="text-sm text-white font-light">
+              You can manage your package tour data here, such as creating new
+              data, editing, and deleting
+            </p>
+          </div>
+          <div className="col-span-1">LOGO</div>
+        </div>
         <div className="col-span-1">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4">
+              <SearchForm
+                placeholder="Search anything..."
+                onSearch={() => {}}
+              />
+            </div>
             <div className="flex items-center justify-between gap-4 ml-4">
-              <button
-                onClick={handleCreate}  
-                className="bg-blue-ribbon text-white hover:bg-blue-ribbon/90 rounded-xl font-medium"
-              >
-                Create {title}
-              </button>
+              <ActionButton
+                text="Create"
+                onClick={() => handleCreate!()}
+                variant="primary"
+                icon={<AiFillEdit />}
+              />
             </div>
           </div>
         </div>
@@ -78,24 +99,17 @@ const TableLayout = <T, P extends PaginationDefaultI>({
           <div className="flex flex-col">
             <div className="overflow-x-auto">
               <div className="align-middle inline-block min-w-full">
-                <div className="overflow-hidden shadow-2xl rounded-s-lg bg-white border border-[#E9ECFF]">
+                <div className="overflow-hidden shadow-2xl rounded-s-lg  ">
                   <Table<T>
                     columns={headerTable(
                       remove?.handler ? remove.handler : () => {},
                       handleEdit!
                     )}
                     data={data}
-                    loading={loading}
+                    isLoading={loading}
                     id={selectedColumn}
                     setIsChecked={setSelectedColumn}
                   />
-                  <div className="flex flex-col">
-                    {/* <Pagination
-                      currentPage={params.value.page}
-                      totalPages={params.value.limit}
-                      onPageChange={handlePageChange}
-                    /> */}
-                  </div>
                 </div>
               </div>
             </div>
