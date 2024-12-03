@@ -108,7 +108,6 @@ const TableLayout = <T, P extends PaginationDefaultI>({
                     isLoading={loading}
                     id={selectedColumn}
                     setIsChecked={setSelectedColumn}
-                    pagination={AiFillEdit}
                   />
                 </div>
               </div>
