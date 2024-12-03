@@ -1,121 +1,110 @@
+import { useState } from "react";
+import login_img from "../../../public/images/login_img.jpg";
+import logo_tour2 from "../../../public/images/logo_tour2.png";
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      // Simulate API request
+      setIsLoading(false);
+    }, 2000);
+  };
+
   return (
-    <>
-      <section className="bg-gray-50">
-        <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-          {/* Left Section */}
-          <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+    <section className="bg-white">
+      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+        {/* Left Section */}
+        <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+          <img
+            alt=""
+            src={login_img}
+            className="absolute inset-0 h-full w-full object-cover opacity-80"
+          />
+
+          <div className="hidden lg:relative lg:block lg:p-12">
+            <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+              Welcome to Bali Admin Tour🦑
+            </h2>
+            <p className="mt-4 leading-relaxed text-white/90">
+              Kelola data tour package anda disini
+            </p>
+          </div>
+        </section>
+
+        {/* Right Section */}
+        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+          <div className="w-3/4 flex flex-col items-center justify-center">
             <img
-              alt="Background"
-              src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-              className="absolute inset-0 h-full w-full object-cover opacity-80"
+              alt=""
+              src={logo_tour2}
+              className="w-48  object-cover opacity-100"
             />
-            <div className="hidden lg:block lg:relative lg:p-12">
-              <a className="block text-white" href="#">
-                <svg
-                  className="h-8 sm:h-10"
-                  viewBox="0 0 28 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+              Login to your account
+            </h1>
+            <p className="mt-4 leading-relaxed text-gray-500">
+              Welcome back! Please log in to continue.
+            </p>
+
+            <form
+              onSubmit={handleFormSubmit}
+              className="mt-8 grid grid-cols-6 gap-6 w-full"
+            >
+              <div className="col-span-6">
+                <label
+                  htmlFor="Email"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  {/* SVG Path */}
-                </svg>
-              </a>
-              <h2 className="mt-6 text-3xl font-bold text-white">
-                Welcome Back!
-              </h2>
-              <p className="mt-4 leading-relaxed text-white/90">
-                Login to your account and continue where you left off.
-              </p>
-            </div>
-          </section>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="Email"
+                  name="email"
+                  placeholder="example@example.com"
+                  className="input input-bordered w-full mt-1"
+                  required
+                />
+              </div>
 
-          {/* Right Section */}
-          <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-            <div className="w-full max-w-md lg:max-w-lg">
-              <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-                Login to Your Account
-              </h1>
-              <p className="mt-4 text-gray-600">
-                Enter your credentials to access your account.
-              </p>
-
-              <form className="mt-8 space-y-6">
-                {/* Email Input */}
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="mt-1 w-full rounded-md border-gray-300 bg-white text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  />
+              <div className="col-span-6">
+                <label
+                  htmlFor="Password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="Password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="input input-bordered w-full mt-1"
+                  required
+                />
+              </div>
+              <div className="flex flex-col items-center justify-center w-full bg-emerald-100">
+                <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
+                  <p className="mt-4 text-sm text-gray-500 sm:mt-0">
+                    Forgot Password ?
+                    <a href="#" className="text-primary underline ml-1">
+                      Reset Password
+                    </a>
+                    <button className="btn">
+                      <span className="loading loading-spinner"></span>
+                      loading
+                    </button>
+                  </p>
                 </div>
-
-                {/* Password Input */}
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                    className="mt-1 w-full rounded-md border-gray-300 bg-white text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  />
-                </div>
-
-                {/* Remember Me */}
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center text-sm text-gray-700">
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="ml-2">Remember me</span>
-                  </label>
-                  <a href="#" className="text-sm text-blue-600 hover:underline">
-                    Forgot your password?
-                  </a>
-                </div>
-
-                {/* Submit Button */}
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300"
-                  >
-                    Login
-                  </button>
-                </div>
-
-                {/* Register Link */}
-                <p className="mt-4 text-sm text-gray-600">
-                  Don't have an account?{" "}
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 hover:underline"
-                  >
-                    Sign up
-                  </a>
-                  .
-                </p>
-              </form>
-            </div>
-          </main>
-        </div>
-      </section>
-    </>
+              </div>
+            </form>
+          </div>
+        </main>
+      </div>
+    </section>
   );
 };
 

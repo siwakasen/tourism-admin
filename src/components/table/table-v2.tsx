@@ -45,42 +45,35 @@ export function TableV2<T>({
     <div className="flex flex-col">
       <div className="-m-1.5 overflow-x-auto">
         <div className=" min-w-full inline-block align-middle">
-          <div className="bg-white  rounded-2xl divide-y divide-gray-200">
-            {/* Table Section */}
-            <div className="overflow-hidden px-4">
-              <table className="w-full">
-                <thead className="flex w-full py-4 ">
-                  <tr
-                    className={`bg-gray-200 w-full rounded-xl flex items-center `}
-                  >
+          <div className="bg-white rounded-2xl divide-y divide-gray-200 p-4">
+            <div className="overflow-x-auto ">
+              <table className="table rounded-xl">
+                {/* head */}
+                <thead className="">
+                  <tr className=" font-bold bg-gray-100 ">
                     {columns.map((column, index) => (
-                      <th
-                        key={index}
-                        className={` px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-w-normal  ${
-                          column.label !== "checkbox" &&
-                          column.label !== "No" &&
-                          column.label !== "Action" &&
-                          "grow"
-                        } ${column.label === "Action" && ""} ${
-                          column.label === "No" && "w-[70px]"
-                        }`}
-                      >
+                      <th key={index} className="">
                         {column.label === "checkbox" ? (
-                          <input
-                            type="checkbox"
-                            className="max-w-4 h-4 cursor-pointer"
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                              if (setIsChecked) {
-                                if (e.target.checked) {
-                                  setIsChecked(data.map((el) => el.id));
-                                } else {
-                                  setIsChecked([]);
+                          <div className="flex justify-center">
+                            <input
+                              type="checkbox"
+                              className="max-w-4 h-4 cursor-pointer"
+                              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                if (setIsChecked) {
+                                  if (e.target.checked) {
+                                    setIsChecked(data.map((el) => el.id));
+                                  } else {
+                                    setIsChecked([]);
+                                  }
                                 }
-                              }
-                            }}
-                          />
+                              }}
+                            />
+                          </div>
                         ) : (
-                          <div>
+                          <div
+                            style={{ fontSize: 15, fontWeight: "bold" }}
+                            className=""
+                          >
                             {column.renderHeader
                               ? column.renderHeader()
                               : column.label}
@@ -90,57 +83,46 @@ export function TableV2<T>({
                     ))}
                   </tr>
                 </thead>
-                <tbody className="flex flex-col w-full">
+                <tbody>
                   {isLoading
                     ? Array.from({ length: 5 }).map((_, index) => (
-                        <tr
-                          key={index}
-                          className="animate-pulse flex w-full items-center py-4 px-2"
-                        >
+                        <tr key={index}>
                           {columns.map((column, colIndex) => (
                             <td
-                              key={colIndex}
-                              className={`px-6 py-3 ${
-                                column.label === "checkbox"
-                                  ? "w-[50px] flex-none"
-                                  : column.label === "Action"
-                                  ? "w-[200px] flex-none"
-                                  : "flex-1 min-w-0"
-                              }`}
+                              key={column.fieldId + colIndex}
+                              className="px-6 py-3"
                             >
-                              <div className="h-4 bg-gray-300 rounded w-full text-transparent">
-                                {column.label}
-                              </div>
+                              <div className="h-4 bg-gray-300 rounded"></div>
                             </td>
                           ))}
                         </tr>
                       ))
                     : data.map((rowData, rowIndex) => (
                         <tr
+                          className="hover:bg-gray-100 hover:shadow-sm"
                           key={rowIndex}
-                          className="w-full flex items-center py-2 border-b-2 hover:border-none hover:shadow-md hover:-inset-4 hover:rounded-xl"
                         >
                           {columns.map((column, colIndex) => (
                             <td
                               key={colIndex}
-                              className={classNames(
-                                "px-6 py-3 text-left text-xs font-medium text-gray-500",
-                                column.label === "checkbox"
-                                  ? "w-[50px] flex-none"
-                                  : column.label === "Action"
-                                  ? "w-[80px] flex-none"
-                                  : "flex-1 min-w-0"
-                              )}
+                              className={`  ${
+                                column.label === "Action" ? "px-7" : "px-5 "
+                              } py-3 text-xs font-medium text-gray-500 ${
+                                column.label === "checkbox" ? "w-[50px]" : ""
+                              }`}
                             >
-                              {column.fieldId === "index" ? (
-                                <p className="font-semibold">{rowIndex + 1}</p>
-                              ) : column.fieldId === "checkbox" ? (
+                              {column.fieldId === "index" && (
+                                <p className="font-semibold">
+                                  {rowIndex + 1 + (rowIndex - 1) * 0}
+                                </p>
+                              )}
+                              {column.fieldId === "checkbox" ? (
                                 <input
+                                  type="checkbox"
+                                  className="checkbox checkbox-sm"
                                   id={`${rowData.id}-checkbox`}
                                   value={rowData.id}
-                                  type="checkbox"
                                   checked={id.includes(rowData.id)}
-                                  className="max-w-4 h-4 cursor-pointer"
                                   onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                   ) => {
@@ -161,11 +143,13 @@ export function TableV2<T>({
                                   }}
                                 />
                               ) : column.render ? (
-                                column.render(rowData)
+                                <div
+                                  style={{ fontSize: 14, fontWeight: "normal" }}
+                                >
+                                  {column.render(rowData)}
+                                </div>
                               ) : (
-                                <p className="font-semibold">
-                                  {rowData[column.fieldId]}
-                                </p>
+                                rowData[column.fieldId]
                               )}
                             </td>
                           ))}
@@ -173,13 +157,6 @@ export function TableV2<T>({
                       ))}
                 </tbody>
               </table>
-              <div className="py-5 flex justify-end">
-                <Pagination
-                  currentPage={1}
-                  totalPages={2}
-                  onPageChange={() => {}}
-                />
-              </div>
             </div>
           </div>
         </div>
