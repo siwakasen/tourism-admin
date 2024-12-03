@@ -182,3 +182,25 @@ export const tourPackagesDummy: TourPackage[] = [
     deleted_at: "",
   },
 ];
+
+export const pickupAreasDummy = [
+  "Seminyak",
+  "Legian",
+  "Kuta",
+  "Nusa Dua",
+  "Pecatu",
+  "Sanur",
+  "Ubud",
+  "Canggu",
+  "Denpasar",
+  "Benoa Harbour",
+  "Airport",
+];
+export const termsConditionsDummy = [
+  "The tour is private tours and that means there is no other participant",
+  "The tour will assist by english speaking tour driver",
+  "Flexible time arrangement and subject to change based on your request",
+  "Reasonable and fair price and that means no hidden charge",
+  "For the payment you may pay upon start the tour and no deposit needed",
+  "Payment either in USD, Rupiah or other currencies based on the latest exchange rates",
+];
