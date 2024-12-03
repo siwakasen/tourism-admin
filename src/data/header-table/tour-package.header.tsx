@@ -51,41 +51,41 @@ export const HeaderTourPackage =
           <p className="text-sm text-gray-600">{data?.description ?? ""}</p>
         ),
       },
-      {
-        fieldId: "images",
-        label: "Images",
-        render: (data) => (
-          <div className="flex gap-2">
-            {data?.images?.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Image ${index + 1}`}
-                className="w-16 h-16 object-cover rounded"
-              />
-            )) ?? "No Images"}
-          </div>
-        ),
-      },
-      {
-        fieldId: "package_price",
-        label: "Package Price",
-        render: (data) => (
-          <p className="font-semibold">
-            ${data?.package_price?.toFixed(2) ?? "N/A"}
-          </p>
-        ),
-      },
-      {
-        fieldId: "duration",
-        label: "Duration (days)",
-        render: (data) => <p>{data?.duration ?? "N/A"}</p>,
-      },
-      {
-        fieldId: "max_group_size",
-        label: "Max Group Size",
-        render: (data) => <p>{data?.max_group_size ?? "N/A"}</p>,
-      },
+      // {
+      //   fieldId: "images",
+      //   label: "Images",
+      //   render: (data) => (
+      //     <div className="flex gap-2">
+      //       {data?.images?.map((image, index) => (
+      //         <img
+      //           key={index}
+      //           src={image}
+      //           alt={`Image ${index + 1}`}
+      //           className="w-16 h-16 object-cover rounded"
+      //         />
+      //       )) ?? "No Images"}
+      //     </div>
+      //   ),
+      // },
+      // {
+      //   fieldId: "package_price",
+      //   label: "Package Price",
+      //   render: (data) => (
+      //     <p className="font-semibold">
+      //       ${data?.package_price?.toFixed(2) ?? "N/A"}
+      //     </p>
+      //   ),
+      // },
+      // {
+      //   fieldId: "duration",
+      //   label: "Duration (days)",
+      //   render: (data) => <p>{data?.duration ?? "N/A"}</p>,
+      // },
+      // {
+      //   fieldId: "max_group_size",
+      //   label: "Max Group Size",
+      //   render: (data) => <p>{data?.max_group_size ?? "N/A"}</p>,
+      // },
       {
         fieldId: "children_price",
         label: "Children Price",

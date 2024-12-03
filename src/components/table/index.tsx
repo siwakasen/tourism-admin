@@ -51,9 +51,7 @@ export function Table<T>({
             <div className="overflow-hidden px-4">
               <table className="w-full">
                 <thead className="flex w-full py-4 ">
-                  <tr
-                    className={`bg-gray-200 w-full rounded-xl flex items-center `}
-                  >
+                  <tr className={` w-full rounded-xl flex items-center `}>
                     {columns.map((column, index) => (
                       <th
                         key={index}
@@ -187,13 +185,6 @@ export function Table<T>({
                       ))}
                 </tbody>
               </table>
-              <div className="py-5 flex justify-end">
-                <Pagination
-                  currentPage={1}
-                  totalPages={2}
-                  onPageChange={() => {}}
-                />
-              </div>
             </div>
           </div>
         </div>

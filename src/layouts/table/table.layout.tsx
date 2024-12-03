@@ -4,6 +4,8 @@ import SearchForm from "../../components/input/search-input";
 import ActionButton from "../../components/button/action.button";
 import { AiFillEdit } from "react-icons/ai";
 import { TableV2 } from "../../components/table/table-v2";
+import Pagination from "../../components/paginations/pagination";
+import NavBar from "../../components/layout/navbar";
 interface PaginationDefaultI {
   page: number;
   limit: number;
@@ -52,7 +54,8 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   }, [selectedColumn]);
 
   return (
-    <div className="border-2 rounded-2xl shadow-lg m-4">
+    <div className="border-2 rounded-2xl shadow-lg m-4 h-[96%] bg-white">
+      <NavBar />
       {remove && (
         <div></div>
         // <DeletePopUp
@@ -64,7 +67,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
         // />
       )}
       <div className="grid grid-cols-1 gap-6 p-6  ">
-        <div className="bg-slate-700 p-6 grid grid-cols-4 rounded-2xl">
+        <div className="bg-secondary p-6 grid grid-cols-4 rounded-2xl">
           <div className="col-span-3">
             <h1 className="font-bold text-2xl text-white">
               Manage Your Package Tour
@@ -98,7 +101,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
           <div className="flex flex-col">
             <div className="overflow-x-auto">
               <div className="align-middle inline-block min-w-full">
-                <div className="overflow-hidden shadow-2xl rounded-s-lg  ">
+                <div className="overflow-hidden rounded-xl  ">
                   <TableV2<T>
                     columns={headerTable(
                       remove?.handler ? remove.handler : () => {},
@@ -108,6 +111,13 @@ const TableLayout = <T, P extends PaginationDefaultI>({
                     isLoading={loading}
                     id={selectedColumn}
                     setIsChecked={setSelectedColumn}
+                  />
+                </div>
+                <div className="py-6 flex justify-end">
+                  <Pagination
+                    currentPage={1}
+                    totalPages={2}
+                    onPageChange={() => {}}
                   />
                 </div>
               </div>
