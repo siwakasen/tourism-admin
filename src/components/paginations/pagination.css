@@ -1,0 +1,13 @@
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  z-index: 999999; /* Berikan nilai tinggi untuk berada di atas tabel */
+  background-color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.parent-container {
+  position: relative; /* Pastikan elemen ini mengontrol posisi child */
+  overflow: visible; /* Pastikan dropdown tidak tertutup */
+  z-index: 1; /* Berikan prioritas lebih rendah dari dropdown */
+}
