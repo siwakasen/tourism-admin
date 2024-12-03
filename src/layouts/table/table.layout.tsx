@@ -39,7 +39,6 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   setSelectedId,
   data,
   headerTable,
-  title,
   modal,
   handleEdit,
   loading = true,
