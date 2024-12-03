@@ -15,7 +15,6 @@ const Pagination: React.FC<PaginationProps> = ({
   const maxPagesVisible = 4;
   const halfMaxPages = Math.floor(maxPagesVisible / 2);
 
-  // Determine the range of visible pages
   let startPage = Math.max(currentPage - halfMaxPages, 1);
   const endPage = Math.min(startPage + maxPagesVisible - 1, totalPages);
 
@@ -37,7 +36,6 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav className="flex items-center space-x-2" aria-label="Pagination">
-      {/* Previous Button */}
       <button
         type="button"
         className={`flex items-center justify-center w-20 h-9 rounded-md text-sm ${
@@ -50,18 +48,16 @@ const Pagination: React.FC<PaginationProps> = ({
         disabled={currentPage === 1}
       >
         <div className="flex items-center">
-          <AiOutlineLeft className="mr-2" /> Previus
+          <AiOutlineLeft className="mr-2" /> Previous
         </div>
       </button>
-
-      {/* Page Buttons */}
       {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
         <button
           key={startPage + index}
           type="button"
-          className={`border border-gray-200  flex items-center justify-center w-9 h-9 rounded-md text-sm ${
+          className={`border border-gray-200 flex items-center justify-center w-9 h-9 rounded-md text-sm ${
             currentPage === startPage + index
-              ? "bg-gray-800 text-white"
+              ? "bg-secondary text-white"
               : "text-gray-600 hover:bg-gray-200"
           }`}
           onClick={() => onPageChange(startPage + index)}
@@ -69,14 +65,11 @@ const Pagination: React.FC<PaginationProps> = ({
           {startPage + index}
         </button>
       ))}
-
-      {/* Separator and Last Page */}
       {endPage < totalPages - 1 && (
-        <span className=" flex items-center justify-center w-9 h-9 text-gray-400">
+        <span className="flex items-center justify-center w-9 h-9 text-gray-400">
           ...
         </span>
       )}
-
       {endPage < totalPages && (
         <button
           type="button"
@@ -90,8 +83,6 @@ const Pagination: React.FC<PaginationProps> = ({
           {totalPages}
         </button>
       )}
-
-      {/* Next Button */}
       <button
         type="button"
         className={`flex items-center justify-center w-16 h-9 rounded-md text-sm ${

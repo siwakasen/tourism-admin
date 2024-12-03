@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;  
+@tailwind utilities;
+
+:root {
+  --color-primary: #3c7efc; /* Primary light */
+  --color-secondary: #474e68; /* Secondary light */
+  --color-accent: #6b728e; /* Accent light */
+  --color-backround: #ffffff; /* Background light */
+  --color-text: #404258; /* Text light */
+}
+
+[data-theme="dark"] {
+  --color-primary: #3c7efc; /* Primary dark */
+  --color-secondary: #6b728e; /* Secondary dark */
+  --color-accent: #474e68; /* Accent dark */
+  --color-backround: #404258; /* Background dark */
+  --color-text: #ffffff; /* Text dark */
+}

@@ -4,6 +4,7 @@ import { Columns } from "../../components/table";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { BiSolidHide } from "react-icons/bi";
+import Badge from "../../components/badge/custom.badge";
 
 const menuOptions = [
   {
@@ -41,6 +42,17 @@ export const HeaderTourPackage =
         fieldId: "name",
         label: "Name",
         render: (data) => <p className="font-semibold">{data?.name ?? ""}</p>,
+      },
+      {
+        fieldId: "name",
+        label: "Badge",
+        render: () => (
+          <p className="font-semibold">
+            <Badge type="primary">Primary</Badge>
+            <Badge type="secondary">Secondary</Badge>
+            <Badge type="accent">Accent</Badge>
+          </p>
+        ),
       },
       {
         fieldId: "id",

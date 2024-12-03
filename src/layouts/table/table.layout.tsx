@@ -1,9 +1,9 @@
 import { SetStateAction, useEffect, useState } from "react";
-import { Columns, Table } from "../../components/table";
+import { Columns } from "../../components/table";
 import SearchForm from "../../components/input/search-input";
-import ActionButtonTable from "../../components/button/action-table.button";
 import ActionButton from "../../components/button/action.button";
 import { AiFillEdit } from "react-icons/ai";
+import { TableV2 } from "../../components/table/table-v2";
 interface PaginationDefaultI {
   page: number;
   limit: number;
@@ -53,7 +53,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   }, [selectedColumn]);
 
   return (
-    <div>
+    <div className="border-2 rounded-2xl shadow-lg m-4">
       {remove && (
         <div></div>
         // <DeletePopUp
@@ -95,12 +95,12 @@ const TableLayout = <T, P extends PaginationDefaultI>({
             </div>
           </div>
         </div>
-        <div className="col-span-1">
+        <div className="col-span-1 ">
           <div className="flex flex-col">
             <div className="overflow-x-auto">
               <div className="align-middle inline-block min-w-full">
                 <div className="overflow-hidden shadow-2xl rounded-s-lg  ">
-                  <Table<T>
+                  <TableV2<T>
                     columns={headerTable(
                       remove?.handler ? remove.handler : () => {},
                       handleEdit!
@@ -109,6 +109,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
                     isLoading={loading}
                     id={selectedColumn}
                     setIsChecked={setSelectedColumn}
+                    pagination={AiFillEdit}
                   />
                 </div>
               </div>
