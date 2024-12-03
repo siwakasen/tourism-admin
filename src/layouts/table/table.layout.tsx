@@ -1,7 +1,6 @@
 import { SetStateAction, useEffect, useState } from "react";
 import { Columns, Table } from "../../components/table";
 import SearchForm from "../../components/input/search-input";
-import ActionButtonTable from "../../components/button/action-table.button";
 import ActionButton from "../../components/button/action.button";
 import { AiFillEdit } from "react-icons/ai";
 interface PaginationDefaultI {
@@ -39,7 +38,6 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   setSelectedId,
   data,
   headerTable,
-  title,
   modal,
   handleEdit,
   loading = true,
