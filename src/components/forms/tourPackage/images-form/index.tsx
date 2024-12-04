@@ -6,10 +6,10 @@ interface MultipleImageFormProps {
   desc: string;
 }
 
-export default function MultipleImageForm({
+const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
   images,
   desc,
-}: MultipleImageFormProps) {
+}: MultipleImageFormProps) => {
   const [filePreviews, setFilePreviews] = useState<string[]>([]); // Initialize with an empty array
   const [dataImages, setDataImages] = useState<string[]>(images); // Start with the passed images
   const [fileData, setFileData] = useState<File[]>([]); // Initialize with an empty array
@@ -110,4 +110,6 @@ export default function MultipleImageForm({
       <button onClick={handleSubmit}>Submit</button>
     </div>
   );
-}
+};
+
+export default MultipleImageForm;
