@@ -1,6 +1,7 @@
 import { FaCar } from "react-icons/fa";
-import { PiIslandFill } from "react-icons/pi";
 import { useLocation, Link } from "react-router-dom";
+import { PiIslandBold } from "react-icons/pi";
+import { MdDashboard } from "react-icons/md";
 
 interface AdminSidebarProps {
   width?: string;
@@ -31,78 +32,36 @@ const AdminSidebar: React.FC<AdminSidebarProps> = () => {
                   : "hover:bg-gray-100 hover:text-gray-900 transition"
               }`}
             >
-              <FaCar className="size-5 text-gray-700" />
+              <MdDashboard className="size-5 text-gray-700" />
               Dashboard
             </Link>
           </li>
 
           <li>
-            <details className="group [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
-                <span className="text-sm font-medium"> Teams </span>
-
-                <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5 text-gray-700"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </summary>
-
-              <ul className="mt-2 space-y-1 pl-6">
-                <li>
-                  <Link
-                    to="/admin/banned-users"
-                    className="block py-2 px-3 text-sm font-medium rounded-lg hover:bg-gray-100 hover:text-gray-900 transition"
-                  >
-                    Banned Users
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/admin/calendar"
-                    className="block py-2 px-3 text-sm font-medium rounded-lg hover:bg-gray-100 hover:text-gray-900 transition"
-                  >
-                    Calendar
-                  </Link>
-                </li>
-              </ul>
-            </details>
-          </li>
-
-          <li>
             <Link
-              to="/admin/billing"
+              to="/admin/tour-package"
               className={`flex items-center gap-x-3.5 py-2 px-3 text-sm font-medium rounded-lg ${
-                isActiveRoute("/admin/billing")
+                isActiveRoute("/admin/tour-package")
                   ? "bg-gray-100 text-gray-800 shadow"
                   : "hover:bg-gray-100 hover:text-gray-900 transition"
               }`}
             >
-              <FaCar className="size-5 text-gray-700" />
-              Billing
+              <PiIslandBold className="size-5 text-gray-700" />
+              Tour Package
             </Link>
           </li>
 
           <li>
             <Link
-              to="/admin/invoices"
+              to="/admin/cars-rental"
               className={`flex items-center gap-x-3.5 py-2 px-3 text-sm font-medium rounded-lg ${
-                isActiveRoute("/admin/invoices")
+                isActiveRoute("/admin/cars-rental")
                   ? "bg-gray-100 text-gray-800 shadow"
                   : "hover:bg-gray-100 hover:text-gray-900 transition"
               }`}
             >
               <FaCar className="size-5 text-gray-700" />
-              Invoices
+              Cars Rental
             </Link>
           </li>
         </ul>
