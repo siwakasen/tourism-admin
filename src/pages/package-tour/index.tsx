@@ -7,11 +7,7 @@ import useFetchTourPackages from "../../hooks/package-tour";
 export const tourPackageRoute = "/admin/tour-package";
 export default function TourPackagePage(): React.ReactElement {
   const navigate = useNavigate(); // Initialize the navigate function
-  const { tourPackages, loading, error } = useFetchTourPackages();
-
-  console.log("tourPackages", tourPackages);
-  console.log("loading", loading);
-  console.log("error", error);
+  const { tourPackages, loading } = useFetchTourPackages();
 
   const handleCreate = () => {
     navigate("/admin/tour-package/create");

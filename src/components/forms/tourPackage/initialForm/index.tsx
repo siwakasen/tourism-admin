@@ -1,10 +1,11 @@
-import { GoDotFill } from "react-icons/go";
 import { useState } from "react";
 import { TourPackage } from "../../../../__interface/tourpackage.interface";
+import ItemsMultipleInput from "../../../input/items-multiple-input";
+import CheckboxMultipleInput from "../../../input/checkbox-multiple-input";
 
 interface InitialFormProps {
   data: TourPackage | null;
-  handleNextToImages: () => void;
+  handleNextToImages: (index: number) => void;
 }
 
 import {
@@ -19,93 +20,24 @@ const InitialForm: React.FC<InitialFormProps> = ({
   const [itineraries, setItineraries] = useState<string[]>(
     data?.itineraries || []
   );
-  const [itineraryInput, setItineraryInput] = useState<string>("");
-
   const [includes, setIncludes] = useState<string[]>(data?.includes || []);
-  const [includeInput, setIncludeInput] = useState<string>("");
 
   const [pickUpAreas, setPickUpAreas] = useState<string[]>(
     data?.pickup_areas || pickupAreasDummy
   );
-  const [pickUpAreaInput, setPickUpAreaInput] = useState<string>("");
 
   const [termsConditions, setTermsConditions] = useState<string[]>(
     data?.terms_conditions || termsConditionsDummy
   );
-  const [termsConditionsInput, setTermsConditionsInput] = useState<string>("");
 
   const [selectedPickUpAreas, setSelectedPickUpAreas] = useState<string[]>(
     data?.pickup_areas || pickupAreasDummy
   );
+
   const [selectedTermsConditions, setSelectedTermsConditions] = useState<
     string[]
   >(data?.terms_conditions || termsConditionsDummy);
 
-  const handleAddItinerary = () => {
-    if (itineraryInput.trim()) {
-      setItineraries([...itineraries, itineraryInput.trim()]);
-      setItineraryInput("");
-    }
-  };
-
-  const handleRemoveItinerary = (index: number) => {
-    setItineraries(itineraries.filter((_, i) => i !== index));
-  };
-
-  const handleAddInclude = () => {
-    if (includeInput.trim()) {
-      setIncludes([...includes, includeInput.trim()]);
-      setIncludeInput("");
-    }
-  };
-  const handleRemoveInclude = (index: number) => {
-    setIncludes(includes.filter((_, i) => i !== index));
-  };
-
-  const handleAddPickUpArea = () => {
-    if (pickUpAreaInput.trim()) {
-      setPickUpAreas([...pickUpAreas, pickUpAreaInput.trim()]);
-      setPickUpAreaInput("");
-
-      handleAddSelectedPickUpArea(pickUpAreaInput.trim());
-    }
-  };
-
-  const handleAddTermsConditions = () => {
-    if (termsConditionsInput.trim()) {
-      setTermsConditions([...termsConditions, termsConditionsInput.trim()]);
-      setTermsConditionsInput("");
-      handleAddSelectedTermsConditions(termsConditionsInput.trim());
-    }
-  };
-
-  const handleAddSelectedPickUpArea = (area: string) => {
-    setSelectedPickUpAreas([...selectedPickUpAreas, area]);
-  };
-
-  const handleCheckboxPickUpArea = (area: string) => {
-    if (selectedPickUpAreas.includes(area)) {
-      setSelectedPickUpAreas(
-        selectedPickUpAreas.filter((item) => item !== area)
-      );
-    } else {
-      setSelectedPickUpAreas([...selectedPickUpAreas, area]);
-    }
-  };
-
-  const handleAddSelectedTermsConditions = (condition: string) => {
-    setSelectedTermsConditions([...selectedTermsConditions, condition]);
-  };
-
-  const handleCheckboxTermsConditions = (condition: string) => {
-    if (selectedTermsConditions.includes(condition)) {
-      setSelectedTermsConditions(
-        selectedTermsConditions.filter((item) => item !== condition)
-      );
-    } else {
-      setSelectedTermsConditions([...selectedTermsConditions, condition]);
-    }
-  };
   return (
     <div className="grid grid-cols-2 gap-4 rounded-lg bg-white pt-4 px-4 pb-8 ">
       {/* Package Name */}
@@ -121,7 +53,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
           />
         </label>
       </div>
-
       {/* Description */}
       <div className="col-span-2">
         <label className="form-control w-full">
@@ -135,7 +66,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
           />
         </label>
       </div>
-
       {/* Package Price */}
       <div>
         <label className="form-control w-full">
@@ -151,7 +81,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
           />
         </label>
       </div>
-
       {/* Duration */}
       <div>
         <label className="form-control w-full">
@@ -165,7 +94,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
           />
         </label>
       </div>
-
       {/* Max Group Size */}
       <div>
         <label className="form-control w-full">
@@ -181,7 +109,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
           />
         </label>
       </div>
-
       {/* Children Price */}
       <div>
         <label className="form-control w-full">
@@ -199,236 +126,47 @@ const InitialForm: React.FC<InitialFormProps> = ({
       </div>
 
       {/* Itineraries */}
-      <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">Itineraries</span>
-          </div>
+      <ItemsMultipleInput
+        items={itineraries}
+        setItems={setItineraries}
+        label={"Itineraries"}
+        placeholder="Enter itinerary item"
+      />
 
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={itineraryInput}
-              onChange={(e) => setItineraryInput(e.target.value)}
-              placeholder="Enter itinerary item"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddItinerary();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddItinerary}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Itineraries */}
-        <ul
-          className={` ${
-            itineraries.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg grid grid-cols-2 gap-2`}
-        >
-          {itineraries.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-1 border-b gap-2 border-gray-200 hover:bg-gray-100"
-            >
-              <span className="flex items-center gap-2 overflow-auto">
-                <span>
-                  <GoDotFill />
-                </span>
-                <span>{item}</span>
-              </span>
-              <button
-                type="button"
-                onClick={() => handleRemoveItinerary(index)}
-                className="btn btn-xs btn-error text-white"
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
       {/* Includes */}
-      <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">Includes</span>
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={includeInput}
-              onChange={(e) => setIncludeInput(e.target.value)}
-              placeholder="Enter include item"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddInclude();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddInclude}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Includes */}
-        <ul
-          className={` ${
-            includes.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg grid grid-cols-2 gap-2`}
-        >
-          {includes.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-1 border-b gap-2 border-gray-200 hover:bg-gray-100"
-            >
-              <span className="flex items-center gap-2 overflow-auto">
-                <span>
-                  <GoDotFill />
-                </span>
-                <span>{item}</span>
-              </span>
-              <button
-                type="button"
-                onClick={() => handleRemoveInclude(index)}
-                className="btn btn-xs btn-error text-white"
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ItemsMultipleInput
+        items={includes}
+        setItems={setIncludes}
+        label={"Includes"}
+        placeholder="Enter included items"
+      />
 
       {/* Pick Up Areas */}
       <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">Pick Up Areas</span>
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={pickUpAreaInput}
-              onChange={(e) => setPickUpAreaInput(e.target.value)}
-              placeholder="Add new pick up area"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddPickUpArea();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddPickUpArea}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Pick Up Areas */}
-        <ul
-          className={` ${
-            pickUpAreas.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg grid grid-cols-2 gap-2`}
-        >
-          {pickUpAreas.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-2 border-b border-gray-200 gap-2 hover:bg-gray-100 "
-            >
-              <span className="flex items-center gap-2  overflow-auto">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox "
-                  onClick={() => handleCheckboxPickUpArea(item)}
-                />
-                <span>{item}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <CheckboxMultipleInput
+          label={"Pickup Areas"}
+          placeholder={"Add new pickup areas"}
+          items={pickUpAreas}
+          setItems={setPickUpAreas}
+          selectedItems={selectedPickUpAreas}
+          setSelectedItems={setSelectedPickUpAreas}
+        />
       </div>
-
       {/* Terms & Conditions */}
       <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">
-              Terms & Conditions
-            </span>
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={termsConditionsInput}
-              onChange={(e) => setTermsConditionsInput(e.target.value)}
-              placeholder="Add new terms & conditions"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddTermsConditions();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddTermsConditions}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Terms & Conditions */}
-        <ul
-          className={` ${
-            termsConditions.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg`}
-        >
-          {termsConditions.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-2 border-b gap-2 border-gray-200 hover:bg-gray-100"
-            >
-              <span className="flex items-center gap-2 overflow-auto">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox"
-                  onClick={() => {
-                    handleCheckboxTermsConditions(item);
-                  }}
-                />
-                <span>{item}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <CheckboxMultipleInput
+          label={"Terms & Conditions"}
+          placeholder={"Add new terms & conditions"}
+          items={termsConditions}
+          setItems={setTermsConditions}
+          selectedItems={selectedTermsConditions}
+          setSelectedItems={setSelectedTermsConditions}
+        />
       </div>
-
       <div className="col-span-2 text-right">
         <button
           type="button"
-          onClick={handleNextToImages} // Navigate to images accordion
+          onClick={() => handleNextToImages(1)} // Navigate to images accordion
           className="btn btn-primary"
         >
           Next: Images

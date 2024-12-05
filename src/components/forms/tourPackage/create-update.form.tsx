@@ -2,7 +2,7 @@ import { TourPackage } from "../../../__interface/tourpackage.interface";
 
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { useState } from "react";
 import MultipleImageForm from "./images-form";
 import InitialForm from "./initialForm";
 
@@ -17,22 +17,26 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
   title,
   route,
 }: CreateUpdateTourFormProps) => {
-  const imagesAccordionRef = useRef<HTMLDivElement | null>(null); // Reference to the images accordion
+  //   const imagesAccordionRef = useRef<HTMLDivElement | null>(null); // Reference to the images accordion
 
-  const handleNextToImages = () => {
-    console.log("Next to images", imagesAccordionRef.current);
-    if (imagesAccordionRef.current) {
-      // Simulate a click or expand the accordion programmatically
-      const button = imagesAccordionRef.current.querySelector(
-        "button.hs-accordion-toggle"
-      ) as HTMLButtonElement;
-      if (button) button.click(); // Trigger the accordion toggle
-    }
+  //   const handleNextToImages = () => {
+  //     if (imagesAccordionRef.current) {
+  //       const button = imagesAccordionRef.current.querySelector(
+  //         "button.hs-accordion-toggle"
+  //       ) as HTMLButtonElement;
+  //       if (button) button.click(); // Trigger the accordion toggle
+  //     }
+  //   };
+
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+
+  const toggleAccordion = (index: number) => {
+    setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
     <>
-      <div className="max-w-screen-xl  h-fit p-10">
+      <div className=" h-full p-10">
         <h1 className="text-xl font-bold text-slate-700">
           <div className="relative inline-block group">
             <Link to={route} className="inline-block pr-3">
@@ -44,19 +48,16 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
           </div>
           {title}
         </h1>
-        <div className="hs-accordion-group mt-10">
+        <div className="h-full ">
           {/* First Accordion: Tour Package Data */}
-          <div
-            className="hs-accordion active"
-            id="hs-basic-with-arrow-heading-one"
+          <button
+            className="w-full flex justify-between items-center py-4 px-6 bg-gray-100 hover:bg-gray-200 text-left"
+            onClick={() => toggleAccordion(0)}
           >
-            <button
-              className="hs-accordion-toggle hs-accordion-active:text-slate-800 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-slate-800 dark:text-gray-600 dark:hover:text-slate-700 dark:focus:text-gray-800"
-              aria-expanded="true"
-              aria-controls="hs-basic-with-arrow-collapse-one"
-            >
+            Tour Package Data
+            {activeIndex === 0 ? (
               <svg
-                className="hs-accordion-active:hidden block size-4"
+                className=" size-4"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -69,8 +70,9 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
               >
                 <path d="m6 9 6 6 6-6"></path>
               </svg>
+            ) : (
               <svg
-                className="hs-accordion-active:block hidden size-4"
+                className=" size-4"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -83,67 +85,62 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
               >
                 <path d="m18 15-6-6-6 6"></path>
               </svg>
-              Tour Package Data
-            </button>
-            <div
-              id="hs-basic-with-arrow-collapse-one"
-              className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
-              role="region"
-              aria-labelledby="hs-basic-with-arrow-heading-one"
-            >
-              <InitialForm
-                data={data}
-                handleNextToImages={handleNextToImages}
-              />
-            </div>
+            )}
+          </button>
+          <div
+            className={`flex-grow overflow-auto transition-[max-height] duration-300 ease-in-out h-full ${
+              activeIndex === 0 ? "max-h-[calc(100vh-256px)]" : "max-h-0"
+            }`}
+          >
+            <InitialForm
+              data={data}
+              handleNextToImages={() => toggleAccordion(1)}
+            />
           </div>
 
           {/* Second Accordion: Tour Package Images */}
-          <div
-            className="hs-accordion"
-            id="hs-basic-with-arrow-heading-two"
-            ref={imagesAccordionRef} // Reference for targeting
-          >
+          <div>
             <button
-              className="hs-accordion-toggle hs-accordion-active:text-slate-800 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-slate-800 dark:text-gray-600 dark:hover:text-slate-700 dark:focus:text-gray-800"
-              aria-expanded="false"
-              aria-controls="hs-basic-with-arrow-collapse-two"
+              className="w-full flex justify-between items-center py-4 px-6 bg-gray-100 hover:bg-gray-200 text-left"
+              onClick={() => toggleAccordion(1)}
             >
-              <svg
-                className="hs-accordion-active:hidden block size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m6 9 6 6 6-6"></path>
-              </svg>
-              <svg
-                className="hs-accordion-active:block hidden size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m18 15-6-6-6 6"></path>
-              </svg>
               Tour Package Images
+              {activeIndex === 0 ? (
+                <svg
+                  className=" size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              ) : (
+                <svg
+                  className=" size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m18 15-6-6-6 6"></path>
+                </svg>
+              )}
             </button>
             <div
-              id="hs-basic-with-arrow-collapse-two"
-              className="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300"
-              role="region"
-              aria-labelledby="hs-basic-with-arrow-heading-two"
+              className={`overflow-scroll transition-[max-height] duration-300 ease-in-out ${
+                activeIndex === 1 ? "max-h-96" : "max-h-0"
+              }`}
             >
               <MultipleImageForm images={[]} desc="" />
             </div>
