@@ -4,30 +4,32 @@ import { Columns } from "../../components/table";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { BiSolidHide } from "react-icons/bi";
-
-const menuOptions = [
-  {
-    label: "Edit",
-    action: () => alert("View Edit clicked!"),
-    icon: <RiEdit2Fill />,
-  },
-  {
-    label: "Hide",
-    action: () => alert("Hide clicked!"),
-    icon: <BiSolidHide />,
-  },
-  {
-    label: "Delete",
-    action: () => alert("Delete clicked!"),
-    icon: <MdDelete />,
-  },
-];
+import { useNavigate } from "react-router-dom";
 
 export const HeaderTourPackage =
   (): //   handleDeletePopUp: (id: string) => void,
   //   handleUpdate: (id: string) => void
   Columns<TourPackage>[] => {
-    //   const navigate = useNavigate();
+    const navigate = useNavigate(); // Initialize the navigate function
+
+    const menuOptions = [
+      {
+        label: "Edit",
+        action: (id?: string) => navigate(`/admin/tour-package/update/${id}`),
+        icon: <RiEdit2Fill />,
+      },
+      {
+        label: "Hide",
+        action: () => alert("Hide clicked!"),
+        icon: <BiSolidHide />,
+      },
+      {
+        label: "Delete",
+        action: () => alert("Delete clicked!"),
+        icon: <MdDelete />,
+      },
+    ];
+
     return [
       {
         fieldId: "checkbox",
@@ -143,9 +145,9 @@ export const HeaderTourPackage =
       {
         fieldId: "id",
         label: "Action",
-        render: () => (
+        render: (data) => (
           <>
-            <ActionButtonTable menuOptions={menuOptions} />
+            <ActionButtonTable id={data?.id} menuOptions={menuOptions} />
           </>
         ),
       },

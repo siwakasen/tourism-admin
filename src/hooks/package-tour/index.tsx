@@ -6,13 +6,18 @@ interface FetchTourPackagesResponse {
   data: TourPackage[];
 }
 
+interface FetchTourPackageById {
+  data: TourPackage;
+  message: string;
+}
+
 interface UseFetchTourPackagesResult {
   tourPackages: TourPackage[];
   loading: boolean;
   error: string | null;
 }
 
-const useFetchTourPackages = (
+export const useFetchTourPackages = (
   page: number = 1,
   limit: number = 10
 ): UseFetchTourPackagesResult => {
@@ -50,4 +55,18 @@ const useFetchTourPackages = (
   return { tourPackages, loading, error };
 };
 
-export default useFetchTourPackages;
+export const fetchTourPackageById = async (
+  id: string
+): Promise<TourPackage | null> => {
+  try {
+    const response = await axios.get<FetchTourPackageById>(
+      `http://localhost:3001/tour-package/${id}`
+    );
+    const { data } = response.data;
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    console.error("Failed to fetch tour package:", err);
+    return null;
+  }
+};

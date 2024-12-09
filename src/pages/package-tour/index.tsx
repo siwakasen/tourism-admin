@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Params, TourPackage } from "../../__interface/tourpackage.interface";
 import { HeaderTourPackage } from "../../data/header-table/tour-package.header";
 import TableLayout from "../../layouts/table/table.layout";
-import useFetchTourPackages from "../../hooks/package-tour";
+import { useFetchTourPackages } from "../../hooks/package-tour";
 
 export const tourPackageRoute = "/admin/tour-package";
 export default function TourPackagePage(): React.ReactElement {

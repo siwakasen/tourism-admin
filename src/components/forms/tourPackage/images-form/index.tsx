@@ -3,16 +3,15 @@ import { useDropzone } from "react-dropzone";
 
 interface MultipleImageFormProps {
   images: string[];
-  desc: string;
 }
 
 const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
   images,
-  desc,
 }: MultipleImageFormProps) => {
   const [filePreviews, setFilePreviews] = useState<string[]>([]); // Initialize with an empty array
   const [dataImages, setDataImages] = useState<string[]>(images); // Start with the passed images
   const [fileData, setFileData] = useState<File[]>([]); // Initialize with an empty array
+  const [hovered, setHovered] = useState(false); // State to track hover
 
   const onDrop = (acceptedFiles: File[]) => {
     // Create preview URLs for the new files
@@ -29,86 +28,66 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
     setDataImages((prevImages) => [...prevImages, ...newImages]);
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: { "image/*": [] },
     multiple: true,
   });
 
-  const handleSubmit = async () => {
-    const formData = new FormData();
-    fileData.forEach((file) => {
-      formData.append("images[]", file);
-    });
-    formData.append("description", desc);
-
-    try {
-      const response = await fetch("YOUR_API_ENDPOINT", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        console.log("Files uploaded successfully!");
-      } else {
-        console.error("Failed to upload files.");
-      }
-    } catch (error) {
-      console.error("Error uploading files:", error);
-    }
+  const handleSubmit = () => {
+    console.log(fileData);
+    console.log(dataImages);
   };
 
   return (
-    <div>
-      <h2>Image Previews</h2>
-      <div
-        {...getRootProps()}
-        style={{
-          border: "2px dashed #ccc",
-          padding: "20px",
-          cursor: "pointer",
-        }}
-      >
-        <input {...getInputProps()} />
-        <p>Drag & drop images here, or click to select images</p>
-      </div>
-
-      {filePreviews.length > 0 && (
-        <div className="image-previews">
-          {filePreviews.map((preview, index) => (
-            <div key={index} className="preview-container">
-              <img
-                src={preview}
-                alt={`Preview ${index}`}
-                className="preview-img"
-              />
+    <>
+      <div className="pt-4 px-6 pb-8">
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text text-slate-700">Images</span>
+          </div>
+          <div
+            {...getRootProps()}
+            className={`w-full h-52 flex items-center justify-center border-2 border-dashed rounded-lg cursor-pointer transition-all
+              ${
+                isDragActive ? "border-blue-500 bg-blue-100" : "border-gray-300"
+              }
+              ${hovered ? "bg-gray-100" : ""}
+            `}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <input {...getInputProps()} />
+            <p>
+              {isDragActive
+                ? "Drop the image here to input"
+                : "Drag & drop images here or click to select images (The first image will be used as thumbnail)"}
+            </p>
+          </div>
+        </label>
+        <div className="my-4">
+          {filePreviews.length > 0 && (
+            <div className="image-previews grid grid-cols-3 gap-2 p-2 bg-gray-100 rounded-lg ">
+              {filePreviews.map((preview, index) => (
+                <div key={index} className="preview-container ">
+                  <img
+                    src={preview}
+                    alt={`Preview ${index}`}
+                    className="preview-img border-2 border-gray-300 rounded-lg border-dashed p-2 max-h-64"
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
 
-      {dataImages.length > 0 && (
-        <div className="existing-images">
-          <h3>Existing Images</h3>
-          {dataImages.map((image, index) => (
-            <div key={index} className="image-item">
-              <img
-                src={image}
-                alt={`Existing Image ${index}`}
-                className="existing-image"
-              />
-            </div>
-          ))}
+        <div className="text-end mt-10">
+          <button className="btn btn-success text-white" onClick={handleSubmit}>
+            Save
+          </button>
         </div>
-      )}
-
-      <div className="description">
-        <h3>Description</h3>
-        <p>{desc}</p>
       </div>
-
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
+    </>
   );
 };
 

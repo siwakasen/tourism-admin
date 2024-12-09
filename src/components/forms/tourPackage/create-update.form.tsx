@@ -48,13 +48,12 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
           </div>
           {title}
         </h1>
-        <div className="h-full ">
+        <div className="h-fit mt-10">
           {/* First Accordion: Tour Package Data */}
           <button
-            className="w-full flex justify-between items-center py-4 px-6 bg-gray-100 hover:bg-gray-200 text-left"
+            className="w-full flex  items-center py-4 px-6 bg-gray-100 hover:bg-gray-200 gap-2 rounded-t-lg text-left"
             onClick={() => toggleAccordion(0)}
           >
-            Tour Package Data
             {activeIndex === 0 ? (
               <svg
                 className=" size-4"
@@ -86,10 +85,11 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
                 <path d="m18 15-6-6-6 6"></path>
               </svg>
             )}
+            Tour Package Data
           </button>
           <div
             className={`flex-grow overflow-auto transition-[max-height] duration-300 ease-in-out h-full ${
-              activeIndex === 0 ? "max-h-[calc(100vh-256px)]" : "max-h-0"
+              activeIndex === 0 ? "max-h-[calc(100vh-306px)]" : "max-h-0"
             }`}
           >
             <InitialForm
@@ -101,10 +101,11 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
           {/* Second Accordion: Tour Package Images */}
           <div>
             <button
-              className="w-full flex justify-between items-center py-4 px-6 bg-gray-100 hover:bg-gray-200 text-left"
+              className={`w-full flex  items-center py-4 px-6 bg-gray-100 hover:bg-gray-200  ${
+                activeIndex === 1 ? "" : "rounded-b-lg"
+              } text-left`}
               onClick={() => toggleAccordion(1)}
             >
-              Tour Package Images
               {activeIndex === 0 ? (
                 <svg
                   className=" size-4"
@@ -136,13 +137,14 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
                   <path d="m18 15-6-6-6 6"></path>
                 </svg>
               )}
+              Tour Package Images
             </button>
             <div
               className={`overflow-scroll transition-[max-height] duration-300 ease-in-out ${
-                activeIndex === 1 ? "max-h-96" : "max-h-0"
+                activeIndex === 1 ? "max-h-[calc(100vh-306px)]" : "max-h-0"
               }`}
             >
-              <MultipleImageForm images={[]} desc="" />
+              <MultipleImageForm images={data?.images || []} />
             </div>
           </div>
         </div>

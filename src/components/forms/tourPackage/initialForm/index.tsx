@@ -37,6 +37,15 @@ const InitialForm: React.FC<InitialFormProps> = ({
   const [selectedTermsConditions, setSelectedTermsConditions] = useState<
     string[]
   >(data?.terms_conditions || termsConditionsDummy);
+  const [isCreated, setIsCreated] = useState<boolean>(data?.id ? true : false);
+  const handleSubmit = () => {
+    if (data?.id) {
+      console.log("Update", data);
+    } else {
+      setIsCreated(true);
+      console.log("Create", data);
+    }
+  };
 
   return (
     <div className="grid grid-cols-2 gap-4 rounded-lg bg-white pt-4 px-4 pb-8 ">
@@ -163,11 +172,20 @@ const InitialForm: React.FC<InitialFormProps> = ({
           setSelectedItems={setSelectedTermsConditions}
         />
       </div>
-      <div className="col-span-2 text-right">
+      <div className="col-span-2 flex justify-end gap-4 mt-10 text-right">
         <button
           type="button"
+          disabled={data?.id ? false : isCreated ? true : false}
+          className={`btn text-white btn-success`}
+          onClick={() => handleSubmit()}
+        >
+          {data?.id ? "Update" : "Create"}
+        </button>
+        <button
+          type="button"
+          disabled={!isCreated}
           onClick={() => handleNextToImages(1)} // Navigate to images accordion
-          className="btn btn-primary"
+          className="btn bg-sky-600 hover:bg-sky-700 text-white"
         >
           Next: Images
         </button>
