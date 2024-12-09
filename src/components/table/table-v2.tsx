@@ -1,5 +1,4 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
-import Pagination from "../paginations/pagination";
 
 export interface Columns<T> {
   fieldId: string;
@@ -16,30 +15,17 @@ interface Props<T> {
   isLoading?: boolean;
   error?: string;
   action?: boolean;
-  onRowClick?: (item: T) => void;
   id?: string[];
   setIsChecked?: Dispatch<SetStateAction<string[]>>;
-}
-
-function classNames(...classes: string[]): string {
-  return classes.filter(Boolean).join(" ");
 }
 
 export function TableV2<T>({
   data = [],
   columns = [],
   isLoading = false,
-  error = "",
-  action = false,
-  onRowClick,
   id = [""],
   setIsChecked,
 }: Props<T>): React.ReactElement {
-  const handleRowClick = (item: T): void => {
-    if (onRowClick !== undefined) {
-      onRowClick(item);
-    }
-  };
   isLoading = false;
   return (
     <div className="flex flex-col">
