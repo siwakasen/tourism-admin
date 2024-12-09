@@ -1,17 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import { Params, TourPackage } from "../../__interface/tourpackage.interface";
+import {
+  PaginationI,
+  TourPackage,
+} from "../../__interface/tourpackage.interface";
 import { HeaderTourPackage } from "../../data/header-table/tour-package.header";
 import TableLayout from "../../layouts/table/table.layout";
-import useFetchTourPackages from "../../hooks/package-tour";
+import { useListTourPackageQuery } from "../../_service/package-tour";
 
 export const tourPackageRoute = "/admin/tour-package";
 export default function TourPackagePage(): React.ReactElement {
   const navigate = useNavigate(); // Initialize the navigate function
-  const { tourPackages, loading, error } = useFetchTourPackages();
+  const { data: tourPackages, isLoading } = useListTourPackageQuery({
+    limit: 10,
+    page: 1,
+    search: "",
+  }); // Fetch the data from the API
 
   console.log("tourPackages", tourPackages);
-  console.log("loading", loading);
-  console.log("error", error);
+  console.log("loading", isLoading);
 
   const handleCreate = () => {
     navigate("/admin/tour-package/create");
@@ -19,13 +25,13 @@ export default function TourPackagePage(): React.ReactElement {
 
   return (
     <>
-      <TableLayout<TourPackage, Params>
+      <TableLayout<TourPackage, PaginationI>
         title="Tour Package"
-        data={tourPackages}
+        data={tourPackages?.data ?? []}
         headerTable={HeaderTourPackage}
         handleCreate={handleCreate} // Pass the handler to TableLayout
         setSelectedId={() => {}}
-        loading={loading}
+        loading={isLoading}
       />
     </>
   );
