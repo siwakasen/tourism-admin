@@ -102,8 +102,8 @@ export const HeaderTourPackage =
         label: "Itineraries",
         render: (data) => (
           <ul className="list-disc list-inside">
-            {data?.itineraries?.map((itinerary, index) => (
-              <li key={index}>{itinerary}</li>
+            {data?.itineraries?.map((item, index) => (
+              <li key={index}>{item}</li>
             )) ?? "No Itineraries"}
           </ul>
         ),

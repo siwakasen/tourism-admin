@@ -2,7 +2,7 @@ export interface TourPackage {
   id: string;
   package_name: string;
   description: string;
-  images: string[];
+  images: string;
   package_price: number;
   duration: number;
   max_group_size: number;
@@ -17,8 +17,22 @@ export interface TourPackage {
   deleted_at: string;
 }
 
-export interface Params {
+export interface PaginationI {
   search: string;
   limit: number;
   page: number;
+}
+
+export interface ListTourPackageResI {
+  data: TourPackage[];
+  meta: Meta;
+}
+
+export interface Meta {
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+  limit: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
 }
