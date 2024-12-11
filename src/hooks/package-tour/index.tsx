@@ -4,6 +4,7 @@ import {
   uploadImagesTourPackage,
   useDeleteImageTourPackageMutation,
   useUpdateStatusTourPackageMutation,
+  useDeleteTourPackageMutation,
 } from "../../_service/package-tour";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -184,5 +185,22 @@ export const useUpdateStatusTourPackage = (refetch: () => void) => {
   };
   return {
     onUpdate,
+  };
+};
+
+export const useDeleteTourPackage = (refetch: () => void) => {
+  const [deleteTourPackage] = useDeleteTourPackageMutation();
+  const onDelete = async (id: string) => {
+    try {
+      await deleteTourPackage({ id }).unwrap();
+      refetch();
+      toast.success("Tour Package deleted successfully");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
+  };
+  return {
+    onDelete,
   };
 };

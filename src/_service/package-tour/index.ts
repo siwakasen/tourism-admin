@@ -78,6 +78,15 @@ export const TourPackageApi = Api.injectEndpoints({
         };
       },
     }),
+    deleteTourPackage: build.mutation<TourPackageResI, TourPackageReqI>({
+      query: (data) => {
+        const id = String(data.id);
+        return {
+          url: `${process.env.REACT_APP_REST_HOST}/tour-package/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -89,6 +98,7 @@ export const {
   useUpdateTourPackageMutation,
   useDeleteImageTourPackageMutation,
   useUpdateStatusTourPackageMutation,
+  useDeleteTourPackageMutation,
 } = TourPackageApi;
 
 export const uploadImagesTourPackage = async (data: UploadTourPackageReqI) => {
