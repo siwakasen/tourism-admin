@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FieldError, Merge } from "react-hook-form";
 import { GoDotFill } from "react-icons/go";
 
 interface ItemsMultipleInputProps {
@@ -6,15 +7,16 @@ interface ItemsMultipleInputProps {
   placeholder: string;
   items: string[];
   setItems: (items: string[]) => void;
+  errors: Merge<FieldError, (FieldError | undefined)[]> | undefined;
 }
 const ItemsMultipleInput: React.FC<ItemsMultipleInputProps> = ({
   label,
   placeholder,
   items,
   setItems,
+  errors,
 }) => {
   const [itemInput, setItemInput] = useState<string>("");
-
   const handleAddItem = () => {
     if (itemInput.length > 0) {
       setItems([...items, itemInput]);
@@ -24,10 +26,8 @@ const ItemsMultipleInput: React.FC<ItemsMultipleInputProps> = ({
   const handleRemoveItem = (index: number) => {
     setItems(items.filter((_, i) => i !== index));
   };
-
   return (
     <>
-      {/* Itineraries */}
       <div className="col-span-2">
         <label className="form-control w-full">
           <div className="label">
@@ -40,13 +40,16 @@ const ItemsMultipleInput: React.FC<ItemsMultipleInputProps> = ({
               value={itemInput}
               onChange={(e) => setItemInput(e.target.value)}
               placeholder={placeholder}
-              className="input input-bordered w-full"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleAddItem();
                 }
               }}
+              className={`input input-bordered w-full ${
+                errors ? "input-error" : ""
+              }`}
             />
+
             <button
               type="button"
               onClick={handleAddItem}
@@ -55,8 +58,8 @@ const ItemsMultipleInput: React.FC<ItemsMultipleInputProps> = ({
               Add
             </button>
           </div>
+          {errors && <div className="text-error text-sm">{errors.message}</div>}
         </label>
-        {/* List of Itineraries */}
         <ul
           className={` ${
             items.length == 0 && "hidden"

@@ -14,10 +14,7 @@ export default function TourPackagePage(): React.ReactElement {
     limit: 10,
     page: 1,
     search: "",
-  }); // Fetch the data from the API
-
-  console.log("tourPackages", tourPackages);
-  console.log("loading", isLoading);
+  });
 
   const handleCreate = () => {
     navigate("/admin/tour-package/create");
@@ -29,7 +26,7 @@ export default function TourPackagePage(): React.ReactElement {
         title="Tour Package"
         data={tourPackages?.data ?? []}
         headerTable={HeaderTourPackage}
-        handleCreate={handleCreate} // Pass the handler to TableLayout
+        handleCreate={handleCreate}
         setSelectedId={() => {}}
         loading={isLoading}
       />

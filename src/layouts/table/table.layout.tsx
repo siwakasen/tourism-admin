@@ -54,78 +54,80 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   }, [selectedColumn]);
 
   return (
-    <div className="border-2 rounded-2xl shadow-lg m-4 h-[96%] bg-white">
-      <NavBar />
-      {remove && (
-        <div></div>
-        // <DeletePopUp
-        //   isOpen={remove.isOpen}
-        //   data={title}
-        //   onClose={() => remove.handlerClose!()}
-        //   onEdit={() => remove.handler()}
-        //   menu={title}
-        // />
-      )}
-      <div className="grid grid-cols-1 gap-6 p-6  ">
-        <div className="bg-secondary p-6 grid grid-cols-4 rounded-2xl">
-          <div className="col-span-3">
-            <h1 className="font-bold text-2xl text-white">
-              Manage Your Package Tour
-            </h1>
-            <p className="text-sm text-white font-light">
-              You can manage your package tour data here, such as creating new
-              data, editing, and deleting
-            </p>
-          </div>
-          <div className="col-span-1">LOGO</div>
-        </div>
-        <div className="col-span-1">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <SearchForm
-                placeholder="Search anything..."
-                onSearch={() => {}}
-              />
+    <div className="h-screen max-h-screen flex flex-col">
+      <div className="border-2 rounded-2xl shadow-lg m-4 h-[96%] bg-white flex-grow overflow-auto">
+        <NavBar />
+        {remove && (
+          <div></div>
+          // <DeletePopUp
+          //   isOpen={remove.isOpen}
+          //   data={title}
+          //   onClose={() => remove.handlerClose!()}
+          //   onEdit={() => remove.handler()}
+          //   menu={title}
+          // />
+        )}
+        <div className="grid grid-cols-1 gap-6 p-6  ">
+          <div className="bg-secondary p-6 grid grid-cols-4 rounded-2xl">
+            <div className="col-span-3">
+              <h1 className="font-bold text-2xl text-white">
+                Manage Your Package Tour
+              </h1>
+              <p className="text-sm text-white font-light">
+                You can manage your package tour data here, such as creating new
+                data, editing, and deleting
+              </p>
             </div>
-            <div className="flex items-center justify-between gap-4 ml-4">
-              <ActionButton
-                text="Create"
-                onClick={() => handleCreate!()}
-                variant="primary"
-                icon={<AiFillEdit />}
-              />
+            <div className="col-span-1">LOGO</div>
+          </div>
+          <div className="col-span-1">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <SearchForm
+                  placeholder="Search anything..."
+                  onSearch={() => {}}
+                />
+              </div>
+              <div className="flex items-center justify-between gap-4 ml-4">
+                <ActionButton
+                  text="Create"
+                  onClick={() => handleCreate!()}
+                  variant="primary"
+                  icon={<AiFillEdit />}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-span-1 ">
-          <div className="flex flex-col">
-            <div className="overflow-x-auto">
-              <div className="align-middle inline-block min-w-full">
-                <div className="overflow-hidden rounded-xl  ">
-                  <TableV2<T>
-                    columns={headerTable(
-                      remove?.handler ? remove.handler : () => {},
-                      handleEdit!
-                    )}
-                    data={data}
-                    isLoading={loading}
-                    id={selectedColumn}
-                    setIsChecked={setSelectedColumn}
-                  />
+          <div className="col-span-1 ">
+            <div className="flex flex-col">
+              <div className="overflow-x-auto">
+                <div className="align-middle inline-block min-w-full">
+                  <div className="overflow-auto rounded-xl  max-h-[calc(100vh-434px)]">
+                    <TableV2<T>
+                      columns={headerTable(
+                        remove?.handler ? remove.handler : () => {},
+                        handleEdit!
+                      )}
+                      data={data}
+                      isLoading={loading}
+                      id={selectedColumn}
+                      setIsChecked={setSelectedColumn}
+                    />
+                  </div>
                 </div>
-                <div className="py-6 flex justify-end">
-                  <Pagination
-                    currentPage={1}
-                    totalPages={2}
-                    onPageChange={() => {}}
-                  />
-                </div>
+              </div>
+              <div className="py-6 flex justify-end">
+                <Pagination
+                  currentPage={1}
+                  totalPages={2}
+                  onPageChange={() => {}}
+                />
               </div>
             </div>
           </div>
         </div>
+        {modal ? modal : null}
       </div>
-      {modal ? modal : null}
     </div>
   );
 };

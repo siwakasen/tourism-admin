@@ -10,12 +10,14 @@ interface CreateUpdateTourFormProps {
   data: TourPackage | null;
   title: string;
   route: string;
+  refetch: () => void;
 }
 
 export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
   data,
   title,
   route,
+  refetch,
 }: CreateUpdateTourFormProps) => {
   //   const imagesAccordionRef = useRef<HTMLDivElement | null>(null); // Reference to the images accordion
 
@@ -30,9 +32,16 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
 
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
+  const [isCreated, setIsCreated] = useState<boolean>(data?.id ? true : false);
+
   const toggleAccordion = (index: number) => {
+    if (!data?.id && !isCreated) {
+      return;
+    }
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const [id, setId] = useState<string | null>(data?.id || "");
 
   return (
     <>
@@ -95,6 +104,9 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
             <InitialForm
               data={data}
               handleNextToImages={() => toggleAccordion(1)}
+              setIsCreated={setIsCreated}
+              isCreated={isCreated}
+              setId={setId}
             />
           </div>
 
@@ -144,7 +156,11 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
                 activeIndex === 1 ? "max-h-[calc(100vh-306px)]" : "max-h-0"
               }`}
             >
-              <MultipleImageForm images={data?.images || []} />
+              <MultipleImageForm
+                images={Array.isArray(data?.images) ? data?.images : []}
+                id={data?.id ? data?.id : id || ""}
+                refetch={refetch}
+              />
             </div>
           </div>
         </div>

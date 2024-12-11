@@ -1,73 +1,188 @@
-import { useState, useEffect } from "react";
-import { TourPackage } from "../../__interface/tourpackage.interface";
-import axios from "axios";
-import useListPackageTour from "./useListPackageTour";
+import {
+  useCreateTourPackageMutation,
+  useUpdateTourPackageMutation,
+  uploadImagesTourPackage,
+  useDeleteImageTourPackageMutation,
+  useUpdateStatusTourPackageMutation,
+} from "../../_service/package-tour";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-hot-toast";
+import {
+  CreateTourPackageReqI,
+  TourPackage,
+  TourPackageResI,
+  UploadTourPackageReqI,
+  DeleteImageReqI,
+  UpdateStatusTourPackageReqI,
+} from "../../__interface/tourpackage.interface";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-interface FetchTourPackagesResponse {
-  data: TourPackage[];
-}
+export const useCreateUpadeTourPackageForm = (
+  defaultValues?: CreateTourPackageReqI,
+  data?: TourPackage | null
+) => {
+  const [createTourPackage, { isLoading }] = useCreateTourPackageMutation();
+  const [updateTourPackage] = useUpdateTourPackageMutation();
 
-interface FetchTourPackageById {
-  data: TourPackage;
-  message: string;
-}
+  const schema = yup
+    .object()
+    .shape({
+      package_name: yup.string().required("Package Name is required"),
+      description: yup.string().required("Description is required"),
+      package_price: yup
+        .number()
+        .min(1, "Minimal 1 USD")
+        .required("Package Price is required"),
+      duration: yup
+        .number()
+        .min(1, "Minimal 1 Day")
+        .required("Duration is required"),
+      max_group_size: yup
+        .number()
+        .min(1, "Minimal 1 person in a group")
+        .required("Max Group Size is required"),
+      children_price: yup
+        .number()
+        .min(1, "Minimal 1 USD")
+        .required("Children Price is required"),
+      itineraries: yup
+        .array()
+        .of(yup.string().required())
+        .min(1, "Itineraries must have at least 1 item")
+        .required("Itineraries is required"),
+      includes: yup
+        .array()
+        .of(yup.string().required())
+        .min(1, "Includes must have at least 1 item")
+        .required("Includes is required"),
+      pickup_areas: yup
+        .array()
+        .of(yup.string().required())
+        .required("Pickup Areas is required"),
+      terms_conditions: yup
+        .array()
+        .of(yup.string().required())
+        .required("Terms Conditions is required"),
+    })
+    .required();
 
-interface UseFetchTourPackagesResult {
-  tourPackages: TourPackage[];
-  loading: boolean;
-  error: string | null;
-}
-
-export const useFetchTourPackages = (
-  page: number = 1,
-  limit: number = 10
-): UseFetchTourPackagesResult => {
-  const [tourPackages, setTourPackages] = useState<TourPackage[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<FetchTourPackagesResponse>(
-          "http://localhost:3001/tour-package",
-          {
-            params: {
-              page,
-              limit,
-            },
-          }
-        );
-        setTourPackages(response.data.data);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        setError(err.message || "Failed to fetch data");
-      } finally {
-        setLoading(false);
-      }
+  const onSubmit = async (
+    formData: CreateTourPackageReqI,
+    selectedPickUpAreas: string[],
+    selectedTermsConditions: string[],
+    setIsCreated: (value: boolean) => void,
+    setId: (value: string) => void
+  ) => {
+    if (selectedPickUpAreas.length === 0) {
+      return;
+    }
+    if (selectedTermsConditions.length === 0) {
+      return;
+    }
+    const payload = {
+      ...formData,
+      pickup_areas: selectedPickUpAreas,
+      terms_conditions: selectedTermsConditions,
     };
 
-    fetchData();
-  }, [page, limit]);
+    if (data?.id) {
+      console.log("payload", {
+        ...payload,
+        id: data.id,
+      });
 
-  return { tourPackages, loading, error };
+      const response = await updateTourPackage({
+        ...payload,
+        id: data.id,
+      }).unwrap();
+      toast.success(response.message);
+    } else {
+      try {
+        const response = await createTourPackage(payload).unwrap();
+        toast.success(response.message);
+        setIsCreated(true);
+        setId(response.data.id);
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.data.message[0]);
+      }
+    }
+  };
+
+  const { register, handleSubmit, formState, setValue } =
+    useForm<CreateTourPackageReqI>({
+      defaultValues,
+      resolver: yupResolver(schema),
+    });
+
+  return {
+    register,
+    handleSubmit,
+    formState,
+    setValue,
+    onSubmit,
+    isLoading,
+  };
 };
 
-export const fetchTourPackageById = async (
-  id: string
-): Promise<TourPackage | null> => {
-  try {
-    const response = await axios.get<FetchTourPackageById>(
-      `http://localhost:3001/tour-package/${id}`
-    );
-    const { data } = response.data;
-    return data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    console.error("Failed to fetch tour package:", err);
-    return null;
-  }
+export const useDeleteTourPackageForm = (refetch: () => void) => {
+  const [deleteImageTourPackage, { isLoading }] =
+    useDeleteImageTourPackageMutation();
+  const onDelete = async (formData: DeleteImageReqI) => {
+    try {
+      await deleteImageTourPackage(formData).unwrap();
+      refetch();
+      toast.success("Image deleted successfully");
+      //   eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.status === "FETCH_ERROR") {
+        toast.error(error.error);
+      }
+      toast.error(error.data.message[0]);
+    }
+  };
+  return {
+    onDelete,
+    isLoading,
+  };
+};
+
+export const useUploadImagesTourPackageForm = (refetch: () => void) => {
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: UploadTourPackageReqI) => {
+    try {
+      const response: TourPackageResI = await uploadImagesTourPackage(data);
+      toast.success(response.message);
+      navigate("/admin/tour-package/");
+      refetch();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
+  };
+
+  return {
+    onSubmit,
+  };
+};
+
+export const useUpdateStatusTourPackage = (refetch: () => void) => {
+  const [updateStatusTourPackage] = useUpdateStatusTourPackageMutation();
+  const onUpdate = async (data: UpdateStatusTourPackageReqI) => {
+    try {
+      await updateStatusTourPackage(data).unwrap();
+      refetch();
+      toast.success("Status updated successfully");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
+  };
+  return {
+    onUpdate,
+  };
 };

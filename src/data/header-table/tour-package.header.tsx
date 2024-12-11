@@ -5,22 +5,20 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { BiSolidHide } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-
 export const HeaderTourPackage =
   (): //   handleDeletePopUp: (id: string) => void,
   //   handleUpdate: (id: string) => void
   Columns<TourPackage>[] => {
     const navigate = useNavigate(); // Initialize the navigate function
-
-    const menuOptions = [
+    const menuOptions = (status: boolean) => [
       {
         label: "Edit",
         action: (id?: string) => navigate(`/admin/tour-package/update/${id}`),
         icon: <RiEdit2Fill />,
       },
       {
-        label: "Hide",
-        action: () => alert("Hide clicked!"),
+        label: status ? "Hide" : "Show",
+        action: () => {},
         icon: <BiSolidHide />,
       },
       {
@@ -69,31 +67,47 @@ export const HeaderTourPackage =
       //     </div>
       //   ),
       // },
-      // {
-      //   fieldId: "package_price",
-      //   label: "Package Price",
-      //   render: (data) => (
-      //     <p className="font-semibold">
-      //       ${data?.package_price?.toFixed(2) ?? "N/A"}
-      //     </p>
-      //   ),
-      // },
-      // {
-      //   fieldId: "duration",
-      //   label: "Duration (days)",
-      //   render: (data) => <p>{data?.duration ?? "N/A"}</p>,
-      // },
-      // {
-      //   fieldId: "max_group_size",
-      //   label: "Max Group Size",
-      //   render: (data) => <p>{data?.max_group_size ?? "N/A"}</p>,
-      // },
+      {
+        fieldId: "package_price",
+        label: "Package Price",
+        render: (data) => (
+          <p className="font-semibold">
+            ${data?.package_price?.toFixed(2) ?? "N/A"}
+          </p>
+        ),
+      },
       {
         fieldId: "children_price",
         label: "Children Price",
         render: (data) => (
           <p className="font-semibold">
             ${data?.children_price?.toFixed(2) ?? "N/A"}
+          </p>
+        ),
+      },
+      {
+        fieldId: "duration",
+        label: "Duration",
+        render: (data) => (
+          <p>
+            {data?.duration
+              ? data?.duration > 1
+                ? `${data?.duration} days`
+                : `${data?.duration} day`
+              : "N/A"}
+          </p>
+        ),
+      },
+      {
+        fieldId: "max_group_size",
+        label: "Max Group Size",
+        render: (data) => (
+          <p>
+            {data?.max_group_size
+              ? data?.max_group_size > 1
+                ? `${data.max_group_size} persons`
+                : `${data.max_group_size} person`
+              : "N/A"}
           </p>
         ),
       },
@@ -147,7 +161,10 @@ export const HeaderTourPackage =
         label: "Action",
         render: (data) => (
           <>
-            <ActionButtonTable id={data?.id} menuOptions={menuOptions} />
+            <ActionButtonTable
+              id={data?.id}
+              menuOptions={menuOptions(data?.status ?? false)}
+            />
           </>
         ),
       },

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, ReactNode } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 
 interface MenuOption {
-  label: string;
+  label: string; // Label untuk setiap item menu
   action: (id?: string) => void;
   icon?: ReactNode; // Ikon opsional untuk setiap item menu
 }
@@ -46,7 +46,7 @@ const ActionButtonTable: React.FC<ActionButtonTableProps> = ({
       <button
         type="button"
         onClick={toggleMenu}
-        className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-800 focus:outline-none"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-200 focus:outline-none py-3 px-1 rounded-xl bg-slate-300 hover:bg-slate-500 transition-all duration-200"
       >
         <FaEllipsisV />
       </button>

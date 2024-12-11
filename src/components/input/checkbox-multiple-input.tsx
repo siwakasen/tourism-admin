@@ -7,6 +7,7 @@ interface CheckboxMultipleInputProps {
   setItems: (items: string[]) => void;
   selectedItems: string[];
   setSelectedItems: (items: string[]) => void;
+  errors: string;
 }
 
 const CheckboxMultipleInput: React.FC<CheckboxMultipleInputProps> = ({
@@ -16,6 +17,7 @@ const CheckboxMultipleInput: React.FC<CheckboxMultipleInputProps> = ({
   setItems,
   selectedItems,
   setSelectedItems,
+  errors,
 }) => {
   const [itemsInput, setItemsInput] = useState<string>("");
 
@@ -52,12 +54,14 @@ const CheckboxMultipleInput: React.FC<CheckboxMultipleInputProps> = ({
             value={itemsInput}
             onChange={(e) => setItemsInput(e.target.value)}
             placeholder={placeholder}
-            className="input input-bordered w-full"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleAddItem();
               }
             }}
+            className={`input input-bordered w-full ${
+              errors ? "input-error" : ""
+            }`}
           />
           <button
             type="button"
@@ -67,6 +71,7 @@ const CheckboxMultipleInput: React.FC<CheckboxMultipleInputProps> = ({
             Add
           </button>
         </div>
+        {errors && <div className="text-error text-sm">{errors}</div>}
       </label>
       {/* List of Pick Up Areas */}
       <ul
