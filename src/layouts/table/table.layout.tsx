@@ -13,13 +13,16 @@ interface PaginationDefaultI {
 
 interface props<T, P extends PaginationDefaultI> {
   title: string;
+  handleDelete(id?: string): void;
+  handleUpdateStatus(id?: string, newStatus?: boolean): void;
   params?: {
     value: P;
     setValue: React.Dispatch<React.SetStateAction<P>>;
   };
   headerTable: (
     handleDeletePopUp: (id?: string) => void,
-    handleEdit: (id: string) => void
+    handleEdit: (id: string) => void,
+    handleUpdateStatusPopUp: (id?: string, newStatus?: boolean) => void
   ) => Columns<T>[];
   data: T[];
   handleCreate?: () => void;
@@ -36,10 +39,11 @@ interface props<T, P extends PaginationDefaultI> {
 
 const TableLayout = <T, P extends PaginationDefaultI>({
   remove,
-  //   params,
   handleCreate,
   setSelectedId,
   data,
+  handleDelete,
+  handleUpdateStatus,
   headerTable,
   modal,
   handleEdit,
@@ -105,8 +109,9 @@ const TableLayout = <T, P extends PaginationDefaultI>({
                   <div className="overflow-auto rounded-xl  max-h-[calc(100vh-434px)]">
                     <TableV2<T>
                       columns={headerTable(
-                        remove?.handler ? remove.handler : () => {},
-                        handleEdit!
+                        handleDelete,
+                        handleEdit!,
+                        handleUpdateStatus
                       )}
                       data={data}
                       isLoading={loading}
