@@ -7,7 +7,7 @@ export interface TourPackage {
   duration: number;
   max_group_size: number;
   children_price: number;
-  itineraries: Itinerary[];
+  itineraries: string[];
   includes: string[];
   pickup_areas: string[];
   terms_conditions: string[];
@@ -23,14 +23,28 @@ export interface PaginationI {
   page: number;
 }
 
+export interface TourPackageReqI {
+  id: string;
+}
+
+export interface TourPackageResI {
+  data: TourPackage;
+  message: string;
+}
+
+export interface UploadTourPackageReqI {
+  id: string;
+  images: File[];
+}
+
+export interface UpdateStatusTourPackageReqI {
+  id: string;
+  status: boolean;
+}
+
 export interface ListTourPackageResI {
   data: TourPackage[];
   meta: Meta;
-}
-
-export interface Itinerary {
-  day: number;
-  activity: string;
 }
 
 export interface Meta {
@@ -40,4 +54,30 @@ export interface Meta {
   limit: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
+}
+
+export interface CreateTourPackageReqI {
+  package_name: string;
+  description: string;
+  package_price: number;
+  duration: number;
+  max_group_size: number;
+  children_price: number;
+  itineraries: string[];
+  includes: string[];
+  pickup_areas: string[];
+  terms_conditions: string[];
+}
+
+export interface UpdateTourPackageReqI extends CreateTourPackageReqI {
+  id: string;
+}
+export interface CreateTourPackageResI {
+  data: TourPackage;
+  message: string;
+}
+
+export interface DeleteImageReqI {
+  id: string;
+  imagePath: string;
 }

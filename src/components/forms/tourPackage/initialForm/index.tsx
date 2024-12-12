@@ -1,10 +1,18 @@
-import { GoDotFill } from "react-icons/go";
 import { useState } from "react";
-import { TourPackage } from "../../../../__interface/tourpackage.interface";
+import {
+  CreateTourPackageReqI,
+  TourPackage,
+} from "../../../../__interface/tourpackage.interface";
+import ItemsMultipleInput from "../../../input/items-multiple-input";
+import CheckboxMultipleInput from "../../../input/checkbox-multiple-input";
+import { useCreateUpadeTourPackageForm } from "../../../../hooks/package-tour";
 
 interface InitialFormProps {
   data: TourPackage | null;
-  handleNextToImages: () => void;
+  handleNextToImages: (index: number) => void;
+  setIsCreated: (value: boolean) => void;
+  isCreated: boolean;
+  setId: (value: string) => void;
 }
 
 import {
@@ -15,25 +23,20 @@ import {
 const InitialForm: React.FC<InitialFormProps> = ({
   data,
   handleNextToImages,
+  setIsCreated,
+  isCreated,
+  setId,
 }: InitialFormProps) => {
   const [itineraries, setItineraries] = useState<string[]>(
     data?.itineraries || []
   );
-  const [itineraryInput, setItineraryInput] = useState<string>("");
-
   const [includes, setIncludes] = useState<string[]>(data?.includes || []);
-  const [includeInput, setIncludeInput] = useState<string>("");
-
   const [pickUpAreas, setPickUpAreas] = useState<string[]>(
     data?.pickup_areas || pickupAreasDummy
   );
-  const [pickUpAreaInput, setPickUpAreaInput] = useState<string>("");
-
   const [termsConditions, setTermsConditions] = useState<string[]>(
     data?.terms_conditions || termsConditionsDummy
   );
-  const [termsConditionsInput, setTermsConditionsInput] = useState<string>("");
-
   const [selectedPickUpAreas, setSelectedPickUpAreas] = useState<string[]>(
     data?.pickup_areas || pickupAreasDummy
   );
@@ -41,73 +44,47 @@ const InitialForm: React.FC<InitialFormProps> = ({
     string[]
   >(data?.terms_conditions || termsConditionsDummy);
 
-  const handleAddItinerary = () => {
-    if (itineraryInput.trim()) {
-      setItineraries([...itineraries, itineraryInput.trim()]);
-      setItineraryInput("");
-    }
-  };
+  const {
+    onSubmit,
+    formState: { errors },
+    handleSubmit,
+    register,
+    setValue,
+    isLoading,
+  } = useCreateUpadeTourPackageForm(
+    {
+      package_name: data?.package_name || "",
+      description: data?.description || "",
+      package_price: data?.package_price || 0,
+      duration: data?.duration || 0,
+      max_group_size: data?.max_group_size || 0,
+      children_price: data?.children_price || 0,
+      itineraries: data?.itineraries || [],
+      includes: data?.includes || [],
+      pickup_areas: data?.pickup_areas || [],
+      terms_conditions: data?.terms_conditions || [],
+    },
+    data
+  );
 
-  const handleRemoveItinerary = (index: number) => {
-    setItineraries(itineraries.filter((_, i) => i !== index));
-  };
-
-  const handleAddInclude = () => {
-    if (includeInput.trim()) {
-      setIncludes([...includes, includeInput.trim()]);
-      setIncludeInput("");
-    }
-  };
-  const handleRemoveInclude = (index: number) => {
-    setIncludes(includes.filter((_, i) => i !== index));
-  };
-
-  const handleAddPickUpArea = () => {
-    if (pickUpAreaInput.trim()) {
-      setPickUpAreas([...pickUpAreas, pickUpAreaInput.trim()]);
-      setPickUpAreaInput("");
-
-      handleAddSelectedPickUpArea(pickUpAreaInput.trim());
-    }
-  };
-
-  const handleAddTermsConditions = () => {
-    if (termsConditionsInput.trim()) {
-      setTermsConditions([...termsConditions, termsConditionsInput.trim()]);
-      setTermsConditionsInput("");
-      handleAddSelectedTermsConditions(termsConditionsInput.trim());
-    }
-  };
-
-  const handleAddSelectedPickUpArea = (area: string) => {
-    setSelectedPickUpAreas([...selectedPickUpAreas, area]);
-  };
-
-  const handleCheckboxPickUpArea = (area: string) => {
-    if (selectedPickUpAreas.includes(area)) {
-      setSelectedPickUpAreas(
-        selectedPickUpAreas.filter((item) => item !== area)
-      );
-    } else {
-      setSelectedPickUpAreas([...selectedPickUpAreas, area]);
-    }
-  };
-
-  const handleAddSelectedTermsConditions = (condition: string) => {
-    setSelectedTermsConditions([...selectedTermsConditions, condition]);
-  };
-
-  const handleCheckboxTermsConditions = (condition: string) => {
-    if (selectedTermsConditions.includes(condition)) {
-      setSelectedTermsConditions(
-        selectedTermsConditions.filter((item) => item !== condition)
-      );
-    } else {
-      setSelectedTermsConditions([...selectedTermsConditions, condition]);
-    }
-  };
   return (
-    <div className="grid grid-cols-2 gap-4 rounded-lg bg-white pt-4 px-4 pb-8 ">
+    <form
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+        }
+      }}
+      onSubmit={handleSubmit((formData: CreateTourPackageReqI) =>
+        onSubmit(
+          formData,
+          selectedPickUpAreas,
+          selectedTermsConditions,
+          setIsCreated,
+          setId
+        )
+      )}
+      className="grid grid-cols-2 gap-4 rounded-lg bg-white pt-4 px-4 pb-8"
+    >
       {/* Package Name */}
       <div className="col-span-2">
         <label className="form-control w-full">
@@ -115,13 +92,20 @@ const InitialForm: React.FC<InitialFormProps> = ({
             <span className="label-text text-slate-700">Package Name</span>
           </div>
           <input
+            {...register("package_name")}
             type="text"
             placeholder="Enter the package name"
-            className="input input-bordered w-full"
+            className={`input input-bordered w-full ${
+              errors.package_name ? "input-error" : ""
+            }`}
           />
+          {errors.package_name && (
+            <span className="text-red-500 text-sm">
+              {errors.package_name.message}
+            </span>
+          )}
         </label>
       </div>
-
       {/* Description */}
       <div className="col-span-2">
         <label className="form-control w-full">
@@ -129,13 +113,20 @@ const InitialForm: React.FC<InitialFormProps> = ({
             <span className="label-text text-slate-700">Description</span>
           </div>
           <textarea
+            {...register("description")}
             placeholder="Type the package description"
-            className="textarea textarea-bordered w-full"
-            rows={3}
+            className={`textarea textarea-bordered w-full ${
+              errors.description ? "textarea-error" : ""
+            }`}
+            rows={6}
           />
+          {errors.description && (
+            <span className="text-red-500 text-sm">
+              {errors.description.message}
+            </span>
+          )}
         </label>
       </div>
-
       {/* Package Price */}
       <div>
         <label className="form-control w-full">
@@ -145,43 +136,64 @@ const InitialForm: React.FC<InitialFormProps> = ({
             </span>
           </div>
           <input
+            {...register("package_price")}
             type="number"
             placeholder="Enter package price"
-            className="input input-bordered w-full"
+            className={`input input-bordered w-full ${
+              errors.package_price ? "input-error" : ""
+            }`}
           />
+          {errors.package_price && (
+            <span className="text-red-500 text-sm">
+              {errors.package_price.message}
+            </span>
+          )}
         </label>
       </div>
-
       {/* Duration */}
       <div>
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text text-slate-700">Duration (days)</span>
+            <span className="label-text text-slate-700">Duration (hours)</span>
           </div>
           <input
+            {...register("duration")}
             type="number"
             placeholder="Enter duration"
-            className="input input-bordered w-full"
+            className={`input input-bordered w-full ${
+              errors.duration ? "input-error" : ""
+            }`}
           />
+          {errors.duration && (
+            <span className="text-red-500 text-sm">
+              {errors.duration.message}
+            </span>
+          )}
         </label>
       </div>
-
       {/* Max Group Size */}
       <div>
         <label className="form-control w-full">
           <div className="label">
             <span className="label-text text-slate-700">
-              Maximum Group Size (people)
+              Maximum Group Size (person)
             </span>
           </div>
           <input
+            {...register("max_group_size")}
             type="number"
             placeholder="Enter max group size"
-            className="input input-bordered w-full"
+            className={`input input-bordered w-full ${
+              errors.max_group_size ? "input-error" : ""
+            }`}
           />
+          {errors.max_group_size && (
+            <span className="text-red-500 text-sm">
+              {errors.max_group_size.message}
+            </span>
+          )}
         </label>
       </div>
-
       {/* Children Price */}
       <div>
         <label className="form-control w-full">
@@ -191,250 +203,93 @@ const InitialForm: React.FC<InitialFormProps> = ({
             </span>
           </div>
           <input
+            {...register("children_price")}
             type="number"
             placeholder="Enter children price"
-            className="input input-bordered w-full"
+            className={`input input-bordered w-full ${
+              errors.children_price ? "input-error" : ""
+            }`}
           />
+          {errors.children_price && (
+            <span className="text-red-500 text-sm">
+              {errors.children_price.message}
+            </span>
+          )}
         </label>
       </div>
-
       {/* Itineraries */}
-      <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">Itineraries</span>
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={itineraryInput}
-              onChange={(e) => setItineraryInput(e.target.value)}
-              placeholder="Enter itinerary item"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddItinerary();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddItinerary}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Itineraries */}
-        <ul
-          className={` ${
-            itineraries.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg grid grid-cols-2 gap-2`}
-        >
-          {itineraries.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-1 border-b gap-2 border-gray-200 hover:bg-gray-100"
-            >
-              <span className="flex items-center gap-2 overflow-auto">
-                <span>
-                  <GoDotFill />
-                </span>
-                <span>{item}</span>
-              </span>
-              <button
-                type="button"
-                onClick={() => handleRemoveItinerary(index)}
-                className="btn btn-xs btn-error text-white"
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ItemsMultipleInput
+        items={itineraries}
+        setItems={(value) => {
+          setItineraries(value);
+          setValue("itineraries", value);
+        }}
+        label={"Itineraries"}
+        placeholder="Enter itinerary item"
+        errors={errors.itineraries}
+      />
       {/* Includes */}
+      <ItemsMultipleInput
+        items={includes}
+        setItems={(value) => {
+          setIncludes(value);
+          setValue("includes", value);
+        }}
+        label={"Includes"}
+        placeholder="Enter included items"
+        errors={errors.includes}
+      />
+      {/* Pickup Areas */}
       <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">Includes</span>
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={includeInput}
-              onChange={(e) => setIncludeInput(e.target.value)}
-              placeholder="Enter include item"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddInclude();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddInclude}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Includes */}
-        <ul
-          className={` ${
-            includes.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg grid grid-cols-2 gap-2`}
-        >
-          {includes.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-1 border-b gap-2 border-gray-200 hover:bg-gray-100"
-            >
-              <span className="flex items-center gap-2 overflow-auto">
-                <span>
-                  <GoDotFill />
-                </span>
-                <span>{item}</span>
-              </span>
-              <button
-                type="button"
-                onClick={() => handleRemoveInclude(index)}
-                className="btn btn-xs btn-error text-white"
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
+        <CheckboxMultipleInput
+          label={"Pickup Areas"}
+          placeholder={"Add new pickup areas"}
+          items={pickUpAreas}
+          setItems={setPickUpAreas}
+          selectedItems={selectedPickUpAreas}
+          setSelectedItems={setSelectedPickUpAreas}
+          errors={
+            selectedPickUpAreas.length === 0
+              ? "Pickup Areas must have at least 1 item"
+              : ""
+          }
+        />
       </div>
-
-      {/* Pick Up Areas */}
-      <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">Pick Up Areas</span>
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={pickUpAreaInput}
-              onChange={(e) => setPickUpAreaInput(e.target.value)}
-              placeholder="Add new pick up area"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddPickUpArea();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddPickUpArea}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Pick Up Areas */}
-        <ul
-          className={` ${
-            pickUpAreas.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg grid grid-cols-2 gap-2`}
-        >
-          {pickUpAreas.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-2 border-b border-gray-200 gap-2 hover:bg-gray-100 "
-            >
-              <span className="flex items-center gap-2  overflow-auto">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox "
-                  onClick={() => handleCheckboxPickUpArea(item)}
-                />
-                <span>{item}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
       {/* Terms & Conditions */}
       <div className="col-span-2">
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">
-              Terms & Conditions
-            </span>
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={termsConditionsInput}
-              onChange={(e) => setTermsConditionsInput(e.target.value)}
-              placeholder="Add new terms & conditions"
-              className="input input-bordered w-full"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAddTermsConditions();
-                }
-              }}
-            />
-            <button
-              type="button"
-              onClick={handleAddTermsConditions}
-              className="btn btn-primary "
-            >
-              Add
-            </button>
-          </div>
-        </label>
-        {/* List of Terms & Conditions */}
-        <ul
-          className={` ${
-            termsConditions.length == 0 && "hidden"
-          }  list-disc px-3 mt-3 border p-1 rounded-lg`}
-        >
-          {termsConditions.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between py-2 border-b gap-2 border-gray-200 hover:bg-gray-100"
-            >
-              <span className="flex items-center gap-2 overflow-auto">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox"
-                  onClick={() => {
-                    handleCheckboxTermsConditions(item);
-                  }}
-                />
-                <span>{item}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <CheckboxMultipleInput
+          label={"Terms & Conditions"}
+          placeholder={"Add new terms & conditions"}
+          items={termsConditions}
+          setItems={setTermsConditions}
+          selectedItems={selectedTermsConditions}
+          setSelectedItems={setSelectedTermsConditions}
+          errors={
+            selectedTermsConditions.length === 0
+              ? "Terms &  Conditions must have at least 1 item"
+              : ""
+          }
+        />
       </div>
-
-      <div className="col-span-2 text-right">
+      {/* Submit Buttons */}
+      <div className="col-span-2 flex justify-end gap-4 mt-10 text-right">
+        <button
+          type="submit"
+          disabled={data?.id ? false : isCreated ? true : false}
+          className={`btn text-white btn-success`}
+        >
+          {data?.id ? "Update" : "Create"}
+        </button>
         <button
           type="button"
-          onClick={handleNextToImages} // Navigate to images accordion
-          className="btn btn-primary"
+          disabled={!isCreated || isLoading}
+          onClick={() => handleNextToImages(1)}
+          className="btn bg-sky-600 hover:bg-sky-700 text-white"
         >
           Next: Images
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

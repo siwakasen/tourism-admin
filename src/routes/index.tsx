@@ -9,6 +9,10 @@ import CreateTourPackage, {
   tourPackageCreateRoute,
 } from "../pages/package-tour/create";
 
+import UpdateTourPackage, {
+  tourPackageUpdateRoute,
+} from "../pages/package-tour/update";
+
 const AppRoutes = () => {
   return (
     <Suspense fallback={<LoadingPages />}>
@@ -31,6 +35,10 @@ const AppRoutes = () => {
           <Route
             path={tourPackageCreateRoute}
             element={<CreateTourPackage />}
+          />
+          <Route
+            path={tourPackageUpdateRoute}
+            element={<UpdateTourPackage />}
           />
           <Route path="cars-rental" element={<CarsRentalPage />} />
         </Route>

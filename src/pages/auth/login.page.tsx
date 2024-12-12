@@ -1,6 +1,6 @@
 import { useState } from "react";
-import login_img from "../../../public/images/login_img.jpg";
-import logo_tour2 from "../../../public/images/logo_tour2.png";
+import login_img from "../../images/login_img.jpg";
+import logo_tour2 from "../../images/logo_tour2.png";
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 

@@ -2,9 +2,12 @@ import { FaCar } from "react-icons/fa";
 import { useLocation, Link } from "react-router-dom";
 import { PiIslandBold } from "react-icons/pi";
 import { MdDashboard } from "react-icons/md";
+import logo_tour2 from "../../images/logo_tour2.png";
 
 interface AdminSidebarProps {
   width?: string;
+  showSidebar?: boolean;
+  setShowSidebar?: (value: boolean) => void;
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = () => {
@@ -16,8 +19,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = () => {
       {/* Logo */}
       <div className="px-4 py-6">
         <div className="flex justify-center mb-6">
-          <span className="h-12 w-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 font-bold text-xl shadow">
-            LOGO
+          <span className="max-h-32 max-w-32 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 font-bold text-xl shadow">
+            <img
+              alt=""
+              src={logo_tour2}
+              className="  object-cover opacity-100 rounded-full"
+            />
           </span>
         </div>
 
