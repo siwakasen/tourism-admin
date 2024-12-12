@@ -98,8 +98,8 @@ export const HeaderTourPackage = (
         <p>
           {data?.duration
             ? data?.duration > 1
-              ? `${data?.duration} days`
-              : `${data?.duration} day`
+              ? `${data?.duration} hours`
+              : `${data?.duration} hor`
             : "N/A"}
         </p>
       ),
