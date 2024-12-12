@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   PaginationI,
   TourPackage,
@@ -13,7 +13,13 @@ import {
   useUpdateStatusTourPackage,
 } from "../../hooks/package-tour";
 export const tourPackageRoute = "/admin/tour-package";
+interface OutletContext {
+  setShowSidebar: (show: boolean) => void;
+  showSidebar: boolean;
+}
+
 export default function TourPackagePage(): React.ReactElement {
+  const { setShowSidebar, showSidebar } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
   const [paginationParams, setPaginationParams] = useState({
     limit: 10,
@@ -63,6 +69,8 @@ export default function TourPackagePage(): React.ReactElement {
         handleDelete={handleDelete}
         handleUpdateStatus={handleUpdateStatus}
         handleSearch={handleSearch}
+        setShowSidebar={setShowSidebar}
+        showSidebar={showSidebar}
       />
       <Modal
         title="Delete Tour Package"

@@ -6,6 +6,8 @@ import { AiFillEdit } from "react-icons/ai";
 import { TableV2 } from "../../components/table/table-v2";
 import Pagination from "../../components/paginations/pagination";
 import NavBar from "../../components/layout/navbar";
+import logo_tour2 from "../../images/logo_tour2.png";
+
 interface PaginationDefaultI {
   page: number;
   limit: number;
@@ -38,6 +40,8 @@ interface props<T, P extends PaginationDefaultI> {
   };
   loading?: boolean | false;
   handleSearch?: (query: string) => void;
+  showSidebar: boolean;
+  setShowSidebar: (show: boolean) => void;
 }
 
 const TableLayout = <T, P extends PaginationDefaultI>({
@@ -52,6 +56,8 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   handleEdit,
   handleSearch,
   loading = true,
+  setShowSidebar,
+  showSidebar,
 }: props<T, P>) => {
   //   const handlePageChange = async (page: number): Promise<void> => {
   //     params.setValue({ ...params.value, page });
@@ -63,7 +69,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   return (
     <div className="h-screen max-h-screen flex flex-col">
       <div className="border-2 rounded-2xl shadow-lg m-4 h-[96%] bg-white flex-grow overflow-auto">
-        <NavBar />
+        <NavBar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
         {remove && (
           <div></div>
           // <DeletePopUp
@@ -76,7 +82,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
         )}
         <div className="grid grid-cols-1 gap-6 p-6  ">
           <div className="bg-secondary p-6 grid grid-cols-4 rounded-2xl">
-            <div className="col-span-3">
+            <div className="col-span-3 flex flex-col justify-center">
               <h1 className="font-bold text-2xl text-white">
                 Manage Your Package Tour
               </h1>
@@ -85,7 +91,13 @@ const TableLayout = <T, P extends PaginationDefaultI>({
                 data, editing, and deleting
               </p>
             </div>
-            <div className="col-span-1">LOGO</div>
+            <div className="col-span-1 flex items-center justify-end">
+              <img
+                alt=""
+                src={logo_tour2}
+                className="h-12  object-cover opacity-100 rounded-full"
+              />
+            </div>
           </div>
           <div className="col-span-1">
             <div className="flex items-center justify-between gap-4">
