@@ -14,16 +14,18 @@ interface PaginationDefaultI {
 interface props<T, P extends PaginationDefaultI> {
   title: string;
   handleDelete(id?: string): void;
-  handleUpdateStatus(id?: string, newStatus?: boolean): void;
   params?: {
     value: P;
     setValue: React.Dispatch<React.SetStateAction<P>>;
   };
+
+  handleUpdateStatus(id?: string, newStatus?: boolean): void;
   headerTable: (
     handleDeletePopUp: (id?: string) => void,
     handleEdit: (id: string) => void,
     handleUpdateStatusPopUp: (id?: string, newStatus?: boolean) => void
   ) => Columns<T>[];
+
   data: T[];
   handleCreate?: () => void;
   handleEdit?: (id: string) => void;
@@ -35,6 +37,7 @@ interface props<T, P extends PaginationDefaultI> {
     handlerClose?: () => void;
   };
   loading?: boolean | false;
+  handleSearch?: (query: string) => void;
 }
 
 const TableLayout = <T, P extends PaginationDefaultI>({
@@ -47,6 +50,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   headerTable,
   modal,
   handleEdit,
+  handleSearch,
   loading = true,
 }: props<T, P>) => {
   //   const handlePageChange = async (page: number): Promise<void> => {
@@ -56,7 +60,6 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   useEffect(() => {
     setSelectedId(selectedColumn);
   }, [selectedColumn]);
-
   return (
     <div className="h-screen max-h-screen flex flex-col">
       <div className="border-2 rounded-2xl shadow-lg m-4 h-[96%] bg-white flex-grow overflow-auto">
@@ -89,7 +92,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
               <div className="flex items-center gap-4">
                 <SearchForm
                   placeholder="Search anything..."
-                  onSearch={() => {}}
+                  onSearch={(query) => handleSearch!(query)}
                 />
               </div>
               <div className="flex items-center justify-between gap-4 ml-4">

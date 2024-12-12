@@ -14,25 +14,31 @@ import {
 } from "../../hooks/package-tour";
 export const tourPackageRoute = "/admin/tour-package";
 export default function TourPackagePage(): React.ReactElement {
-  const navigate = useNavigate(); // Initialize the navigate function
-  const {
-    data: tourPackages,
-    isLoading,
-    refetch,
-  } = useListTourPackageQuery({
+  const navigate = useNavigate();
+  const [paginationParams, setPaginationParams] = useState({
     limit: 10,
     page: 1,
     search: "",
   });
 
+  // Fetch data with current parameters
+  const {
+    data: tourPackages,
+    isLoading,
+    refetch,
+  } = useListTourPackageQuery(paginationParams);
+
   const handleCreate = () => {
     navigate("/admin/tour-package/create");
   };
   const [isDelete, setIsDelete] = useState<boolean>(false);
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [status, setStatus] = useState<boolean>(false);
   const { onDelete } = useDeleteTourPackage(refetch);
   const { onUpdate } = useUpdateStatusTourPackage(refetch);
+
+  const handleSearch = (query: string) => {
+    setPaginationParams((prev) => ({ ...prev, search: query }));
+    refetch();
+  };
 
   const handleDelete = (id: string) => {
     setIsDelete(true);
@@ -40,10 +46,7 @@ export default function TourPackagePage(): React.ReactElement {
   };
 
   const handleUpdateStatus = (id: string, newStatus: boolean) => {
-    console.log("id", id);
-    setIsUpdate(true);
-    setSelectedId(id!);
-    setStatus(newStatus!);
+    onUpdate({ id: id!, status: newStatus });
   };
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -59,23 +62,17 @@ export default function TourPackagePage(): React.ReactElement {
         loading={isLoading}
         handleDelete={handleDelete}
         handleUpdateStatus={handleUpdateStatus}
+        handleSearch={handleSearch}
       />
       <Modal
-        title=""
-        children={<>test</>}
+        title="Delete Tour Package"
+        children={<>Are you sure to delete this tour package?</>}
         isOpen={isDelete}
+        btnColor="bg-red-600"
+        hoverColor="hover:bg-red-700"
         handleAccept={() => onDelete(selectedId!)}
         onClose={() => {
           setIsDelete(false);
-        }}
-      />
-      <Modal
-        title=""
-        children={<>test</>}
-        isOpen={isUpdate}
-        handleAccept={() => onUpdate({ id: selectedId!, status: status })}
-        onClose={() => {
-          setIsUpdate(false);
         }}
       />
     </>

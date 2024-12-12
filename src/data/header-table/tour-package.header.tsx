@@ -7,6 +7,7 @@ import { BiSolidHide } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 export const HeaderTourPackage = (
   handleDeletePopUp?: (id: string) => void,
+  handleUpdate?: (id: string) => void,
   handleUpdateStatusPopUp?: (id: string, newStatus: boolean) => void
 ): Columns<TourPackage>[] => {
   const navigate = useNavigate(); // Initialize the navigate function
@@ -19,9 +20,11 @@ export const HeaderTourPackage = (
     {
       label: status ? "Hide" : "Show",
       action: (id?: string) => {
-        console.log(status);
-        console.log(id);
-        handleUpdateStatusPopUp!(id!, !status);
+        if (handleUpdateStatusPopUp) {
+          handleUpdateStatusPopUp!(id!, !status);
+        } else {
+          console.log(handleUpdateStatusPopUp);
+        }
       },
       icon: <BiSolidHide />,
     },

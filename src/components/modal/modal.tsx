@@ -6,6 +6,8 @@ interface ModalProps {
   title?: string;
   children: React.ReactNode;
   handleAccept: () => void;
+  btnColor: string;
+  hoverColor: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -14,9 +16,10 @@ const Modal: React.FC<ModalProps> = ({
   title,
   children,
   handleAccept,
+  btnColor,
+  hoverColor,
 }) => {
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-4 relative">
@@ -43,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({
             Cancel
           </button>
           <button
-            className="btn btn-md bg-emerald-600 hover:bg-emerald-700 border-none text-white"
+            className={`btn btn-md ${btnColor} ${hoverColor} border-none text-white`}
             onClick={() => {
               handleAccept();
               onClose();
