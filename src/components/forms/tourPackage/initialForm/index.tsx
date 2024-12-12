@@ -118,7 +118,7 @@ const InitialForm: React.FC<InitialFormProps> = ({
             className={`textarea textarea-bordered w-full ${
               errors.description ? "textarea-error" : ""
             }`}
-            rows={3}
+            rows={6}
           />
           {errors.description && (
             <span className="text-red-500 text-sm">

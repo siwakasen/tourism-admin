@@ -54,7 +54,12 @@ export const HeaderTourPackage = (
       fieldId: "description",
       label: "Description",
       render: (data) => (
-        <p className="text-sm text-gray-600">{data?.description ?? ""}</p>
+        <p className="text-sm text-gray-600 ">
+          {data?.description
+            ? data.description.split(" ").slice(0, 15).join(" ") +
+              (data.description.split(" ").length > 15 ? "..." : "")
+            : ""}
+        </p>
       ),
     },
     // {
