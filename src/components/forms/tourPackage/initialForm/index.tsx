@@ -154,7 +154,7 @@ const InitialForm: React.FC<InitialFormProps> = ({
       <div>
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text text-slate-700">Duration (days)</span>
+            <span className="label-text text-slate-700">Duration (hours)</span>
           </div>
           <input
             {...register("duration")}
