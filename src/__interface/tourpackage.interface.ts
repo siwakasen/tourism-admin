@@ -17,15 +17,22 @@ export interface TourPackage {
   deleted_at: string;
 }
 
-export interface PaginationI {
+export interface ListTourPackageReqI {
   search: string;
   limit: number;
   page: number;
+  status: boolean;
 }
 
 export interface ListTourPackageResI {
   data: TourPackage[];
   meta: Meta;
+}
+
+export interface PaginationI {
+  search: string;
+  limit: number;
+  page: number;
 }
 
 export interface Itinerary {

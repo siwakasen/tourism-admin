@@ -2,6 +2,7 @@ import {
   ListTourPackageResI,
   PaginationI,
 } from "../../__interface/tourpackage.interface";
+
 import { Api } from "../api";
 
 export const TourPackageApi = Api.injectEndpoints({
@@ -18,9 +19,19 @@ export const TourPackageApi = Api.injectEndpoints({
         };
       },
     }),
+    createTourPackage: build.mutation<{ success: boolean }, PaginationI>({
+      query(body) {
+        return {
+          url: `http://localhost:3002/school/staff`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useListTourPackageQuery } = TourPackageApi;
+export const { useListTourPackageQuery, useCreateTourPackageMutation } =
+  TourPackageApi;

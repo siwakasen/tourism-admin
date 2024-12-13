@@ -103,10 +103,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
               <div className="align-middle inline-block min-w-full">
                 <div className="overflow-hidden rounded-xl  ">
                   <TableV2<T>
-                    columns={headerTable(
-                      remove?.handler ? remove.handler : () => {},
-                      handleEdit!
-                    )}
+                    columns={headerTable(() => {}, handleEdit!)}
                     data={data}
                     isLoading={loading}
                     id={selectedColumn}
