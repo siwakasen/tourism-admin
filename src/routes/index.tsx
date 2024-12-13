@@ -11,6 +11,10 @@ import CreateTourPackage, {
 import ResetPasswordRequest from "../pages/auth/reset-password-request.page";
 import ResetPassword from "../pages/auth/reset-password-page";
 
+import UpdateTourPackage, {
+  tourPackageUpdateRoute,
+} from "../pages/package-tour/update";
+
 const AppRoutes = () => {
   return (
     <Suspense fallback={<LoadingPages />}>
@@ -38,6 +42,10 @@ const AppRoutes = () => {
           <Route
             path={tourPackageCreateRoute}
             element={<CreateTourPackage />}
+          />
+          <Route
+            path={tourPackageUpdateRoute}
+            element={<UpdateTourPackage />}
           />
           <Route path="cars-rental" element={<CarsRentalPage />} />
         </Route>

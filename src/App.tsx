@@ -1,7 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes";
 import React from "react";
-
 function App() {
   React.useEffect(() => {
     // const savedTheme = localStorage.getItem("theme") || "light";

@@ -42,7 +42,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
           id="default-search"
           className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 focus:ring-slate-800 focus:border-slate-500"
           placeholder={placeholder}
-          required
         />
         <button
           type="submit"
