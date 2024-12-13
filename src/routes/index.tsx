@@ -4,7 +4,13 @@ import LoginPage from "../pages/auth/login.page";
 import AdminLayouts from "../layouts/admin.layout";
 import LoadingPages from "../components/loadings/loading-pages";
 import TourPackagePage, { tourPackageRoute } from "../pages/package-tour";
-import CarsRentalPage from "../pages/cars-rental";
+import CarsRentalPage, { carsRentalRoute } from "../pages/cars-rental";
+import UpdateCarsRental, {
+  carsRentalRouteUpdate,
+} from "../pages/cars-rental/update";
+import CreateCarsRental, {
+  carsRentalRouteCreate,
+} from "../pages/cars-rental/create";
 import CreateTourPackage, {
   tourPackageCreateRoute,
 } from "../pages/package-tour/create";
@@ -40,7 +46,9 @@ const AppRoutes = () => {
             path={tourPackageUpdateRoute}
             element={<UpdateTourPackage />}
           />
-          <Route path="cars-rental" element={<CarsRentalPage />} />
+          <Route path={carsRentalRoute} element={<CarsRentalPage />} />
+          <Route path={carsRentalRouteUpdate} element={<UpdateCarsRental />} />
+          <Route path={carsRentalRouteCreate} element={<CreateCarsRental />} />
         </Route>
       </Routes>
     </Suspense>

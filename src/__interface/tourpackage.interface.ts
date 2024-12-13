@@ -69,9 +69,10 @@ export interface CreateTourPackageReqI {
   terms_conditions: string[];
 }
 
-export interface UpdateTourPackageReqI extends CreateTourPackageReqI {
-  id: string;
-}
+export interface UpdateTourPackageReqI
+  extends CreateTourPackageReqI,
+    TourPackageReqI {}
+
 export interface CreateTourPackageResI {
   data: TourPackage;
   message: string;

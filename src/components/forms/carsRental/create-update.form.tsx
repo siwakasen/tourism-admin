@@ -1,35 +1,21 @@
-import { TourPackage } from "../../../__interface/tourpackage.interface";
-
+import { Cars } from "../../../__interface/cars.interface";
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import MultipleImageForm from "./images-form";
-import InitialForm from "./initial-form";
 
-interface CreateUpdateTourFormProps {
-  data: TourPackage | null;
+interface CreateUpdateCarsFormProps {
+  data: Cars | null;
   title: string;
   route: string;
   refetch?: () => void;
 }
 
-export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
+export const CreateUpdateCarsForm: React.FC<CreateUpdateCarsFormProps> = ({
   data,
   title,
   route,
   refetch,
-}: CreateUpdateTourFormProps) => {
-  //   const imagesAccordionRef = useRef<HTMLDivElement | null>(null); // Reference to the images accordion
-
-  //   const handleNextToImages = () => {
-  //     if (imagesAccordionRef.current) {
-  //       const button = imagesAccordionRef.current.querySelector(
-  //         "button.hs-accordion-toggle"
-  //       ) as HTMLButtonElement;
-  //       if (button) button.click(); // Trigger the accordion toggle
-  //     }
-  //   };
-
+}: CreateUpdateCarsFormProps) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   const [isCreated, setIsCreated] = useState<boolean>(data?.id ? true : false);
@@ -40,7 +26,6 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
     }
     setActiveIndex(activeIndex === index ? null : index);
   };
-
   const [id, setId] = useState<string | null>(data?.id || "");
 
   return (
@@ -94,7 +79,7 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
                 <path d="m18 15-6-6-6 6"></path>
               </svg>
             )}
-            Tour Package Data
+            Cars Rental Data
           </button>
           <div
             className={`flex-grow overflow-auto transition-[max-height] duration-300 ease-in-out h-full ${
@@ -149,7 +134,7 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
                   <path d="m18 15-6-6-6 6"></path>
                 </svg>
               )}
-              Tour Package Images
+              Car Image
             </button>
             <div
               className={`overflow-scroll transition-[max-height] duration-300 ease-in-out ${
@@ -169,4 +154,4 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
   );
 };
 
-export default CreateUpdateTourForm;
+export default CreateUpdateCarsForm;
