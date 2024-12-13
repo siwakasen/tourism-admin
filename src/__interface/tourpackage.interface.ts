@@ -17,10 +17,11 @@ export interface TourPackage {
   deleted_at: string;
 }
 
-export interface PaginationI {
+export interface ListTourPackageReqI {
   search: string;
   limit: number;
   page: number;
+  status: boolean;
 }
 
 export interface TourPackageReqI {

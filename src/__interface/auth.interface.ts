@@ -12,3 +12,14 @@ export interface LoginResI {
   };
   success: boolean;
 }
+
+export interface ResetPasswordReqI {
+  token: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface ResetPasswordResI {
+  success: boolean;
+  message: string;
+}

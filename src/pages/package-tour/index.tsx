@@ -19,13 +19,16 @@ interface OutletContext {
 }
 
 export default function TourPackagePage(): React.ReactElement {
+
   const { setShowSidebar, showSidebar } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
   const [paginationParams, setPaginationParams] = useState({
     limit: 10,
     page: 1,
+    limit: 10,
     search: "",
   });
+
 
   // Fetch data with current parameters
   const {

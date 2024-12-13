@@ -8,6 +8,8 @@ import CarsRentalPage from "../pages/cars-rental";
 import CreateTourPackage, {
   tourPackageCreateRoute,
 } from "../pages/package-tour/create";
+import ResetPasswordRequest from "../pages/auth/reset-password-request.page";
+import ResetPassword from "../pages/auth/reset-password-page";
 
 import UpdateTourPackage, {
   tourPackageUpdateRoute,
@@ -25,7 +27,12 @@ const AppRoutes = () => {
 
         {/* Rute login */}
         <Route path="/login" element={<LoginPage />} />
-
+        {/* Rute login */}
+        <Route
+          path="/reset-password-request"
+          element={<ResetPasswordRequest />}
+        />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         {/* Rute admin */}
         <Route path="/admin" element={<AdminLayouts />}>
           <Route index element={<div>Admin Dashboard</div>} />

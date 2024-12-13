@@ -1,17 +1,13 @@
-import { useState } from "react";
-import login_img from "../../images/login_img.jpg";
-import logo_tour2 from "../../images/logo_tour2.png";
-const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      // Simulate API request
-      setIsLoading(false);
-    }, 2000);
-  };
+import login_img from "../../../public/images/login_img.jpg";
+import logo_tour2 from "../../../public/images/logo_tour2.png";
+import CInputText from "../../components/input/c-Input";
+import UseLoginForm from "../../hooks/auth/useLoginForm";
+import { Button } from "react-daisyui";
+
+
+const Login = () => {
+  const { handleLogin, errors, isLoading, register } = UseLoginForm();
 
   return (
     <section className="bg-white">
@@ -50,55 +46,41 @@ const Login = () => {
             </p>
 
             <form
-              onSubmit={handleFormSubmit}
+              onSubmit={handleLogin}
               className="mt-8 grid grid-cols-6 gap-6 w-full"
             >
               <div className="col-span-6">
-                <label
-                  htmlFor="Email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="Email"
-                  name="email"
-                  placeholder="example@example.com"
-                  className="input input-bordered w-full mt-1"
-                  required
-                />
+                <CInputText
+                  label="Email"
+                  register={register("email")}
+                  errors={errors.email?.message?.toString()}
+                ></CInputText>
               </div>
 
               <div className="col-span-6">
-                <label
-                  htmlFor="Password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="Password"
-                  name="password"
-                  placeholder="••••••••"
-                  className="input input-bordered w-full mt-1"
-                  required
-                />
+                <CInputText
+                  label="Password"
+                  register={register("password")}
+                  errors={errors.password?.message?.toString()}
+                ></CInputText>
               </div>
-              <div className="flex flex-col items-center justify-center w-full bg-emerald-100">
-                <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-                    Forgot Password ?
-                    <a href="#" className="text-primary underline ml-1">
+              <div className="flex flex-col col-span-6 items-center justify-center w-full ">
+                <div className="col-span-6 sm:flex sm:items-center sm:gap-4 justify-center">
+                  <p className="text-sm text-gray-500 text-center">
+                    Forgot Password?
+                    <a href="#" className="text-primary underline ml-2">
                       Reset Password
                     </a>
-                    <button className="btn">
-                      <span className="loading loading-spinner"></span>
-                      loading
-                    </button>
                   </p>
                 </div>
+
+                <Button
+                  type="submit"
+                  loading={isLoading}
+                  className="w-full bg-primary mt-8 text-red-50 font-bold text-lg"
+                >
+                  Login
+                </Button>
               </div>
             </form>
           </div>
