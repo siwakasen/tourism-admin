@@ -27,7 +27,6 @@ export default function TourPackagePage(): React.ReactElement {
     search: "",
   });
 
-  // Fetch data with current parameters
   const {
     data: tourPackages,
     isLoading,

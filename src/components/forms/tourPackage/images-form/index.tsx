@@ -81,9 +81,6 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
   return (
     <>
       <div className="pt-4 px-6 pb-8">
-        <div className="label">
-          <span className="label-text text-slate-800 text-lg">Images</span>
-        </div>
         <div className="image-previews p-2 bg-gray-100 rounded-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 items-center">
             {filePreviews.map((preview, index) => (

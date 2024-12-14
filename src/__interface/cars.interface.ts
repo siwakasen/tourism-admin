@@ -1,3 +1,5 @@
+import { Brand } from "./brands.interface";
+
 export interface Cars {
   id: string;
   car_name: string;
@@ -12,14 +14,6 @@ export interface Cars {
   updated_at: string;
   deleted_at: string;
   brand: Brand;
-}
-
-export interface Brand {
-  id: string;
-  brand_name: string;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string;
 }
 
 export interface Meta {

@@ -1,5 +1,5 @@
 import { Api } from "../api";
-// import axios from "axios";
+import axios from "axios";
 
 import {
   CarsReqI,
@@ -17,6 +17,7 @@ export const CarsApi = Api.injectEndpoints({
   endpoints(build) {
     return {
       listCars: build.query<ListCarsResI, PaginationI>({
+        keepUnusedDataFor: 0,
         query: (params) => {
           const page = Number(params.page);
           const limit = Number(params.limit);
@@ -57,17 +58,7 @@ export const CarsApi = Api.injectEndpoints({
           const { id, ...body } = data;
           return {
             url: `${process.env.REACT_APP_REST_HOST}/cars/status/${id}`,
-            method: "PUT",
-            body: body,
-          };
-        },
-      }),
-      uploadCarsImage: build.mutation<CarsResI, UploadImageCarsReqI>({
-        query: (data) => {
-          const { id, ...body } = data;
-          return {
-            url: `${process.env.REACT_APP_REST_HOST}/cars/upload-image/${id}`,
-            method: "POST",
+            method: "PATCH",
             body: body,
           };
         },
@@ -92,6 +83,29 @@ export const {
   useCreateCarsMutation,
   useUpdateCarsMutation,
   useUpdateStatusCarsMutation,
-  useUploadCarsImageMutation,
   useDeleteCarsMutation,
 } = CarsApi;
+
+export const uploadCarsImage = async (data: UploadImageCarsReqI) => {
+  try {
+    const id = data.id;
+    const formData = new FormData();
+
+    formData.append("image", data.image);
+
+    const res = await axios.post(
+      `${process.env.REACT_APP_REST_HOST}/cars/upload-image/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log("Error uploading image:", error);
+    throw error;
+  }
+};

@@ -19,17 +19,6 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
   route,
   refetch,
 }: CreateUpdateTourFormProps) => {
-  //   const imagesAccordionRef = useRef<HTMLDivElement | null>(null); // Reference to the images accordion
-
-  //   const handleNextToImages = () => {
-  //     if (imagesAccordionRef.current) {
-  //       const button = imagesAccordionRef.current.querySelector(
-  //         "button.hs-accordion-toggle"
-  //       ) as HTMLButtonElement;
-  //       if (button) button.click(); // Trigger the accordion toggle
-  //     }
-  //   };
-
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   const [isCreated, setIsCreated] = useState<boolean>(data?.id ? true : false);

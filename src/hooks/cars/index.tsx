@@ -2,8 +2,8 @@ import {
   useCreateCarsMutation,
   useUpdateCarsMutation,
   useUpdateStatusCarsMutation,
-  useUploadCarsImageMutation,
   useDeleteCarsMutation,
+  uploadCarsImage,
 } from "../../_service/cars";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,7 +14,6 @@ import {
   CreateCarsReqI,
   UploadImageCarsReqI,
   UpdateStatusCarsReqI,
-  CarsReqI,
   Cars,
 } from "../../__interface/cars.interface";
 import { carsRentalRoute } from "../../pages/cars-rental";
@@ -93,16 +92,17 @@ export const useCreateUpdateCarsForm = (
   };
 };
 
-export const useUploadImageCars = (refetch: () => void) => {
+export const useUploadImageCars = (refetch?: () => void) => {
   const navigate = useNavigate();
-  const [uploadImageCars] = useUploadCarsImageMutation();
   const onSubmit = async (formData: UploadImageCarsReqI) => {
     try {
-      refetch();
-      navigate(carsRentalRoute);
-      const res = await uploadImageCars(formData).unwrap();
+      const res = await uploadCarsImage(formData);
       toast.success(res.message);
 
+      navigate(carsRentalRoute);
+      if (refetch) {
+        refetch();
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.data.message[0]);

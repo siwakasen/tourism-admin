@@ -47,6 +47,7 @@ export default function CarsRentalPage(): React.ReactElement {
   };
 
   const { data: cars, isLoading, refetch } = useListCarsQuery(paginationParams);
+
   const { onDelete } = useDeleteCarsForm(refetch);
   const { onUpdate } = useUpdateStatusCarsForm(refetch);
 

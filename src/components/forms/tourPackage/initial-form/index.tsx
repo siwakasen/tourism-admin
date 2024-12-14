@@ -5,7 +5,7 @@ import {
 } from "../../../../__interface/tourpackage.interface";
 import ItemsMultipleInput from "../../../input/items-multiple-input";
 import CheckboxMultipleInput from "../../../input/checkbox-multiple-input";
-import { useCreateUpadeTourPackageForm } from "../../../../hooks/package-tour";
+import { useCreateUpdateTourPackageForm } from "../../../../hooks/package-tour";
 
 interface InitialFormProps {
   data: TourPackage | null;
@@ -51,7 +51,7 @@ const InitialForm: React.FC<InitialFormProps> = ({
     register,
     setValue,
     isLoading,
-  } = useCreateUpadeTourPackageForm(
+  } = useCreateUpdateTourPackageForm(
     {
       package_name: data?.package_name || "",
       description: data?.description || "",

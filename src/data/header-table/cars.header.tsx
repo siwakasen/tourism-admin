@@ -90,9 +90,11 @@ export const HeaderCars = (
       fieldId: "includes",
       label: "Includes",
       render: (data) => (
-        <p className="text-sm text-gray-600 ">
-          {data?.includes.join(", ") ?? ""}
-        </p>
+        <ul className="list-disc list-inside">
+          {data?.includes?.map((include, index) => (
+            <li key={index}>{include}</li>
+          )) ?? "No Includes"}
+        </ul>
       ),
     },
     {

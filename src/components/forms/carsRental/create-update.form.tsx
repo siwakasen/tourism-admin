@@ -2,6 +2,8 @@ import { Cars } from "../../../__interface/cars.interface";
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import InitialForm from "./initial-form";
+import ImageForm from "./image-form";
 
 interface CreateUpdateCarsFormProps {
   data: Cars | null;
@@ -141,8 +143,8 @@ export const CreateUpdateCarsForm: React.FC<CreateUpdateCarsFormProps> = ({
                 activeIndex === 1 ? "max-h-[calc(100vh-306px)]" : "max-h-0"
               }`}
             >
-              <MultipleImageForm
-                images={Array.isArray(data?.images) ? data?.images : []}
+              <ImageForm
+                image={data?.car_image || ""}
                 id={data?.id ? data?.id : id || ""}
                 refetch={refetch}
               />

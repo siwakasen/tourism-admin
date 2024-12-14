@@ -20,7 +20,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export const useCreateUpadeTourPackageForm = (
+export const useCreateUpdateTourPackageForm = (
   defaultValues?: CreateTourPackageReqI,
   data?: TourPackage | null
 ) => {
