@@ -8,7 +8,6 @@ interface ProtectedRoutesProps {
 
 const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => {
   const { accessToken } = useAppSelector((state) => state.auth);
-  console.log("isi token admin", accessToken);
   const user = accessToken ? true : false; // Sesuaikan dengan logika autentikasi yang sebenarnya
 
   // Jika user tidak terautentikasi, arahkan ke halaman login

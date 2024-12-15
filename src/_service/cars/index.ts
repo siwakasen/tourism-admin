@@ -99,6 +99,7 @@ export const uploadCarsImage = async (data: UploadImageCarsReqI) => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${data.access_token}`,
         },
       }
     );

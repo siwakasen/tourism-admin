@@ -23,7 +23,7 @@ export const TourPackageApi = Api.injectEndpoints({
         const limit = Number(params.limit);
         const search = params.search;
         return {
-          url: `${process.env.REACT_APP_REST_HOST}/tour-package`,
+          url: `/tour-package`,
           params: { page, limit, search },
         };
       },
@@ -32,7 +32,7 @@ export const TourPackageApi = Api.injectEndpoints({
       query: (params) => {
         const id = String(params.id);
         return {
-          url: `${process.env.REACT_APP_REST_HOST}/tour-package/${id}`,
+          url: `/tour-package/${id}`,
         };
       },
     }),
@@ -41,7 +41,7 @@ export const TourPackageApi = Api.injectEndpoints({
       CreateTourPackageReqI
     >({
       query: (data) => ({
-        url: `${process.env.REACT_APP_REST_HOST}/tour-package`,
+        url: `/tour-package`,
         method: "POST",
         body: data,
       }),
@@ -50,7 +50,7 @@ export const TourPackageApi = Api.injectEndpoints({
       query: (data) => {
         const { id, ...body } = data;
         return {
-          url: `${process.env.REACT_APP_REST_HOST}/tour-package/${id}`,
+          url: `/tour-package/${id}`,
           method: "PUT",
           body: body,
         };
@@ -60,7 +60,7 @@ export const TourPackageApi = Api.injectEndpoints({
       query: (data) => {
         const { id, ...body } = data;
         return {
-          url: `${process.env.REACT_APP_REST_HOST}/tour-package/delete-images/${id}`,
+          url: `/tour-package/delete-images/${id}`,
           method: "DELETE",
           body: body,
         };
@@ -73,7 +73,7 @@ export const TourPackageApi = Api.injectEndpoints({
       query: (data) => {
         const { id, ...body } = data;
         return {
-          url: `${process.env.REACT_APP_REST_HOST}/tour-package/status/${id}`,
+          url: `/tour-package/status/${id}`,
           method: "PATCH",
           body: body,
         };
@@ -83,7 +83,7 @@ export const TourPackageApi = Api.injectEndpoints({
       query: (data) => {
         const id = String(data.id);
         return {
-          url: `${process.env.REACT_APP_REST_HOST}/tour-package/${id}`,
+          url: `/tour-package/${id}`,
           method: "DELETE",
         };
       },
@@ -106,6 +106,7 @@ export const uploadImagesTourPackage = async (data: UploadTourPackageReqI) => {
   try {
     const id = String(data.id);
     const formData = new FormData();
+    const accessToken = String(data.access_token);
 
     // Append each image to the FormData
     data.images.forEach((image) => {
@@ -114,11 +115,12 @@ export const uploadImagesTourPackage = async (data: UploadTourPackageReqI) => {
 
     // Make the Axios POST request
     const response = await axios.post(
-      `${process.env.REACT_APP_REST_HOST}/tour-package/upload-images/${id}`,
+      `/tour-package/upload-images/${id}`,
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
