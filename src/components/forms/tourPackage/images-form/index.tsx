@@ -6,6 +6,7 @@ import {
 } from "../../../../hooks/package-tour";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useAppSelector } from "../../../../store";
 
 interface MultipleImageFormProps {
   images?: string[];
@@ -19,6 +20,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
   refetch,
 }: MultipleImageFormProps) => {
   const navigate = useNavigate();
+  const { accessToken } = useAppSelector((state) => state.auth);
   const [filePreviews, setFilePreviews] = useState<string[]>(images || []);
   const [fileData, setFileData] = useState<File[]>([]);
   const [hovered, setHovered] = useState(false);
@@ -75,6 +77,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
     onSubmit({
       id: id,
       images: fileData,
+      access_token: accessToken!,
     });
   };
 
@@ -91,7 +94,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
                 <img
                   src={
                     preview.startsWith("image")
-                      ? `http://localhost:3001/public/tour-images/${preview}`
+                      ? `${process.env.REACT_APP_REST_HOST}/public/tour-images/${preview}`
                       : preview
                   }
                   alt={`Preview ${index}`}
@@ -155,7 +158,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
               <img
                 src={
                   zoomedImage.startsWith("image")
-                    ? `http://localhost:3001/public/tour-images/${zoomedImage}`
+                    ? `${process.env.REACT_APP_REST_HOST}/public/tour-images/${zoomedImage}`
                     : zoomedImage
                 }
                 alt="Zoomed"

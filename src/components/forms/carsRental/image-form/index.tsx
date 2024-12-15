@@ -9,12 +9,15 @@ interface ImageFormProps {
   refetch?: () => void;
 }
 import { carsRentalRoute } from "../../../../pages/cars-rental";
+import { useAppSelector } from "../../../../store";
 
 const ImageForm: React.FC<ImageFormProps> = ({
   image,
   id,
   refetch,
 }: ImageFormProps) => {
+  const { accessToken } = useAppSelector((state) => state.auth);
+
   const navigate = useNavigate();
   const [filePreview, setFilePreview] = useState<string>(image || "");
   const [fileData, setFileData] = useState<File | null>(null);
@@ -39,7 +42,7 @@ const ImageForm: React.FC<ImageFormProps> = ({
       navigate(carsRentalRoute);
       toast.success("Changes saved successfully");
     } else {
-      onSubmit({ id, image: fileData });
+      onSubmit({ id, image: fileData, access_token: accessToken! });
     }
   };
 
@@ -71,7 +74,7 @@ const ImageForm: React.FC<ImageFormProps> = ({
                 <img
                   src={
                     filePreview.startsWith("image")
-                      ? `http://localhost:3001/public/car-images/${filePreview}`
+                      ? `${process.env.REACT_APP_REST_HOST}/public/car-images/${filePreview}`
                       : filePreview
                   }
                   alt="Preview"
@@ -97,7 +100,7 @@ const ImageForm: React.FC<ImageFormProps> = ({
               <img
                 src={
                   filePreview.startsWith("image")
-                    ? `http://localhost:3001/public/car-images/${filePreview}`
+                    ? `${process.env.REACT_APP_REST_HOST}/public/car-images/${filePreview}`
                     : filePreview
                 }
                 alt="Zoomed"

@@ -59,4 +59,5 @@ export interface UpdateStatusCarsReqI {
 export interface UploadImageCarsReqI {
   id: string;
   image: File;
+  access_token: string;
 }

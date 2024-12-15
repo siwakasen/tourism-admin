@@ -35,6 +35,7 @@ export interface TourPackageResI {
 
 export interface UploadTourPackageReqI {
   id: string;
+  access_token: string;
   images: File[];
 }
 
