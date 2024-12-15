@@ -1,19 +1,18 @@
-
-import login_img from "../../../public/images/login_img.jpg";
-import logo_tour2 from "../../../public/images/logo_tour2.png";
+import login_img from "../../images/login_img.jpg";
+import logo_tour2 from "../../images/logo_tour2.png";
 import CInputText from "../../components/input/c-Input";
-import UseLoginForm from "../../hooks/auth/useLoginForm";
+import useLoginForm from "../../hooks/auth/useLoginForm";
 import { Button } from "react-daisyui";
 
-
-const Login = () => {
-  const { handleLogin, errors, isLoading, register } = UseLoginForm();
+export const LoginRoute = "/login";
+const LoginPage = () => {
+  const { handleLogin, errors, isLoading, register } = useLoginForm();
 
   return (
     <section className="bg-white">
-      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+      <div className="lg:grid lg:min-h-screen lg:grid-cols-12 flex justify-center items-center h-[100vh] ">
         {/* Left Section */}
-        <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+        <section className="relative lg:flex hidden h-1/2 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6 ">
           <img
             alt=""
             src={login_img}
@@ -31,7 +30,7 @@ const Login = () => {
         </section>
 
         {/* Right Section */}
-        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6 w-full">
           <div className="w-3/4 flex flex-col items-center justify-center">
             <img
               alt=""
@@ -59,6 +58,7 @@ const Login = () => {
 
               <div className="col-span-6">
                 <CInputText
+                  type="password"
                   label="Password"
                   register={register("password")}
                   errors={errors.password?.message?.toString()}
@@ -68,7 +68,10 @@ const Login = () => {
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4 justify-center">
                   <p className="text-sm text-gray-500 text-center">
                     Forgot Password?
-                    <a href="#" className="text-primary underline ml-2">
+                    <a
+                      href="/reset-password-request"
+                      className="text-primary underline ml-2"
+                    >
                       Reset Password
                     </a>
                   </p>
@@ -90,4 +93,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

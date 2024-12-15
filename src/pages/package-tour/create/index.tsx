@@ -10,6 +10,9 @@ export default function CreateTourPackage(): React.ReactElement {
           data={null}
           title={"Create New Tour Package"}
           route={tourPackageListRoute}
+          refetch={function (): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </div>
     </div>

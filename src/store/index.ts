@@ -13,7 +13,8 @@ import {
 import auth from "./auth";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { Api } from "../_service/api";
-import storage from "redux-persist/lib/storage";
+import CookieStorage from "../store/cookiesStorage";
+import Cookies from "cookies-js";
 
 const reducers = combineReducers({
   auth,
@@ -22,11 +23,11 @@ const reducers = combineReducers({
 
 const persistConfig = {
   key: "auth-tour",
-  storage, // Gunakan storage bawaan redux-persist
+  storage: new CookieStorage(Cookies, {}), // Gunakan storage bawaan redux-persist
   whitelist: ["auth"], // Reducer yang akan dipersist
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers); 
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -44,6 +45,6 @@ const persistor = persistStore(store);
 
 setupListeners(store.dispatch);
 export type RootState = ReturnType<typeof reducers>;
-export const useAppDispatch = () => useDispatch();
+export const useAppDispatch = () => useDispatch<any>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export { store, persistor };

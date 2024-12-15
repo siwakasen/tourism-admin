@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { FaEye } from "react-icons/fa";
+import { IoIosEyeOff } from "react-icons/io";
 
 interface Props {
   label: string; // Label untuk input
@@ -20,6 +22,15 @@ const CInputText: React.FC<Props> = ({
   className = "",
   disabled = false,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Fungsi untuk toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const inputType = type === "password" && showPassword ? "text" : type;
+
   return (
     <div className={`form-control mb-4 ${className}`}>
       <label className="label">
@@ -27,15 +38,26 @@ const CInputText: React.FC<Props> = ({
           {label}
         </span>
       </label>
-      <input
-        type={type}
-        placeholder={placeholder}
-        disabled={disabled}
-        className={`input input-bordered w-full ${
-          errors ? "input-error" : ""
-        } focus:outline-none focus:input-primary transition duration-300`}
-        {...register}
-      />
+      <div className="relative">
+        <input
+          type={inputType}
+          placeholder={placeholder}
+          disabled={disabled}
+          className={`input input-bordered w-full ${
+            errors ? "input-error" : ""
+          } focus:outline-none focus:input-primary transition duration-300`}
+          {...register}
+        />
+        {type === "password" && (
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+          >
+            {showPassword ? <IoIosEyeOff /> : <FaEye />}
+          </button>
+        )}
+      </div>
       {errors && <span className="text-red-500 text-xs mt-1">{errors}</span>}
     </div>
   );

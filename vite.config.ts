@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"), // Alias untuk folder src
     },
+    extensions: [".js", ".ts", ".jsx", ".tsx"],
   },
   define: {
     "process.env.REACT_APP_REST_HOST": JSON.stringify(

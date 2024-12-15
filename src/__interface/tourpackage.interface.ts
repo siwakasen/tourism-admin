@@ -38,6 +38,12 @@ export interface UploadTourPackageReqI {
   images: File[];
 }
 
+export interface PaginationI {
+  limit: number;
+  page: number;
+  search: string;
+}
+
 export interface UpdateStatusTourPackageReqI {
   id: string;
   status: boolean;
