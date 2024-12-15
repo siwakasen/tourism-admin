@@ -21,7 +21,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export const useCreateUpadeTourPackageForm = (
+export const useCreateUpdateTourPackageForm = (
   defaultValues?: CreateTourPackageReqI,
   data?: TourPackage | null
 ) => {
@@ -88,29 +88,22 @@ export const useCreateUpadeTourPackageForm = (
       pickup_areas: selectedPickUpAreas,
       terms_conditions: selectedTermsConditions,
     };
-
-    if (data?.id) {
-      console.log("payload", {
-        ...payload,
-        id: data.id,
-      });
-
-      const response = await updateTourPackage({
-        ...payload,
-        id: data.id,
-      }).unwrap();
-      toast.success(response.message);
-    } else {
-      try {
+    try {
+      if (data?.id) {
+        const response = await updateTourPackage({
+          ...payload,
+          id: data.id,
+        }).unwrap();
+        toast.success(response.message);
+      } else {
         const response = await createTourPackage(payload).unwrap();
         toast.success(response.message);
         setIsCreated(true);
         setId(response.data.id);
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast.error(error.data.message[0]);
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.data.message[0]);
     }
   };
 
@@ -130,7 +123,7 @@ export const useCreateUpadeTourPackageForm = (
   };
 };
 
-export const useDeleteTourPackageForm = (refetch: () => void) => {
+export const useDeleteImageTourPackage = (refetch: () => void) => {
   const [deleteImageTourPackage, { isLoading }] =
     useDeleteImageTourPackageMutation();
   const onDelete = async (formData: DeleteImageReqI) => {
@@ -152,7 +145,7 @@ export const useDeleteTourPackageForm = (refetch: () => void) => {
   };
 };
 
-export const useUploadImagesTourPackageForm = (refetch: () => void) => {
+export const useUploadImagesTourPackageForm = (refetch?: () => void) => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: UploadTourPackageReqI) => {
@@ -160,7 +153,9 @@ export const useUploadImagesTourPackageForm = (refetch: () => void) => {
       const response: TourPackageResI = await uploadImagesTourPackage(data);
       toast.success(response.message);
       navigate("/admin/tour-package/");
-      refetch();
+      if (refetch) {
+        refetch();
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.data.message);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   useUploadImagesTourPackageForm,
-  useDeleteTourPackageForm,
+  useDeleteImageTourPackage,
 } from "../../../../hooks/package-tour";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 interface MultipleImageFormProps {
   images?: string[];
   id: string;
-  refetch: () => void;
+  refetch?: () => void;
 }
 
 const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
@@ -25,14 +25,13 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   const onDrop = (acceptedFiles: File[]) => {
-    console.log("dropped");
     const previewUrls = acceptedFiles.map((file) => URL.createObjectURL(file));
     setFilePreviews((prevPreviews) => [...prevPreviews, ...previewUrls]);
     setFileData((prevFiles) => [...prevFiles, ...acceptedFiles]);
   };
 
   const { onSubmit } = useUploadImagesTourPackageForm(refetch);
-  const { onDelete, isLoading } = useDeleteTourPackageForm(refetch);
+  const { onDelete, isLoading } = useDeleteImageTourPackage(refetch!);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -58,6 +57,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
     } else {
       const newIndex = indexPreview - index;
       setFileData((prev) => prev.filter((_, i) => i !== newIndex));
+      toast.success("Image deleted successfully");
     }
   };
 
@@ -81,9 +81,6 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
   return (
     <>
       <div className="pt-4 px-6 pb-8">
-        <div className="label">
-          <span className="label-text text-slate-800 text-lg">Images</span>
-        </div>
         <div className="image-previews p-2 bg-gray-100 rounded-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 items-center">
             {filePreviews.map((preview, index) => (

@@ -12,22 +12,21 @@ import {
   useDeleteTourPackage,
   useUpdateStatusTourPackage,
 } from "../../hooks/package-tour";
-export const tourPackageRoute = "/admin/tour-package";
 interface OutletContext {
   setShowSidebar: (show: boolean) => void;
   showSidebar: boolean;
 }
 
+export const tourPackageRoute = "/admin/tour-package";
 export default function TourPackagePage(): React.ReactElement {
   const { setShowSidebar, showSidebar } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
-  const [paginationParams, setPaginationParams] = useState({
+  const [paginationParams, setPaginationParams] = useState<PaginationI>({
     limit: 10,
     page: 1,
     search: "",
   });
 
-  // Fetch data with current parameters
   const {
     data: tourPackages,
     isLoading,

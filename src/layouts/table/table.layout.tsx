@@ -24,13 +24,11 @@ interface props<T, P extends PaginationDefaultI> {
   handleUpdateStatus(id?: string, newStatus?: boolean): void;
   headerTable: (
     handleDeletePopUp: (id?: string) => void,
-    handleEdit: (id: string) => void,
     handleUpdateStatusPopUp: (id?: string, newStatus?: boolean) => void
   ) => Columns<T>[];
 
   data: T[];
   handleCreate?: () => void;
-  handleEdit?: (id: string) => void;
   setSelectedId: React.Dispatch<SetStateAction<string[]>>;
   modal?: React.ReactElement;
   remove?: {
@@ -53,11 +51,11 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   handleUpdateStatus,
   headerTable,
   modal,
-  handleEdit,
   handleSearch,
   loading = true,
   setShowSidebar,
   showSidebar,
+  title,
 }: props<T, P>) => {
   //   const handlePageChange = async (page: number): Promise<void> => {
   //     params.setValue({ ...params.value, page });
@@ -84,10 +82,10 @@ const TableLayout = <T, P extends PaginationDefaultI>({
           <div className="bg-secondary p-6 grid grid-cols-4 rounded-2xl">
             <div className="col-span-3 flex flex-col justify-center">
               <h1 className="font-bold text-2xl text-white">
-                Manage Your Package Tour
+                Manage Your {title}
               </h1>
               <p className="text-sm text-white font-light">
-                You can manage your package tour data here, such as creating new
+                You can manage your {title} data here, such as creating new
                 data, editing, and deleting
               </p>
             </div>
@@ -123,11 +121,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
                 <div className="align-middle inline-block min-w-full">
                   <div className="overflow-auto rounded-xl  max-h-[calc(100vh-434px)]">
                     <TableV2<T>
-                      columns={headerTable(
-                        handleDelete,
-                        handleEdit!,
-                        handleUpdateStatus
-                      )}
+                      columns={headerTable(handleDelete, handleUpdateStatus)}
                       data={data}
                       isLoading={loading}
                       id={selectedColumn}

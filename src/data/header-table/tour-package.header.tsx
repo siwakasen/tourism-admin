@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import ActionButtonTable from "../../components/button/action-table.button";
 export const HeaderTourPackage = (
   handleDeletePopUp?: (id: string) => void,
-  handleUpdate?: (id: string) => void,
   handleUpdateStatusPopUp?: (id: string, newStatus: boolean) => void
 ): Columns<TourPackage>[] => {
   const navigate = useNavigate(); // Initialize the navigate function

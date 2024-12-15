@@ -1,6 +1,6 @@
 import { CreateUpdateTourForm } from "../../../components/forms/tourPackage/create-update.form";
 export const tourPackageCreateRoute = "/admin/tour-package/create";
-export const tourPackageListRoute = "/admin/tour-package";
+import { tourPackageRoute } from "../index";
 
 export default function CreateTourPackage(): React.ReactElement {
   return (
@@ -9,10 +9,7 @@ export default function CreateTourPackage(): React.ReactElement {
         <CreateUpdateTourForm
           data={null}
           title={"Create New Tour Package"}
-          route={tourPackageListRoute}
-          refetch={function (): void {
-            throw new Error("Function not implemented.");
-          }}
+          route={tourPackageRoute}
         />
       </div>
     </div>
