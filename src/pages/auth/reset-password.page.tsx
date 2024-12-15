@@ -1,18 +1,15 @@
 import login_img from "../../images/login_img.jpg";
 import logo_tour2 from "../../images/logo_tour2.png";
-import useReqResetPasswordForm from "../../hooks/auth/useReqResetPasswordForm";
+import useResetPasswordForm from "../../hooks/auth/useResetPasswordForm";
+import { useParams } from "react-router-dom";
 import CInputText from "../../components/input/c-Input";
 
-export const ResetPasswordRouteRequest = "/reset-password-request";
-const ResetPasswordRequest = () => {
-  const {
-    errors,
-    isLoading,
-    handleRequestResetPassword,
-    register,
-    isAgreed,
-    setIsAgreed,
-  } = useReqResetPasswordForm();
+export const ResetPasswordRoute = "/reset-password/:token";
+
+const ResetPassword = () => {
+  const { token } = useParams();
+  const { errors, register, handleResetPassword, isLoading } =
+    useResetPasswordForm(token ?? "");
 
   return (
     <section className="bg-white">
@@ -26,66 +23,50 @@ const ResetPasswordRequest = () => {
               className="w-48 object-cover opacity-100 mb-6"
             />
             <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              Reset Your Password
+              Set Your New Password
             </h1>
             <p className="mt-4 leading-relaxed text-gray-500">
-              Enter your email address and agree to proceed.
+              Enter your new password below to reset it.
             </p>
 
             <form
-              onSubmit={handleRequestResetPassword}
+              onSubmit={handleResetPassword}
               className="mt-8 grid grid-cols-6 gap-6 w-full"
             >
               <div className="col-span-6">
                 <CInputText
-                  type="email"
-                  label="Email"
-                  register={register("email")}
-                  errors={errors.email?.message}
-                  placeholder="type your email"
+                  type="password"
+                  label="Password"
+                  register={register("password")}
+                  errors={errors.password?.message}
+                  placeholder="type your password"
                 />
               </div>
 
-              <div className="col-span-6 flex items-center">
-                <input
-                  type="checkbox"
-                  id="agree"
-                  name="agree"
-                  checked={isAgreed}
-                  onChange={(e) => setIsAgreed(e.target.checked)}
-                  className="mr-2"
+              <div className="col-span-6">
+                <CInputText
+                  type="password"
+                  label="Confirm Password"
+                  register={register("confirmPassword")}
+                  errors={errors.confirmPassword?.message}
+                  placeholder="type your confirmed password"
                 />
-                <label
-                  htmlFor="agree"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  I agree to the terms and conditions
-                </label>
               </div>
 
               <div className="col-span-6 flex justify-center">
                 <button
                   type="submit"
                   className={`btn btn-primary w-full ${
-                    isLoading || !isAgreed ? "btn-disabled" : ""
+                    isLoading ? "btn-disabled" : ""
                   }`}
-                  disabled={isLoading || !isAgreed}
+                  disabled={isLoading}
                 >
                   {isLoading ? (
                     <span className="loading loading-spinner"></span>
                   ) : (
-                    "Send Reset Link"
+                    "Reset Password"
                   )}
                 </button>
-              </div>
-
-              <div className="col-span-6 flex justify-center mt-4">
-                <a
-                  href="/login"
-                  className="text-sm text-blue-500 hover:underline"
-                >
-                  Remembered your password? Back to Login!
-                </a>
               </div>
             </form>
           </div>
@@ -104,8 +85,7 @@ const ResetPasswordRequest = () => {
               Reset Password Assistance
             </h2>
             <p className="mt-4 leading-relaxed text-white/90">
-              Enter your email and follow the instructions to reset your
-              password.
+              Create a new password to secure your account.
             </p>
           </div>
         </section>
@@ -114,4 +94,4 @@ const ResetPasswordRequest = () => {
   );
 };
 
-export default ResetPasswordRequest;
+export default ResetPassword;

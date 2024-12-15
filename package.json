@@ -16,6 +16,7 @@
     "@types/lodash": "^4.17.13",
     "@types/react-redux": "^7.1.34",
     "axios": "^1.7.8",
+    "cookies-js": "^1.2.3",
     "dotenv": "^16.4.5",
     "lodash": "^4.17.21",
     "path": "^0.12.7",

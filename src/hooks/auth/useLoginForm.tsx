@@ -4,8 +4,12 @@ import { HttpStatusCode } from "axios";
 import { LoginReqI } from "../../__interface/auth.interface";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-hot-toast";
+import { useAppDispatch } from "../../store";
+import { saveTokenAuth } from "../../store/auth";
 
-const UseLoginForm = () => {
+const useLoginForm = () => {
+  const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
 
   const schema = yup
@@ -18,10 +22,16 @@ const UseLoginForm = () => {
   const _login = async (data: LoginReqI) => {
     try {
       const res = await login(data).unwrap();
-      console.log(res);
+      console.log("isi res : ", res);
+      dispatch(saveTokenAuth(res));
+      toast.success("Login Success");
     } catch (e) {
-      console.log(e);
-      throw HttpStatusCode;
+      if ((e as { status: number }).status === HttpStatusCode.Unauthorized) {
+        toast.error("Email or Password is wrong");
+      } else {
+        toast.error("Login Failed");
+      }
+      throw e;
     }
   };
 
@@ -45,4 +55,4 @@ const UseLoginForm = () => {
   };
 };
 
-export default UseLoginForm;
+export default useLoginForm;

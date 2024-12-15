@@ -23,3 +23,12 @@ export interface ResetPasswordResI {
   success: boolean;
   message: string;
 }
+
+export interface RequestResetPasswordReqI {
+  email: string;
+}
+
+export interface RequestResetPasswordResI {
+  success: boolean;
+  message: string;
+}
