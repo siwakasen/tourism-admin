@@ -10,6 +10,7 @@ import {
   UpdateTourPackageReqI,
   UploadTourPackageReqI,
 } from "../../__interface/tourpackage.interface";
+
 import { Api } from "../api";
 import axios from "axios";
 

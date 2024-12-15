@@ -1,10 +1,10 @@
 import { TourPackage } from "../../__interface/tourpackage.interface";
-import ActionButtonTable from "../../components/button/action-table.button";
-import { Columns } from "../../components/table";
+import { Columns } from "../../components/table/table-v2";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { BiSolidHide } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import ActionButtonTable from "../../components/button/action-table.button";
 export const HeaderTourPackage = (
   handleDeletePopUp?: (id: string) => void,
   handleUpdateStatusPopUp?: (id: string, newStatus: boolean) => void
@@ -124,17 +124,17 @@ export const HeaderTourPackage = (
         </p>
       ),
     },
-    {
-      fieldId: "itineraries",
-      label: "Itineraries",
-      render: (data) => (
-        <ul className="list-disc list-inside">
-          {data?.itineraries?.map((item, index) => (
-            <li key={index}>{item}</li>
-          )) ?? "No Itineraries"}
-        </ul>
-      ),
-    },
+    // {
+    //   fieldId: "itineraries",
+    //   label: "Itineraries",
+    //   render: (data) => (
+    //     <ul className="list-disc list-inside">
+    //       {data?.itineraries?.map((item, index) => (
+    //         <li key={index}>{item}</li>
+    //       )) ?? "No Itineraries"}
+    //     </ul>
+    //   ),
+    // },
     {
       fieldId: "includes",
       label: "Includes",

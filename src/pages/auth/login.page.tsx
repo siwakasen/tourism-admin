@@ -1,23 +1,18 @@
-import { useState } from "react";
 import login_img from "../../images/login_img.jpg";
 import logo_tour2 from "../../images/logo_tour2.png";
-const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
+import CInputText from "../../components/input/c-Input";
+import useLoginForm from "../../hooks/auth/useLoginForm";
+import { Button } from "react-daisyui";
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      // Simulate API request
-      setIsLoading(false);
-    }, 2000);
-  };
+export const LoginRoute = "/login";
+const LoginPage = () => {
+  const { handleLogin, errors, isLoading, register } = useLoginForm();
 
   return (
     <section className="bg-white">
-      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+      <div className="lg:grid lg:min-h-screen lg:grid-cols-12 flex justify-center items-center h-[100vh] ">
         {/* Left Section */}
-        <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+        <section className="relative lg:flex hidden h-1/2 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6 ">
           <img
             alt=""
             src={login_img}
@@ -35,7 +30,7 @@ const Login = () => {
         </section>
 
         {/* Right Section */}
-        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6 w-full">
           <div className="w-3/4 flex flex-col items-center justify-center">
             <img
               alt=""
@@ -50,55 +45,45 @@ const Login = () => {
             </p>
 
             <form
-              onSubmit={handleFormSubmit}
+              onSubmit={handleLogin}
               className="mt-8 grid grid-cols-6 gap-6 w-full"
             >
               <div className="col-span-6">
-                <label
-                  htmlFor="Email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="Email"
-                  name="email"
-                  placeholder="example@example.com"
-                  className="input input-bordered w-full mt-1"
-                  required
-                />
+                <CInputText
+                  label="Email"
+                  register={register("email")}
+                  errors={errors.email?.message?.toString()}
+                ></CInputText>
               </div>
 
               <div className="col-span-6">
-                <label
-                  htmlFor="Password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <input
+                <CInputText
                   type="password"
-                  id="Password"
-                  name="password"
-                  placeholder="••••••••"
-                  className="input input-bordered w-full mt-1"
-                  required
-                />
+                  label="Password"
+                  register={register("password")}
+                  errors={errors.password?.message?.toString()}
+                ></CInputText>
               </div>
-              <div className="flex flex-col items-center justify-center w-full bg-emerald-100">
-                <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-                    Forgot Password ?
-                    <a href="#" className="text-primary underline ml-1">
+              <div className="flex flex-col col-span-6 items-center justify-center w-full ">
+                <div className="col-span-6 sm:flex sm:items-center sm:gap-4 justify-center">
+                  <p className="text-sm text-gray-500 text-center">
+                    Forgot Password?
+                    <a
+                      href="/reset-password-request"
+                      className="text-primary underline ml-2"
+                    >
                       Reset Password
                     </a>
-                    <button className="btn">
-                      <span className="loading loading-spinner"></span>
-                      loading
-                    </button>
                   </p>
                 </div>
+
+                <Button
+                  type="submit"
+                  loading={isLoading}
+                  className="w-full bg-primary mt-8 text-red-50 font-bold text-lg"
+                >
+                  Login
+                </Button>
               </div>
             </form>
           </div>
@@ -108,4 +93,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

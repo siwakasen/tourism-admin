@@ -1,8 +1,13 @@
 import { FaCar } from "react-icons/fa";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { PiIslandBold } from "react-icons/pi";
 import { MdDashboard } from "react-icons/md";
 import logo_tour2 from "../../images/logo_tour2.png";
+import React from "react";
+import Modal from "../modal/modal";
+import { useAppDispatch } from "../../store";
+import { deleteTokenAuth } from "../../store/auth";
+import toast from "react-hot-toast";
 
 interface AdminSidebarProps {
   width?: string;
@@ -13,9 +18,28 @@ interface AdminSidebarProps {
 const AdminSidebar: React.FC<AdminSidebarProps> = () => {
   const location = useLocation();
   const isActiveRoute = (route: string) => location.pathname === route;
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(deleteTokenAuth());
+    navigate("/login");
+    toast.success("Logout Success");
+  };
 
   return (
     <div className="flex h-screen flex-col justify-between bg-gray-100 text-gray-800 ">
+      <Modal
+        title="Logout Confirmation"
+        children={<>Are you sure to Logout?</>}
+        isOpen={isModalOpen}
+        btnColor="bg-red-600"
+        hoverColor="hover:bg-red-700"
+        handleAccept={handleLogout}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+      />
       {/* Logo */}
       <div className="px-4 py-6">
         <div className="flex justify-center mb-6">
@@ -76,7 +100,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = () => {
 
       {/* Logout Button */}
       <div className="flex justify-center mb-6 px-6">
-        <button className="w-full rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900 transition py-2 px-4">
+        <button
+          className="w-full rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900 transition py-2 px-4"
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
           Logout
         </button>
       </div>

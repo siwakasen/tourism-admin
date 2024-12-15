@@ -17,10 +17,11 @@ export interface TourPackage {
   deleted_at: string;
 }
 
-export interface PaginationI {
+export interface ListTourPackageReqI {
   search: string;
   limit: number;
   page: number;
+  status: boolean;
 }
 
 export interface TourPackageReqI {
@@ -35,6 +36,12 @@ export interface TourPackageResI {
 export interface UploadTourPackageReqI {
   id: string;
   images: File[];
+}
+
+export interface PaginationI {
+  limit: number;
+  page: number;
+  search: string;
 }
 
 export interface UpdateStatusTourPackageReqI {
