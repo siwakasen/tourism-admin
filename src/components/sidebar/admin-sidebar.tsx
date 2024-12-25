@@ -1,7 +1,7 @@
 import { FaCar } from "react-icons/fa";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { PiIslandBold } from "react-icons/pi";
-import { MdDashboard } from "react-icons/md";
+// import { MdDashboard } from "react-icons/md";
 import logo_tour2 from "../../images/logo_tour2.png";
 import React from "react";
 import Modal from "../modal/modal";
@@ -54,7 +54,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = () => {
 
         {/* Navigation Links */}
         <ul className="mt-6 space-y-2">
-          <li>
+          {/* <li>
             <Link
               to="/admin"
               className={`flex items-center gap-x-3.5 py-2 px-3 text-sm font-medium rounded-lg ${
@@ -66,7 +66,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = () => {
               <MdDashboard className="size-5 text-gray-700" />
               Dashboard
             </Link>
-          </li>
+          </li> */}
 
           <li>
             <Link

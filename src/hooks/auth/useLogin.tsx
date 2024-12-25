@@ -1,6 +1,5 @@
 import * as yup from "yup";
 import { useLoginMutation } from "../../_service/auth";
-import { HttpStatusCode } from "axios";
 import { LoginReqI } from "../../__interface/auth.interface";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +7,7 @@ import { toast } from "react-hot-toast";
 import { useAppDispatch } from "../../store";
 import { saveTokenAuth } from "../../store/auth";
 
-const useLoginForm = () => {
+const useLogin = () => {
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
 
@@ -25,13 +24,9 @@ const useLoginForm = () => {
       console.log("isi res : ", res);
       dispatch(saveTokenAuth(res));
       toast.success("Login Success");
-    } catch (e) {
-      if ((e as { status: number }).status === HttpStatusCode.Unauthorized) {
-        toast.error("Email or Password is wrong");
-      } else {
-        toast.error("Login Failed");
-      }
-      throw e;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+    } catch (e: any) {
+      toast.error("Email or Password is wrong");
     }
   };
 
@@ -55,4 +50,4 @@ const useLoginForm = () => {
   };
 };
 
-export default useLoginForm;
+export default useLogin;

@@ -1,4 +1,3 @@
-
 import {
   useCreateTourPackageMutation,
   useUpdateTourPackageMutation,
@@ -21,7 +20,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export const useCreateUpdateTourPackageForm = (
+export const useCreateUpdateTourPackage = (
   defaultValues?: CreateTourPackageReqI,
   data?: TourPackage | null
 ) => {
@@ -150,6 +149,7 @@ export const useUploadImagesTourPackageForm = (refetch?: () => void) => {
 
   const onSubmit = async (data: UploadTourPackageReqI) => {
     try {
+      console.log("1 access token", data.access_token);
       const response: TourPackageResI = await uploadImagesTourPackage(data);
       toast.success(response.message);
       navigate("/admin/tour-package/");

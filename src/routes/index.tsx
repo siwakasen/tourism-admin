@@ -35,29 +35,54 @@ const AppRoutes = () => {
         {/* Redirect jika rute tidak ditemukan */}
         <Route
           path="*"
-          element={<Navigate to={accessToken ? "/admin" : "/login"} />}
+          element={
+            <Navigate to={accessToken ? "/admin/tour-package" : "/login"} />
+          }
         />
         {/* Rute login */}
         <Route
           path={LoginRoute}
-          element={accessToken ? <Navigate to={"/admin"} /> : <LoginPage />}
+          element={
+            accessToken ? (
+              <Navigate to={"/admin/tour-package"} />
+            ) : (
+              <LoginPage />
+            )
+          }
         />
         <Route
           path={ResetPasswordRouteRequest}
           element={
-            accessToken ? <Navigate to={"/admin"} /> : <ResetPasswordRequest />
+            accessToken ? (
+              <Navigate to={"/admin/tour-package"} />
+            ) : (
+              <ResetPasswordRequest />
+            )
           }
         />
         <Route
           path={ResetPasswordRoute}
-          element={accessToken ? <Navigate to={"/admin"} /> : <ResetPassword />}
+          element={
+            accessToken ? (
+              <Navigate to={"/admin/tour-package"} />
+            ) : (
+              <ResetPassword />
+            )
+          }
         />
 
         {/* Rute admin */}
         <Route path="/admin" element={<AdminLayouts />}>
-          <Route path="/admin" element={<div>Home Utama</div>} />
-          <Route index element={<div>Admin Dashboard</div>} />
-          <Route path="users" element={<div>Manage Users</div>} />
+          <Route
+            path="/admin"
+            element={
+              accessToken ? (
+                <Navigate to="/admin/tour-package" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
           <Route path={tourPackageRoute} element={<TourPackagePage />} />
           <Route
             path={tourPackageCreateRoute}

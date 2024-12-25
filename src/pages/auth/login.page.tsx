@@ -1,12 +1,12 @@
 import login_img from "../../images/login_img.jpg";
 import logo_tour2 from "../../images/logo_tour2.png";
 import CInputText from "../../components/input/c-Input";
-import useLoginForm from "../../hooks/auth/useLoginForm";
+import useLogin from "../../hooks/auth/useLogin";
 import { Button } from "react-daisyui";
 
 export const LoginRoute = "/login";
 const LoginPage = () => {
-  const { handleLogin, errors, isLoading, register } = useLoginForm();
+  const { handleLogin, errors, isLoading, register } = useLogin();
 
   return (
     <section className="bg-white">
