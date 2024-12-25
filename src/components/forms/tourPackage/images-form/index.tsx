@@ -138,8 +138,8 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
       {isLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-transparent p-6 rounded-lg flex flex-col items-center">
-            <div className="spinner border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
-            <p className="mt-4 text-blue-700">Processing...</p>
+            <div className="spinner border-t-4 border-teal-500 rounded-full w-12 h-12 animate-spin"></div>
+            <p className="mt-4 text-green-500">Processing...</p>
           </div>
         </div>
       )}
