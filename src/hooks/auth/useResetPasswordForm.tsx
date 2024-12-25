@@ -23,9 +23,9 @@ const useResetPasswordForm = (token: string) => {
 
   const _resetPassword = async (data: ResetPasswordReqI) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await resetPassword(data).unwrap();
-      console.log("isi res : ", res);
-      toast.success("Success Reset Password");
+      toast.success(res.message);
       navigate("/login");
     } catch (e) {
       if ((e as { status: number }).status === HttpStatusCode.Unauthorized) {

@@ -1,4 +1,3 @@
-
 import {
   useCreateTourPackageMutation,
   useUpdateTourPackageMutation,
@@ -21,7 +20,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export const useCreateUpdateTourPackageForm = (
+export const useCreateUpdateTourPackage = (
   defaultValues?: CreateTourPackageReqI,
   data?: TourPackage | null
 ) => {

@@ -9,13 +9,14 @@ import {
 import {} from "../../__interface/tourpackage.interface";
 
 import { Api } from "../api";
+import config from "../../__config";
 
 export const AuthApi = Api.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<LoginResI, LoginReqI>({
       query(body) {
         return {
-          url: `http://localhost:3001/auth/login`,
+          url: `${config.REST_AUTH}/auth/login`,
           method: "POST",
           body,
         };
@@ -27,7 +28,7 @@ export const AuthApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3001/auth/request-reset-password`,
+          url: `${config.REST_AUTH}/auth/request-reset-password`,
           method: "POST",
           body,
         };
@@ -36,7 +37,7 @@ export const AuthApi = Api.injectEndpoints({
     resetPassword: build.mutation<ResetPasswordResI, ResetPasswordReqI>({
       query(body) {
         return {
-          url: `http://localhost:3001/auth/reset-password`,
+          url: `${config.REST_AUTH}/auth/reset-password`,
           method: "POST",
           body,
         };

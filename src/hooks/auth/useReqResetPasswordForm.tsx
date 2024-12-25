@@ -19,9 +19,8 @@ const useReqResetPasswordForm = () => {
   const _requestResetPassword = async (data: RequestResetPasswordReqI) => {
     try {
       const res = await reqResetPassword(data).unwrap();
-      console.log("isi res : ", res);
 
-      toast.success("Success Send Email Reset Password");
+      toast.success(res.message);
     } catch (e) {
       if ((e as { status: number }).status === HttpStatusCode.Unauthorized) {
         toast.error("Cannot find email");

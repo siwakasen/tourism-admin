@@ -2,7 +2,7 @@ export interface TourPackage {
   id: string;
   package_name: string;
   description: string;
-  images: string;
+  images: string[];
   package_price: number;
   duration: number;
   max_group_size: number;

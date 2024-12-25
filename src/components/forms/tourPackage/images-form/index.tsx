@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAppSelector } from "../../../../store";
+import LoadingPages from "../../../loadings/loading-pages";
 
 interface MultipleImageFormProps {
   images?: string[];
@@ -137,10 +138,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
       {/* Loading Modal */}
       {isLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-transparent p-6 rounded-lg flex flex-col items-center">
-            <div className="spinner border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
-            <p className="mt-4 text-blue-700">Processing...</p>
-          </div>
+          <LoadingPages />
         </div>
       )}
       {/* Zoom Modal */}

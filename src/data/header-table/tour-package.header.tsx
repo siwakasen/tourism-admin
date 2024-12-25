@@ -2,30 +2,19 @@ import { TourPackage } from "../../__interface/tourpackage.interface";
 import { Columns } from "../../components/table/table-v2";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
-import { BiSolidHide } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import ActionButtonTable from "../../components/button/action-table.button";
+import ToggleSwitch from "../../components/toggle";
 export const HeaderTourPackage = (
   handleDeletePopUp?: (id: string) => void,
   handleUpdateStatusPopUp?: (id: string, newStatus: boolean) => void
 ): Columns<TourPackage>[] => {
   const navigate = useNavigate(); // Initialize the navigate function
-  const menuOptions = (status: boolean) => [
+  const menuOptions = () => [
     {
       label: "Edit",
       action: (id?: string) => navigate(`/admin/tour-package/update/${id}`),
       icon: <RiEdit2Fill />,
-    },
-    {
-      label: status ? "Hide" : "Show",
-      action: (id?: string) => {
-        if (handleUpdateStatusPopUp) {
-          handleUpdateStatusPopUp!(id!, !status);
-        } else {
-          console.log(handleUpdateStatusPopUp);
-        }
-      },
-      icon: <BiSolidHide />,
     },
     {
       label: "Delete",
@@ -37,10 +26,10 @@ export const HeaderTourPackage = (
   ];
 
   return [
-    {
-      fieldId: "checkbox",
-      label: "Checkbox",
-    },
+    // {
+    //   fieldId: "checkbox",
+    //   label: "Checkbox",
+    // },
     {
       fieldId: "index",
       label: "No",
@@ -170,14 +159,28 @@ export const HeaderTourPackage = (
     },
 
     {
+      fieldId: "status",
+      label: "Status",
+      render: (data) => (
+        <ToggleSwitch
+          isChecked={data?.status ?? false}
+          onChange={(e) => {
+            if (handleUpdateStatusPopUp) {
+              handleUpdateStatusPopUp!(data?.id ?? "", e);
+            }
+          }}
+          id={data?.id ?? ""}
+          label={data?.status ? "Active" : "Inactive"}
+        />
+      ),
+    },
+
+    {
       fieldId: "id",
       label: "Action",
       render: (data) => (
         <>
-          <ActionButtonTable
-            id={data?.id}
-            menuOptions={menuOptions(data?.status ?? false)}
-          />
+          <ActionButtonTable id={data?.id} menuOptions={menuOptions()} />
         </>
       ),
     },

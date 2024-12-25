@@ -11,7 +11,6 @@ export default function UpdateCarsRental(): React.ReactElement {
   });
 
   useEffect(() => {}, [data, isLoading]);
-  console.log(data);
   return !data ? (
     <></>
   ) : (

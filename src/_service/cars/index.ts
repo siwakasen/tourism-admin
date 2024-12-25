@@ -10,6 +10,7 @@ import {
   ListCarsResI,
   UploadImageCarsReqI,
 } from "../../__interface/cars.interface";
+import toast from "react-hot-toast";
 
 import { PaginationI } from "../../__interface/tourpackage.interface";
 
@@ -105,8 +106,9 @@ export const uploadCarsImage = async (data: UploadImageCarsReqI) => {
     );
 
     return res.data;
-  } catch (error) {
-    console.log("Error uploading image:", error);
-    throw error;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    toast.error("Failed to upload image, reason: " + error);
   }
 };
