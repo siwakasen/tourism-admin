@@ -21,7 +21,6 @@ const useLogin = () => {
   const _login = async (data: LoginReqI) => {
     try {
       const res = await login(data).unwrap();
-      console.log("isi res : ", res);
       dispatch(saveTokenAuth(res));
       toast.success("Login Success");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars

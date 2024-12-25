@@ -149,7 +149,6 @@ export const useUploadImagesTourPackageForm = (refetch?: () => void) => {
 
   const onSubmit = async (data: UploadTourPackageReqI) => {
     try {
-      console.log("1 access token", data.access_token);
       const response: TourPackageResI = await uploadImagesTourPackage(data);
       toast.success(response.message);
       navigate("/admin/tour-package/");

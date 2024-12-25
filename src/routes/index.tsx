@@ -28,7 +28,6 @@ import { useAppSelector } from "../store";
 
 const AppRoutes = () => {
   const { accessToken } = useAppSelector((state) => state.auth);
-  console.log("isi token", accessToken);
   return (
     <Suspense fallback={<LoadingPages />}>
       <Routes>
