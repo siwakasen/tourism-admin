@@ -7,7 +7,6 @@ function App() {
     const savedTheme = "light";
     document.documentElement.setAttribute("data-theme", savedTheme);
   }, []);
-
   return (
     <>
       <BrowserRouter>

@@ -1,5 +1,0 @@
-const config = {
-  REST_AUTH: "http://localhost:3001",
-};
-
-export default config;
