@@ -24,7 +24,7 @@ export const CarsApi = Api.injectEndpoints({
           const limit = Number(params.limit);
           const search = params.search;
           return {
-            url: `${process.env.REACT_APP_REST_HOST}/cars`,
+            url: `/cars`,
             params: { page, limit, search },
           };
         },
@@ -33,13 +33,13 @@ export const CarsApi = Api.injectEndpoints({
         query: (params) => {
           const id = String(params.id);
           return {
-            url: `${process.env.REACT_APP_REST_HOST}/cars/${id}`,
+            url: `/cars/${id}`,
           };
         },
       }),
       createCars: build.mutation<CarsResI, CreateCarsReqI>({
         query: (data) => ({
-          url: `${process.env.REACT_APP_REST_HOST}/cars`,
+          url: `/cars`,
           method: "POST",
           body: data,
         }),
@@ -48,7 +48,7 @@ export const CarsApi = Api.injectEndpoints({
         query: (data) => {
           const { id, ...body } = data;
           return {
-            url: `${process.env.REACT_APP_REST_HOST}/cars/${id}`,
+            url: `/cars/${id}`,
             method: "PUT",
             body: body,
           };
@@ -58,7 +58,7 @@ export const CarsApi = Api.injectEndpoints({
         query: (data) => {
           const { id, ...body } = data;
           return {
-            url: `${process.env.REACT_APP_REST_HOST}/cars/status/${id}`,
+            url: `/cars/status/${id}`,
             method: "PATCH",
             body: body,
           };
@@ -68,7 +68,7 @@ export const CarsApi = Api.injectEndpoints({
         query: (params) => {
           const id = String(params.id);
           return {
-            url: `${process.env.REACT_APP_REST_HOST}/cars/${id}`,
+            url: `/cars/${id}`,
             method: "DELETE",
           };
         },

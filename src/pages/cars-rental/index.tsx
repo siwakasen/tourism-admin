@@ -6,7 +6,7 @@ import { useListCarsQuery } from "../../_service/cars";
 
 import { carsRentalRouteCreate } from "./create";
 import { PaginationI } from "../../__interface/tourpackage.interface";
-import { useDeleteCarsForm, useUpdateStatusCarsForm } from "../../hooks/cars";
+import { useDeleteCarsForm, useUpdateStatusCarsForm } from "../../_hooks/cars";
 import { Cars } from "../../__interface/cars.interface";
 import { HeaderCars } from "../../data/header-table/cars.header";
 interface OutletContext {
