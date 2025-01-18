@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import {
   useUploadImagesTourPackageForm,
   useDeleteImageTourPackage,
-} from "../../../../hooks/package-tour";
+} from "../../../../_hooks/package-tour";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAppSelector } from "../../../../store";

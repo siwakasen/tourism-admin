@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { useUploadImageCars } from "../../../../hooks/cars";
+import { useUploadImageCars } from "../../../../_hooks/cars";
 
 interface ImageFormProps {
   image?: string;

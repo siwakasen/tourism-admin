@@ -1,6 +1,6 @@
 import login_img from "../../images/login_img.jpg";
 import logo_tour2 from "../../images/logo_tour2.png";
-import useReqResetPasswordForm from "../../hooks/auth/useReqResetPasswordForm";
+import useReqResetPasswordForm from "../../_hooks/auth/useReqResetPasswordForm";
 import CInputText from "../../components/input/c-Input";
 
 export const ResetPasswordRouteRequest = "/reset-password-request";

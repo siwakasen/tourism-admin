@@ -1,6 +1,6 @@
 import login_img from "../../images/login_img.jpg";
 import logo_tour2 from "../../images/logo_tour2.png";
-import useResetPasswordForm from "../../hooks/auth/useResetPasswordForm";
+import useResetPasswordForm from "../../_hooks/auth/useResetPasswordForm";
 import { useParams } from "react-router-dom";
 import CInputText from "../../components/input/c-Input";
 

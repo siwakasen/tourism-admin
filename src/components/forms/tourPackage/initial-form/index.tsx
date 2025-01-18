@@ -5,7 +5,7 @@ import {
 } from "../../../../__interface/tourpackage.interface";
 import ItemsMultipleInput from "../../../input/items-multiple-input";
 import CheckboxMultipleInput from "../../../input/checkbox-multiple-input";
-import { useCreateUpdateTourPackage } from "../../../../hooks/package-tour";
+import { useCreateUpdateTourPackage } from "../../../../_hooks/package-tour";
 
 interface InitialFormProps {
   data: TourPackage | null;

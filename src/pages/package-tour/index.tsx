@@ -11,7 +11,7 @@ import { useState } from "react";
 import {
   useDeleteTourPackage,
   useUpdateStatusTourPackage,
-} from "../../hooks/package-tour";
+} from "../../_hooks/package-tour";
 interface OutletContext {
   setShowSidebar: (show: boolean) => void;
   showSidebar: boolean;
