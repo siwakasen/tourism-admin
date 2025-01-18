@@ -3,21 +3,31 @@ import { Outlet } from "react-router-dom";
 import ProtectedRoutes from "../_helper/routes/protected-route";
 import AdminSidebar from "../components/sidebar/admin-sidebar";
 
-interface AdminLayoutsProps {
-  children?: React.ReactNode; // Definisikan tipe children
-}
+const AdminLayouts: React.FC = () => {
+  const [showSidebar, setShowSidebar] = React.useState(true);
 
-const AdminLayouts: React.FC<AdminLayoutsProps> = ({ children }) => {
   return (
     <ProtectedRoutes>
-      <div className="admin-layout bg-slate-200 min-h-[100vh] ">
-        {/* tambahkan header */}
+      <div className="admin-layout bg-gray-100">
         <main>
-          <div className="flex ">
-            <div className="w-2/12">
+          <div className="flex transition-all ease-in-out duration-300">
+            {/* Sidebar */}
+            <div
+              className={`${
+                showSidebar ? "w-[16vw]" : "w-0"
+              } overflow-hidden transition-all ease-in-out duration-300`}
+            >
               <AdminSidebar />
             </div>
-            <div className="w-10/12">{children || <Outlet />} </div>
+
+            {/* Main Content */}
+            <div
+              className={`${
+                showSidebar ? "w-[84vw]" : "w-full"
+              } transition-all ease-in-out duration-300`}
+            >
+              <Outlet context={{ showSidebar, setShowSidebar }} />
+            </div>
           </div>
         </main>
       </div>

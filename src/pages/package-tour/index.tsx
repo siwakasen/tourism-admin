@@ -1,31 +1,86 @@
-import { useNavigate } from "react-router-dom";
-import { Params, TourPackage } from "../../__interface/tourpackage.interface";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import {
+  PaginationI,
+  TourPackage,
+} from "../../__interface/tourpackage.interface";
 import { HeaderTourPackage } from "../../data/header-table/tour-package.header";
 import TableLayout from "../../layouts/table/table.layout";
-import useFetchTourPackages from "../../hooks/package-tour";
+import { useListTourPackageQuery } from "../../_service/package-tour";
+import Modal from "../../components/modal/modal";
+import { useState } from "react";
+import {
+  useDeleteTourPackage,
+  useUpdateStatusTourPackage,
+} from "../../_hooks/package-tour";
+interface OutletContext {
+  setShowSidebar: (show: boolean) => void;
+  showSidebar: boolean;
+}
 
 export const tourPackageRoute = "/admin/tour-package";
 export default function TourPackagePage(): React.ReactElement {
-  const navigate = useNavigate(); // Initialize the navigate function
-  const { tourPackages, loading, error } = useFetchTourPackages();
+  const { setShowSidebar, showSidebar } = useOutletContext<OutletContext>();
+  const navigate = useNavigate();
+  const [paginationParams, setPaginationParams] = useState<PaginationI>({
+    limit: 10,
+    page: 1,
+    search: "",
+  });
 
-  console.log("tourPackages", tourPackages);
-  console.log("loading", loading);
-  console.log("error", error);
+  const {
+    data: tourPackages,
+    isLoading,
+    refetch,
+  } = useListTourPackageQuery(paginationParams);
 
   const handleCreate = () => {
     navigate("/admin/tour-package/create");
   };
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+  const { onDelete } = useDeleteTourPackage(refetch);
+  const { onUpdate } = useUpdateStatusTourPackage(refetch);
+
+  const handleSearch = (query: string) => {
+    setPaginationParams((prev) => ({ ...prev, search: query }));
+    refetch();
+  };
+
+  const handleDelete = (id: string) => {
+    setIsDelete(true);
+    setSelectedId(id);
+  };
+
+  const handleUpdateStatus = (id: string, newStatus: boolean) => {
+    onUpdate({ id: id!, status: newStatus });
+  };
+
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   return (
     <>
-      <TableLayout<TourPackage, Params>
+      <TableLayout<TourPackage, PaginationI>
         title="Tour Package"
-        data={tourPackages}
+        data={tourPackages?.data ?? []}
         headerTable={HeaderTourPackage}
-        handleCreate={handleCreate} // Pass the handler to TableLayout
+        handleCreate={handleCreate}
         setSelectedId={() => {}}
-        loading={loading}
+        loading={isLoading}
+        handleDelete={handleDelete}
+        handleUpdateStatus={handleUpdateStatus}
+        handleSearch={handleSearch}
+        setShowSidebar={setShowSidebar}
+        showSidebar={showSidebar}
+      />
+      <Modal
+        title="Delete Tour Package"
+        children={<>Are you sure to delete this tour package?</>}
+        isOpen={isDelete}
+        btnColor="bg-red-600"
+        hoverColor="hover:bg-red-700"
+        handleAccept={() => onDelete(selectedId!)}
+        onClose={() => {
+          setIsDelete(false);
+        }}
       />
     </>
   );
