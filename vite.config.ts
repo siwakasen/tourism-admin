@@ -18,5 +18,8 @@ export default defineConfig({
     "process.env.REACT_APP_REST_HOST": JSON.stringify(
       process.env.REACT_APP_REST_HOST
     ),
+    "process.env.REACT_APP_REST_AUTH": JSON.stringify(
+      process.env.REACT_APP_REST_AUTH
+    ),
   },
 });
