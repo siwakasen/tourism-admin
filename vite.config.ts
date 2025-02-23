@@ -21,5 +21,11 @@ export default defineConfig({
     "process.env.REACT_APP_REST_AUTH": JSON.stringify(
       process.env.REACT_APP_REST_AUTH
     ),
+    "process.env.REACT_APP_REST_TESTI": JSON.stringify(
+      process.env.REACT_APP_REST_TESTI
+    ),
+    "process.env.REACT_APP_REST_DRIVERS": JSON.stringify(
+      process.env.REACT_APP_REST_DRIVERS
+    ),
   },
 });
