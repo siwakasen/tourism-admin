@@ -25,7 +25,16 @@ import UpdateTourPackage, {
   tourPackageUpdateRoute,
 } from "../pages/package-tour/update";
 import { useAppSelector } from "../store";
-
+import TestimonialsPage, { testimonialsRoute } from "../pages/testimonials";
+import CreateTestimonial, {
+  testimonialRouteCreate,
+} from "../pages/testimonials/create";
+import UpdateTestimonial, {
+  testimonialUpdateRoute,
+} from "../pages/testimonials/update";
+import DriversPage, { driversRoute } from "../pages/drivers";
+import CreateDrivers, { driversRouteCreate } from "../pages/drivers/create";
+import UpdateDrivers, { driversUpdateRoute } from "../pages/drivers/update";
 const AppRoutes = () => {
   const { accessToken } = useAppSelector((state) => state.auth);
   return (
@@ -94,6 +103,18 @@ const AppRoutes = () => {
           <Route path={carsRentalRoute} element={<CarsRentalPage />} />
           <Route path={carsRentalRouteUpdate} element={<UpdateCarsRental />} />
           <Route path={carsRentalRouteCreate} element={<CreateCarsRental />} />
+          <Route path={testimonialsRoute} element={<TestimonialsPage />} />
+          <Route
+            path={testimonialRouteCreate}
+            element={<CreateTestimonial />}
+          ></Route>
+          <Route
+            path={testimonialUpdateRoute}
+            element={<UpdateTestimonial />}
+          ></Route>
+          <Route path={driversRoute} element={<DriversPage />} />
+          <Route path={driversRouteCreate} element={<CreateDrivers />}></Route>
+          <Route path={driversUpdateRoute} element={<UpdateDrivers />}></Route>
         </Route>
       </Routes>
     </Suspense>
