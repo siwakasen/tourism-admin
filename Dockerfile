@@ -5,9 +5,10 @@ FROM node:alpine
 WORKDIR /app
 
 # Copy package.json and install serve globally
-RUN npm install -g serve
-
-RUN npm run build
+COPY package.json .
+RUN npm install -g pnpm
+RUN pnpm install
+RUN pnpm run build
 
 # Copy the build files to the working directory
 COPY ./dist /app
