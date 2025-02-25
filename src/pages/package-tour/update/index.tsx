@@ -12,7 +12,9 @@ export default function UpdateTourPackage(): React.ReactElement {
     id: id ?? "",
   });
 
-  useEffect(() => {}, [data, isLoading]);
+  useEffect(() => {
+    refetch();
+  }, [data, isLoading]);
 
   return !data ? (
     <></>
