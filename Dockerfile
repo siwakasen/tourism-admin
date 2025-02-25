@@ -6,6 +6,9 @@ WORKDIR /app
 
 # Copy package.json and install serve globally
 RUN npm install -g serve
+RUN npm install -g pnpm
+
+RUN npm run build
 
 # Copy the build files to the working directory
 COPY ./dist /app
