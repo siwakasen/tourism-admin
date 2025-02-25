@@ -10,9 +10,6 @@ RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm run build
 
-# Copy the build files to the working directory
-COPY ./dist /app
-
 # Expose port 3000 for the container
 EXPOSE 3000
 
