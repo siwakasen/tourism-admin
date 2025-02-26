@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy package.json and install serve globally
 COPY package.json .
-COPY tsconfig.json
+COPY tsconfig.json .
 RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm run build
