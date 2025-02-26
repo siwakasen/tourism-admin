@@ -5,14 +5,14 @@ FROM node:alpine
 WORKDIR /app
 
 # Copy package.json and install serve globally
-COPY package.json .
-COPY tsconfig.json .
-COPY tsconfig.app.json .
-COPY tsconfig.node.json .
+COPY . .
 RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm run build
 # delete all except dist
+RUN rm -rf src public .env .env.example .gitignore Dockerfile eslist.config.js index.html package.json pnpm-lock.yaml postcss.config.js README.md tailwind.config.js tsconfig.json vite.config.ts tsconfig.app.json tsconfig.node.json
+
+RUN ls dist/
 # Expose port 3000 for the container
 EXPOSE 3000
 
