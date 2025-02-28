@@ -24,3 +24,7 @@ EXPOSE 3000
 
 # Command to serve the app
 CMD ["serve", "-s", "dist", "-l", "3000"]
+
+#
+# test deploy message
+#
