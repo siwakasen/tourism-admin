@@ -1,5 +1,5 @@
 # Use a Node.js base image
-FROM node:alpine
+FROM node:23-alpine
 
 # Set working directory
 WORKDIR /app
@@ -10,10 +10,10 @@ RUN npm install -g pnpm
 RUN npm install -g serve
 RUN pnpm install
 
-ARG REACT_APP_REST_HOST
-ARG REACT_APP_REST_AUTH
-ARG REACT_APP_REST_TESTI
-ARG REACT_APP_REST_DRIVERS
+# ARG REACT_APP_REST_HOST
+# ARG REACT_APP_REST_AUTH
+# ARG REACT_APP_REST_TESTI
+# ARG REACT_APP_REST_DRIVERS
 
 RUN pnpm run build
 # delete all except dist
