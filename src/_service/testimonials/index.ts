@@ -22,7 +22,7 @@ export const TestimonialApi = Api.injectEndpoints({
             const limit = Number(params.limit);
             const search = params.search;
             return {
-              url: `${process.env.REACT_APP_REST_TESTI}/testimonials`,
+              url: `${import.meta.env.VITE_APP_REST_TESTI}/testimonials`,
               params: { page, limit, search },
             };
           },
@@ -32,7 +32,7 @@ export const TestimonialApi = Api.injectEndpoints({
         query: (params) => {
           const id = String(params.id);
           return {
-            url: `${process.env.REACT_APP_REST_TESTI}/testimonials/${id}`,
+            url: `${import.meta.env.VITE_APP_REST_TESTI}/testimonials/${id}`,
           };
         },
       }),
@@ -40,7 +40,7 @@ export const TestimonialApi = Api.injectEndpoints({
         query: (data) => {
           const id = String(data.id);
           return {
-            url: `${process.env.REACT_APP_REST_TESTI}/testimonials/${id}`,
+            url: `${import.meta.env.VITE_APP_REST_TESTI}/testimonials/${id}`,
             method: "DELETE",
           };
         },
@@ -68,7 +68,7 @@ export const CreateTestimonial = async (data: CreateTestimonialReqI) => {
     formData.append("message", data.message);
 
     const res = await axios.post(
-      `${process.env.REACT_APP_REST_TESTI}/testimonials`,
+      `${import.meta.env.VITE_APP_REST_TESTI}/testimonials`,
       formData,
       {
         headers: {
@@ -95,7 +95,7 @@ export const UpdateTestimonial = async (data: UpdateTestimonialReqI) => {
     formData.append("message", data.message);
 
     const res = await axios.post(
-      `${process.env.REACT_APP_REST_TESTI}/testimonials/${data.id}`,
+      `${import.meta.env.VITE_APP_REST_TESTI}/testimonials/${data.id}`,
       formData,
       {
         headers: {

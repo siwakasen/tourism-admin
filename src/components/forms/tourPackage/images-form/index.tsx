@@ -95,7 +95,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
                 <img
                   src={
                     preview.startsWith("image")
-                      ? `${process.env.REACT_APP_REST_HOST}/public/tour-images/${preview}`
+                      ? `${import.meta.env.VITE_APP_REST_HOST}/public/tour-images/${preview}`
                       : preview
                   }
                   alt={`Preview ${index}`}
@@ -156,7 +156,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
               <img
                 src={
                   zoomedImage.startsWith("image")
-                    ? `${process.env.REACT_APP_REST_HOST}/public/tour-images/${zoomedImage}`
+                    ? `${import.meta.env.VITE_APP_REST_HOST}/public/tour-images/${zoomedImage}`
                     : zoomedImage
                 }
                 alt="Zoomed"

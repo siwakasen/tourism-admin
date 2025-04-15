@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./store/index.ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
-
+console.log('meta',import.meta.env)
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Toaster position="top-center" reverseOrder={false} />

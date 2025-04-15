@@ -113,7 +113,7 @@ export const DriversForm: React.FC<DriversFormProps> = ({
                         <img
                           src={
                             filePreview.startsWith("photo_profile")
-                              ? `${process.env.REACT_APP_REST_DRIVERS}/public/drivers-images/${filePreview}`
+                              ? `${import.meta.env.VITE_APP_REST_DRIVERS}/public/drivers-images/${filePreview}`
                               : filePreview
                           }
                           alt="Preview"
@@ -139,7 +139,7 @@ export const DriversForm: React.FC<DriversFormProps> = ({
                       <img
                         src={
                           filePreview.startsWith("photo_profile")
-                            ? `${process.env.REACT_APP_REST_DRIVERS}/public/drivers-images/${filePreview}`
+                            ? `${import.meta.env.VITE_APP_REST_DRIVERS}/public/drivers-images/${filePreview}`
                             : filePreview
                         }
                         alt="Zoomed"
