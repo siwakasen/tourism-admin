@@ -13,16 +13,16 @@ RUN pnpm install
 
 # Expose port 3000 for the container
 EXPOSE 3000
-
-# Note: Environment variables will be passed at runtime, not set here
-
+# At container start:
+# 1) generate .env from VITE_ vars
+# 2) build
+# 3) cleanup everything except .env & dist
+# 4) serve
 CMD ["sh", "-c", "\
+    printenv | grep ^VITE_ > .env && \
     pnpm run build && \
-    # delete all known files/folders except .env and dist/ \
-    rm -rf .dockerignore .env.example .gitignore Dockerfile README.md eslint.config.js index.html node_modules package.json pnpm-lock.yaml postcss.config.js public src tailwind.config.js tsconfig.app.json tsconfig.json tsconfig.node.json vite.config.ts && \
-    # safety‐net: remove anything in /app except .env and dist/ \
+    rm -rf .dockerignore .env.example .gitignore Dockerfile README.md eslint.config.js index.html node_modules pnpm-lock.yaml postcss.config.js public src tailwind.config.js tsconfig.app.json tsconfig.json tsconfig.node.json vite.config.ts package.json && \
     find . -maxdepth 1 ! -name dist ! -name .env -type d -exec rm -rf {} + && \
     find . -maxdepth 1 ! -name dist ! -name .env -type f -exec rm -f {} + && \
-    pnpm store prune && \
     serve -s dist -l 3000\
 "]
