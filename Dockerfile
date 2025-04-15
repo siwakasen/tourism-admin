@@ -20,4 +20,4 @@ EXPOSE 3000
 # Note: Environment variables will be passed at runtime, not set here
 
 # Command to serve the app
-CMD ["sh", "-c", "cp .env .env && pnpm run build && serve -s dist -l 3000"]
+CMD ["sh", "-c", "printenv | grep ^VITE_ > .env && pnpm run build && serve -s dist -l 3000"]
