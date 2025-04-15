@@ -9,12 +9,13 @@ COPY . .
 RUN npm install -g pnpm
 RUN npm install -g serve
 RUN pnpm install
+COPY .env.example .env
+
 
 # Build the application
 RUN pnpm run build
 
 # Cleanup unnecessary files
-COPY .env.example .env
 RUN rm -rf src public .env.example .gitignore Dockerfile eslist.config.js index.html package.json pnpm-lock.yaml postcss.config.js README.md tailwind.config.js tsconfig.json vite.config.ts tsconfig.app.json tsconfig.node.json
 
 # Expose port 3000 for the container
