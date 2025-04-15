@@ -21,7 +21,7 @@ export const DriversApi = Api.injectEndpoints({
           const limit = Number(params.limit);
           const search = params.search;
           return {
-            url: `${process.env.REACT_APP_REST_DRIVERS}/drivers`,
+            url: `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers`,
             params: { page, limit, search },
           };
         },
@@ -30,7 +30,7 @@ export const DriversApi = Api.injectEndpoints({
         query: (params) => {
           const id = String(params.id);
           return {
-            url: `${process.env.REACT_APP_REST_DRIVERS}/drivers/${id}`,
+            url: `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers/${id}`,
           };
         },
       }),
@@ -38,7 +38,7 @@ export const DriversApi = Api.injectEndpoints({
         query: (data) => {
           const id = String(data.id);
           return {
-            url: `${process.env.REACT_APP_REST_DRIVERS}/drivers/${id}`,
+            url: `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers/${id}`,
             method: "DELETE",
           };
         },
@@ -64,7 +64,7 @@ export const CreateDrivers = async (data: CreateDriversReqI) => {
     }
 
     const res = await axios.post(
-      `${process.env.REACT_APP_REST_DRIVERS}/drivers`,
+      `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers`,
       formData,
       {
         headers: {
@@ -90,7 +90,7 @@ export const UpdateDrivers = async (data: UpdateDriversReqI) => {
       formData.append("photo_profile", data.photo_profile);
 
     const res = await axios.post(
-      `${process.env.REACT_APP_REST_DRIVERS}/drivers/${data.id}`,
+      `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers/${data.id}`,
       formData,
       {
         headers: {

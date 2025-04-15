@@ -15,7 +15,7 @@ export const AuthApi = Api.injectEndpoints({
     login: build.mutation<LoginResI, LoginReqI>({
       query(body) {
         return {
-          url: `${process.env.REACT_APP_REST_AUTH}/auth/login`,
+          url: `${import.meta.env.VITE_APP_REST_AUTH}/auth/login`,
           method: "POST",
           body,
         };
@@ -27,7 +27,7 @@ export const AuthApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `${process.env.REACT_APP_REST_AUTH}/auth/request-reset-password`,
+          url: `${import.meta.env.VITE_APP_REST_AUTH}/auth/request-reset-password`,
           method: "POST",
           body,
         };
@@ -36,7 +36,7 @@ export const AuthApi = Api.injectEndpoints({
     resetPassword: build.mutation<ResetPasswordResI, ResetPasswordReqI>({
       query(body) {
         return {
-          url: `${process.env.REACT_APP_REST_AUTH}/auth/reset-password`,
+          url: `${import.meta.env.VITE_APP_REST_AUTH}/auth/reset-password`,
           method: "POST",
           body,
         };
