@@ -11,13 +11,14 @@ build_dist:
 
 docker_build:
   image: docker:20.10.16 # or your own DinD image
+  stage: build_image
   services:
     - name: docker:20.10.16-dind
       alias: docker
   tags:
     - ubuntu
   before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $REGISTRY_LINK -u siwakasen --password-stdin
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_LINK -u siwakasen --password-stdin
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
