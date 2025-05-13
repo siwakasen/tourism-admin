@@ -17,8 +17,6 @@ build_dist:
   script:
     - npm install -g pnpm
     - pnpm install
-    - cp .env.example .env
-    - sh -c "printenv | grep '^VITE_' > .env || true"
     - pnpm build
   artifacts:
     paths:

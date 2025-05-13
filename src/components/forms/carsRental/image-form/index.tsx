@@ -74,7 +74,7 @@ const ImageForm: React.FC<ImageFormProps> = ({
                 <img
                   src={
                     filePreview.startsWith("image")
-                      ? `${import.meta.env.VITE_APP_REST_HOST}/public/car-images/${filePreview}`
+                      ? `${VITE_APP_REST_HOST}/public/car-images/${filePreview}`
                       : filePreview
                   }
                   alt="Preview"
@@ -100,7 +100,7 @@ const ImageForm: React.FC<ImageFormProps> = ({
               <img
                 src={
                   filePreview.startsWith("image")
-                    ? `${import.meta.env.VITE_APP_REST_HOST}/public/car-images/${filePreview}`
+                    ? `${VITE_APP_REST_HOST}/public/car-images/${filePreview}`
                     : filePreview
                 }
                 alt="Zoomed"

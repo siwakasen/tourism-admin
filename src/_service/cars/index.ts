@@ -95,7 +95,7 @@ export const uploadCarsImage = async (data: UploadImageCarsReqI) => {
     formData.append("image", data.image);
 
     const res = await axios.post(
-      `${import.meta.env.VITE_APP_REST_HOST}/cars/upload-image/${id}`,
+      `${VITE_APP_REST_HOST}/cars/upload-image/${id}`,
       formData,
       {
         headers: {

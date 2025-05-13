@@ -14,7 +14,7 @@ export const BrandsApi = Api.injectEndpoints({
           const limit = Number(params.limit);
           const search = params.search;
           return {
-            url: `${import.meta.env.VITE_APP_REST_HOST}/brands`,
+            url: `${VITE_APP_REST_HOST}/brands`,
             params: { page, limit, search },
           };
         },

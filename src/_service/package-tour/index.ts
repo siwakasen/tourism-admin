@@ -115,7 +115,7 @@ export const uploadImagesTourPackage = async (data: UploadTourPackageReqI) => {
 
     // Make the Axios POST request
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_REST_HOST}/tour-package/upload-images/${id}`,
+      `${VITE_APP_REST_HOST}/tour-package/upload-images/${id}`,
       formData,
       {
         headers: {

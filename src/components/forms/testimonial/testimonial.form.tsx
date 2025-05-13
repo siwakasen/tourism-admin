@@ -156,7 +156,7 @@ export const TestimonialForm: React.FC<TestimonialFormProps> = ({
                         <img
                           src={
                             filePreview.startsWith("image")
-                              ? `${import.meta.env.VITE_APP_REST_TESTI}/public/testimonials-images/${filePreview}`
+                              ? `${VITE_APP_REST_TESTI}/public/testimonials-images/${filePreview}`
                               : filePreview
                           }
                           alt="Preview"
@@ -182,7 +182,7 @@ export const TestimonialForm: React.FC<TestimonialFormProps> = ({
                       <img
                         src={
                           filePreview.startsWith("image")
-                            ? `${import.meta.env.VITE_APP_REST_TESTI}/public/testimonials-images/${filePreview}`
+                            ? `${VITE_APP_REST_TESTI}/public/testimonials-images/${filePreview}`
                             : filePreview
                         }
                         alt="Zoomed"

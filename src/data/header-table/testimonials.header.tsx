@@ -38,7 +38,7 @@ export const HeaderTestimonials = (
       label: "Image",
       render: (data) => (
         <img
-          src={`${import.meta.env.VITE_APP_REST_TESTI}/public/testimonials-images/${data?.image}`}
+          src={`${VITE_APP_REST_TESTI}/public/testimonials-images/${data?.image}`}
           alt={data?.name}
           className="w-20 h-20 object-cover rounded-full"
         />

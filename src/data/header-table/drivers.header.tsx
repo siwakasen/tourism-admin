@@ -38,7 +38,7 @@ export const HeaderDrivers = (
       label: "Image",
       render: (data) => (
         <img
-          src={`${import.meta.env.VITE_APP_REST_DRIVERS}/public/drivers-images/${data?.photo_profile}`}
+          src={`${VITE_APP_REST_DRIVERS}/public/drivers-images/${data?.photo_profile}`}
           alt={data?.name}
           className="w-20 h-20 object-cover rounded-full"
         />

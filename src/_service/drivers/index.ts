@@ -21,7 +21,7 @@ export const DriversApi = Api.injectEndpoints({
           const limit = Number(params.limit);
           const search = params.search;
           return {
-            url: `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers`,
+            url: `${VITE_APP_REST_DRIVERS}/drivers`,
             params: { page, limit, search },
           };
         },
@@ -30,7 +30,7 @@ export const DriversApi = Api.injectEndpoints({
         query: (params) => {
           const id = String(params.id);
           return {
-            url: `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers/${id}`,
+            url: `${VITE_APP_REST_DRIVERS}/drivers/${id}`,
           };
         },
       }),
@@ -38,7 +38,7 @@ export const DriversApi = Api.injectEndpoints({
         query: (data) => {
           const id = String(data.id);
           return {
-            url: `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers/${id}`,
+            url: `${VITE_APP_REST_DRIVERS}/drivers/${id}`,
             method: "DELETE",
           };
         },
@@ -63,16 +63,12 @@ export const CreateDrivers = async (data: CreateDriversReqI) => {
       formData.append("photo_profile", data.photo_profile);
     }
 
-    const res = await axios.post(
-      `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${data.access_token}`,
-        },
-      }
-    );
+    const res = await axios.post(`${VITE_APP_REST_DRIVERS}/drivers`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${data.access_token}`,
+      },
+    });
 
     return res.data;
   } catch (error) {
@@ -90,7 +86,7 @@ export const UpdateDrivers = async (data: UpdateDriversReqI) => {
       formData.append("photo_profile", data.photo_profile);
 
     const res = await axios.post(
-      `${import.meta.env.VITE_APP_REST_DRIVERS}/drivers/${data.id}`,
+      `${VITE_APP_REST_DRIVERS}/drivers/${data.id}`,
       formData,
       {
         headers: {

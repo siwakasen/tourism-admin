@@ -8,6 +8,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
 import { deleteTokenAuth } from "../store/auth";
+import { VITE_APP_REST_HOST } from "../_constants/constant";
 
 export interface ApiResponseI<T> {
   data: T;
@@ -19,7 +20,7 @@ export interface ApiErrorResponseI {
 }
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_APP_REST_HOST,
+  baseUrl: VITE_APP_REST_HOST,
 
   prepareHeaders: (headers, { getState, endpoint }) => {
     const token = (getState() as RootState).auth.accessToken;
