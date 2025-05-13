@@ -17,6 +17,7 @@ build_dist:
   script:
     - npm install -g pnpm
     - pnpm install
+    - cp .env.example .env
     - sh -c "printenv | grep '^VITE_' > .env"
     - pnpm build
   artifacts:
@@ -40,4 +41,3 @@ docker_build:
     - docker push "$CI_REGISTRY_IMAGE"
     - docker tag "$CI_REGISTRY_IMAGE" "$CI_REGISTRY_IMAGE:cache"
     - docker push "$CI_REGISTRY_IMAGE:cache"
-
