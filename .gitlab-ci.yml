@@ -34,7 +34,5 @@ docker_build:
   before_script:
     - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
   script:
-    - docker build \
-      --pull \
-      -t "$CI_REGISTRY_IMAGE" .
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
