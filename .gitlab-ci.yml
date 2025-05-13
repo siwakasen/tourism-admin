@@ -35,15 +35,11 @@ docker_dev:
     - alpine
   image: docker:20.10.16
   before_script:
-    - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" "$CI_REGISTRY" # login to registry :contentReference[oaicite:2]{index=2}
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token "$CI_REGISTRY" # login to registry :contentReference[oaicite:2]{index=2}
     - docker pull "$CI_REGISTRY_IMAGE:cache" || true # restore cache :contentReference[oaicite:3]{index=3}
   script:
-    - docker build \
-      --pull \
-      --cache-from "$CI_REGISTRY_IMAGE:cache" \
-      --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" \
-      --tag "$CI_REGISTRY_IMAGE:cache" \
-      .
+    - docker build  --pull --cache-from "$CI_REGISTRY_IMAGE:cache" --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" \
+      --tag "$CI_REGISTRY_IMAGE:cache" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" # immutable dev tag :contentReference[oaicite:4]{index=4}
     - docker push "$CI_REGISTRY_IMAGE:cache"
 
@@ -58,7 +54,7 @@ docker_prod:
     - alpine
   image: docker:20.10.16
   before_script:
-    - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" "$CI_REGISTRY" # login :contentReference[oaicite:6]{index=6}
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token "$CI_REGISTRY" # login :contentReference[oaicite:6]{index=6}
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG" -t "$CI_REGISTRY_IMAGE:latest" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG" # permanent version tag :contentReference[oaicite:7]{index=7}
