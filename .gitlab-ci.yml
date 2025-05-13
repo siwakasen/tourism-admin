@@ -1,0 +1,10 @@
+# automate build and push to gitlab registry
+run_dist_build:
+  stage: build
+  image: node:23-alpine
+  tags:
+    - alpine
+  script:
+    - npm install -g pnpm
+    - pnpm install
+    - pnpm build
