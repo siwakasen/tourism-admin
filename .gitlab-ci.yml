@@ -33,6 +33,7 @@ docker_build:
     DOCKER_TLS_CERTDIR: "" # disable TLS
     DOCKER_DRIVER: overlay2
   before_script:
+    - echo $CI_REGISTRY_USER
     - echo "$CI_REGISTRY_PASSWORD" \
       | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
   script:
