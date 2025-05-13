@@ -28,9 +28,6 @@ docker_build:
   tags:
     - ubuntu
   image: docker:20.10.16
-  services:
-    - name: docker:20.10.16-dind
-      alias: docker
   variables:
     DOCKER_HOST: "tcp://docker:2375"
     DOCKER_TLS_CERTDIR: "" # disable TLS
