@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy package.json and install global dependencies
 COPY /dist .
+RUN npm install -g serve
 
 # Expose port 3000 for the container
 EXPOSE 3000
