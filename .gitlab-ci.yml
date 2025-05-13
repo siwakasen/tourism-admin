@@ -10,7 +10,7 @@ variables:
   DOCKER_DRIVER: overlay2
 
 build_dist:
-  stage: build
+  stage: .pre
   image: node:23-alpine
   tags:
     - ubuntu
@@ -20,7 +20,7 @@ build_dist:
     - pnpm build
 
 docker_build:
-  stage: package
+  stage: build
   tags:
     - ubuntu
   image: docker:20.10.16
