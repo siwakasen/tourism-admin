@@ -9,7 +9,6 @@ variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_DRIVER: overlay2
 
-# automate build and push to gitlab registry
 build_dist:
   stage: build
   image: node:23-alpine
@@ -21,7 +20,7 @@ build_dist:
     - pnpm build
 
 docker_build:
-  stage: build
+  stage: package
   tags:
     - ubuntu
   image: docker:20.10.16
@@ -33,9 +32,7 @@ docker_build:
     DOCKER_TLS_CERTDIR: "" # disable TLS
     DOCKER_DRIVER: overlay2
   before_script:
-    - echo $CI_REGISTRY_USER
-    - echo "$CI_REGISTRY_TOKEN" \
-      | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+    - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
   script:
     - docker build \
       --pull \
