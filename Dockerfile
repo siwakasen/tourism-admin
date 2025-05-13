@@ -11,5 +11,4 @@ COPY /dist .
 EXPOSE 3000
 
 # Command to serve the app
-CMD ["sh", "-c", "printenv | grep ^VITE_ > .env && \
-serve -s dist -l 3000"]
+CMD ["serve -s dist -l 3000"]
