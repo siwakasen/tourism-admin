@@ -1,3 +1,14 @@
+# Use Docker CLI to drive the build
+image: docker:20.10.16
+services:
+  - name: docker:20.10.16-dind
+    alias: docker
+
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
+
 # automate build and push to gitlab registry
 build_dist:
   stage: build
@@ -10,15 +21,22 @@ build_dist:
     - pnpm build
 
 docker_build:
-  image: docker:20.10.16 # or your own DinD image
   stage: build
+  tags:
+    - ubuntu
+  image: docker:20.10.16
   services:
     - name: docker:20.10.16-dind
       alias: docker
-  tags:
-    - ubuntu
+  variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: "" # disable TLS
+    DOCKER_DRIVER: overlay2
   before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_LINK -u siwakasen --password-stdin
+    - echo "$CI_REGISTRY_PASSWORD" \
+      | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
   script:
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
+    - docker build \
+      --pull \
+      -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
