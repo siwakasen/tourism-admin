@@ -1,5 +1,5 @@
 # automate build and push to gitlab registry
-run_dist_build:
+build_dist:
   stage: build
   image: node:23-alpine
   tags:
@@ -8,3 +8,12 @@ run_dist_build:
     - npm install -g pnpm
     - pnpm install
     - pnpm build
+
+docker_build:
+  tags:
+    - ubuntu
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u siwakasen --password-stdin
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
