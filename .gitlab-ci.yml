@@ -18,6 +18,10 @@ build_dist:
     - npm install -g pnpm
     - pnpm install
     - pnpm build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
 
 docker_build:
   stage: build
