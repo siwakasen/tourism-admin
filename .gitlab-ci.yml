@@ -10,6 +10,10 @@ build_dist:
     - pnpm build
 
 docker_build:
+  image: docker:20.10.16 # or your own DinD image
+  services:
+    - name: docker:20.10.16-dind
+      alias: docker
   tags:
     - ubuntu
   before_script:
