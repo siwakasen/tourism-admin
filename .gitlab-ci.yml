@@ -3,7 +3,7 @@ build_dist:
   stage: build
   image: node:23-alpine
   tags:
-    - alpine
+    - ubuntu
   script:
     - npm install -g pnpm
     - pnpm install
@@ -17,7 +17,7 @@ docker_build:
   tags:
     - ubuntu
   before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u siwakasen --password-stdin
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $REGISTRY_LINK -u siwakasen --password-stdin
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
