@@ -10,6 +10,7 @@ import {
   UpdateTourPackageReqI,
   UploadTourPackageReqI,
 } from "../../__interface/tourpackage.interface";
+import { VITE_APP_REST_HOST } from "../../_constants/constant";
 
 import { Api } from "../api";
 import axios from "axios";

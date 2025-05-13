@@ -10,6 +10,7 @@ import {
   UpdateTestimonialReqI,
 } from "../../__interface/testi.interface";
 import { toast } from "react-toastify";
+import { VITE_APP_REST_TESTI } from "../../_constants/constant";
 
 export const TestimonialApi = Api.injectEndpoints({
   endpoints(build) {

@@ -10,6 +10,7 @@ interface ImageFormProps {
 }
 import { carsRentalRoute } from "../../../../pages/cars-rental";
 import { useAppSelector } from "../../../../store";
+import { VITE_APP_REST_HOST } from "../../../../_constants/constant";
 
 const ImageForm: React.FC<ImageFormProps> = ({
   image,

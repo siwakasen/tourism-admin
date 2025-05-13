@@ -13,6 +13,7 @@ import {
 import toast from "react-hot-toast";
 
 import { PaginationI } from "../../__interface/tourpackage.interface";
+import { VITE_APP_REST_HOST } from "../../_constants/constant";
 
 export const CarsApi = Api.injectEndpoints({
   endpoints(build) {

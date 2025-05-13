@@ -10,6 +10,7 @@ import {
   UpdateDriversReqI,
 } from "../../__interface/drivers.interface";
 import { toast } from "react-toastify";
+import { VITE_APP_REST_DRIVERS } from "../../_constants/constant";
 
 export const DriversApi = Api.injectEndpoints({
   endpoints(build) {

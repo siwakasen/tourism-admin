@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAppSelector } from "../../../../store";
 import LoadingPages from "../../../loadings/loading-pages";
+import { VITE_APP_REST_HOST } from "../../../../_constants/constant";
 
 interface MultipleImageFormProps {
   images?: string[];

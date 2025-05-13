@@ -4,6 +4,7 @@ import { Api } from "../api";
 import { BrandsReqI } from "../../__interface/brands.interface";
 
 import { PaginationI } from "../../__interface/tourpackage.interface";
+import { VITE_APP_REST_HOST } from "../../_constants/constant";
 
 export const BrandsApi = Api.injectEndpoints({
   endpoints(build) {
