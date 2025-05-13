@@ -1,15 +1,13 @@
-# Use a Node.js base image
 FROM node:23-alpine
-
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and install global dependencies
-COPY /dist .
+# Copy your built assets
+COPY dist/ ./dist
+
+# (Optional) Install the `serve` package globally
 RUN npm install -g serve
 
-# Expose port 3000 for the container
 EXPOSE 3000
 
-# Command to serve the app
-CMD ["serve -s dist -l 3000"]
+# Exec form: each argument is its own array element
+CMD ["serve", "-s", "dist", "-l", "3000"]
