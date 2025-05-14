@@ -47,6 +47,8 @@ docker:
 
 deploy:
   stage: deploy
+  tags:
+    - alpine
   image: docker:20.10.16
   services: [] # remove DinD
   variables:
