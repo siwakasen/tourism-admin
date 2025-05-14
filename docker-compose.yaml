@@ -1,3 +1,4 @@
+name: admin-service
 services:
   admin-service:
     image: $CI_REGISTRY_IMAGE:latest
