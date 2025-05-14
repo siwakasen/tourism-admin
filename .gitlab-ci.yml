@@ -47,14 +47,15 @@ docker:
 
 deploy:
   stage: deploy
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-  tags:
-    - alpine
   image: docker:20.10.16
+  services: [] # remove DinD
+  variables:
+    DOCKER_HOST: "tcp://my.docker.host:2375"
+    DOCKER_TLS_CERTDIR: "" # if you disable TLS; use 2376 + certs if you enable it
   before_script:
-    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin "$CI_REGISTRY"
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
   script:
-    - docker pull "$CI_REGISTRY_IMAGE:latest"
+    - docker pull $CI_REGISTRY_IMAGE:latest
     - docker stop myapp || true
     - docker rm myapp || true
+    - docker run -d --name myapp -p 80:80 $CI_REGISTRY_IMAGE:latest
