@@ -28,7 +28,7 @@ build_dist:
     expire_in: 1 hour
 
 # 2) Development build: tag by commit SHA
-docker_dev:
+docker:
   stage: build
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
@@ -43,3 +43,18 @@ docker_dev:
     - docker build  --pull --cache-from "$CI_REGISTRY_IMAGE:latest" --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" --tag "$CI_REGISTRY_IMAGE:latest" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" # immutable dev tag :contentReference[oaicite:4]{index=4}
     - docker push "$CI_REGISTRY_IMAGE:latest"
+
+deploy:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  tags:
+    - alpine
+  image: docker:20.10.16
+  before_script:
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin "$CI_REGISTRY"
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE:latest"
+    - docker stop myapp || true
+    - docker rm myapp || true
+    - docker run -d --name myapp "$CI_REGISTRY_IMAGE:latest"
