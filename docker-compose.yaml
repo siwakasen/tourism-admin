@@ -1,7 +1,6 @@
 services:
   admin-service:
     image: $CI_REGISTRY_IMAGE:latest
-    container_name: admin-service
     restart: unless-stopped
     environment:
       - ENV=production
