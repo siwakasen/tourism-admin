@@ -1,12 +1,4 @@
 image: docker:20.10.16
-services:
-  - name: docker:20.10.16-dind
-    alias: docker
-
-variables:
-  DOCKER_HOST: "tcp://docker:2375"
-  DOCKER_TLS_CERTDIR: ""
-  DOCKER_DRIVER: overlay2
 
 stages:
   - .pre
@@ -36,6 +28,13 @@ docker:
   tags:
     - alpine
   image: docker:20.10.16
+  services:
+    - name: docker:20.10.16-dind
+      alias: docker
+  variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
   before_script:
     - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin "$CI_REGISTRY"
     - docker pull "$CI_REGISTRY_IMAGE:cache" || true
@@ -47,17 +46,18 @@ docker:
 
 deploy:
   stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
   tags:
-    - alpine
+    - ubuntu
   image: docker:20.10.16
   services: [] # remove DinD
   variables:
-    DOCKER_HOST: "tcp://my.docker.host:2375"
-    DOCKER_TLS_CERTDIR: "" # if you disable TLS; use 2376 + certs if you enable it
+    # no DOCKER_HOST override → uses /var/run/docker.sock
   before_script:
     - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
   script:
     - docker pull $CI_REGISTRY_IMAGE:latest
     - docker stop myapp || true
     - docker rm myapp || true
-    - docker run -d --name myapp -p 80:80 $CI_REGISTRY_IMAGE:latest
+    - docker run -d --name myapp $CI_REGISTRY_IMAGE:latest
