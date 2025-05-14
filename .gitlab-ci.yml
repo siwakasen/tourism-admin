@@ -11,6 +11,7 @@ variables:
 stages:
   - .pre
   - build
+  - deploy
 
 # 1) Build frontend/dist artifacts
 build_dist:
