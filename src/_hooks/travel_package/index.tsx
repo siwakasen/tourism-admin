@@ -1,31 +1,29 @@
 import {
-  useCreateTourPackageMutation,
-  useUpdateTourPackageMutation,
-  uploadImagesTourPackage,
-  useDeleteImageTourPackageMutation,
-  useUpdateStatusTourPackageMutation,
-  useDeleteTourPackageMutation,
-} from "../../_service/package-tour";
+  useCreateTravelPackageMutation,
+  useUpdateTravelPackageMutation,
+  uploadImagesTravelPackage,
+  useDeleteImageTravelPackageMutation,
+  useDeleteTravelPackageMutation,
+} from "../../_service/travel_package";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-hot-toast";
 import {
-  CreateTourPackageReqI,
-  TourPackage,
-  TourPackageResI,
-  UploadTourPackageReqI,
+  CreateTravelPackageReqI,
+  TravelPackage,
+  TravelPackageResI,
+  UploadTravelPackageReqI,
   DeleteImageReqI,
-  UpdateStatusTourPackageReqI,
-} from "../../__interface/tourpackage.interface";
+} from "../../__interface/travel_package.interface";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export const useCreateUpdateTourPackage = (
-  defaultValues?: CreateTourPackageReqI,
-  data?: TourPackage | null
+export const useCreateUpdateTravelPackage = (
+  defaultValues?: CreateTravelPackageReqI,
+  data?: TravelPackage | null
 ) => {
-  const [createTourPackage, { isLoading }] = useCreateTourPackageMutation();
-  const [updateTourPackage] = useUpdateTourPackageMutation();
+  const [createTravelPackage, { isLoading }] = useCreateTravelPackageMutation();
+  const [updateTravelPackage] = useUpdateTravelPackageMutation();
 
   const schema = yup
     .object()
@@ -40,14 +38,10 @@ export const useCreateUpdateTourPackage = (
         .number()
         .min(1, "Minimal 1 Day")
         .required("Duration is required"),
-      max_group_size: yup
+      max_persons: yup
         .number()
         .min(1, "Minimal 1 person in a group")
-        .required("Max Group Size is required"),
-      children_price: yup
-        .number()
-        .min(1, "Minimal 1 USD")
-        .required("Children Price is required"),
+        .required("Max Persons is required"),
       itineraries: yup
         .array()
         .of(yup.string().required())
@@ -58,44 +52,23 @@ export const useCreateUpdateTourPackage = (
         .of(yup.string().required())
         .min(1, "Includes must have at least 1 item")
         .required("Includes is required"),
-      pickup_areas: yup
-        .array()
-        .of(yup.string().required())
-        .required("Pickup Areas is required"),
-      terms_conditions: yup
-        .array()
-        .of(yup.string().required())
-        .required("Terms Conditions is required"),
     })
     .required();
 
   const onSubmit = async (
-    formData: CreateTourPackageReqI,
-    selectedPickUpAreas: string[],
-    selectedTermsConditions: string[],
+    formData: CreateTravelPackageReqI,
     setIsCreated: (value: boolean) => void,
-    setId: (value: string) => void
+    setId: (value: number) => void
   ) => {
-    if (selectedPickUpAreas.length === 0) {
-      return;
-    }
-    if (selectedTermsConditions.length === 0) {
-      return;
-    }
-    const payload = {
-      ...formData,
-      pickup_areas: selectedPickUpAreas,
-      terms_conditions: selectedTermsConditions,
-    };
     try {
       if (data?.id) {
-        const response = await updateTourPackage({
-          ...payload,
+        const response = await updateTravelPackage({
+          ...formData,
           id: data.id,
         }).unwrap();
         toast.success(response.message);
       } else {
-        const response = await createTourPackage(payload).unwrap();
+        const response = await createTravelPackage(formData).unwrap();
         toast.success(response.message);
         setIsCreated(true);
         setId(response.data.id);
@@ -107,7 +80,7 @@ export const useCreateUpdateTourPackage = (
   };
 
   const { register, handleSubmit, formState, setValue } =
-    useForm<CreateTourPackageReqI>({
+    useForm<CreateTravelPackageReqI>({
       defaultValues,
       resolver: yupResolver(schema),
     });
@@ -122,12 +95,12 @@ export const useCreateUpdateTourPackage = (
   };
 };
 
-export const useDeleteImageTourPackage = (refetch: () => void) => {
-  const [deleteImageTourPackage, { isLoading }] =
-    useDeleteImageTourPackageMutation();
+export const useDeleteImageTravelPackage = (refetch: () => void) => {
+  const [deleteImageTravelPackage, { isLoading }] =
+    useDeleteImageTravelPackageMutation();
   const onDelete = async (formData: DeleteImageReqI) => {
     try {
-      await deleteImageTourPackage(formData).unwrap();
+      await deleteImageTravelPackage(formData).unwrap();
       refetch();
       toast.success("Image deleted successfully");
       //   eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -144,12 +117,12 @@ export const useDeleteImageTourPackage = (refetch: () => void) => {
   };
 };
 
-export const useUploadImagesTourPackageForm = (refetch?: () => void) => {
+export const useUploadImagesTravelPackageForm = (refetch?: () => void) => {
   const navigate = useNavigate();
 
-  const onSubmit = async (data: UploadTourPackageReqI) => {
+  const onSubmit = async (data: UploadTravelPackageReqI) => {
     try {
-      const response: TourPackageResI = await uploadImagesTourPackage(data);
+      const response: TravelPackageResI = await uploadImagesTravelPackage(data);
       toast.success(response.message);
       navigate("/admin/tour-package/");
       if (refetch) {
@@ -166,28 +139,11 @@ export const useUploadImagesTourPackageForm = (refetch?: () => void) => {
   };
 };
 
-export const useUpdateStatusTourPackage = (refetch: () => void) => {
-  const [updateStatusTourPackage] = useUpdateStatusTourPackageMutation();
-  const onUpdate = async (data: UpdateStatusTourPackageReqI) => {
+export const useDeleteTravelPackage = (refetch: () => void) => {
+  const [deleteTravelPackage] = useDeleteTravelPackageMutation();
+  const onDelete = async (id: number) => {
     try {
-      await updateStatusTourPackage(data).unwrap();
-      refetch();
-      toast.success("Status updated successfully");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error.data.message);
-    }
-  };
-  return {
-    onUpdate,
-  };
-};
-
-export const useDeleteTourPackage = (refetch: () => void) => {
-  const [deleteTourPackage] = useDeleteTourPackageMutation();
-  const onDelete = async (id: string) => {
-    try {
-      await deleteTourPackage({ id }).unwrap();
+      await deleteTravelPackage({ id }).unwrap();
       refetch();
       toast.success("Tour Package deleted successfully");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

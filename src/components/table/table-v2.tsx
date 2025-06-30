@@ -16,15 +16,15 @@ interface Props<T> {
   isLoading?: boolean;
   error?: string;
   action?: boolean;
-  id?: string[];
-  setIsChecked?: Dispatch<SetStateAction<string[]>>;
+  id?: number[];
+  setIsChecked?: Dispatch<SetStateAction<number[]>>;
 }
 
 export function TableV2<T>({
   data = [],
   columns = [],
   isLoading = false,
-  id = [""],
+  id = [],
   setIsChecked,
 }: Props<T>): React.ReactElement {
   isLoading = false;
@@ -100,7 +100,6 @@ export function TableV2<T>({
                             >
                               {column.fieldId === "index" && (
                                 <p className="font-semibold">
-                                  {rowIndex + 1 + (rowIndex - 1) * 0}
                                 </p>
                               )}
                               {column.fieldId === "checkbox" ? (
@@ -117,7 +116,7 @@ export function TableV2<T>({
                                       if (e.target.checked) {
                                         setIsChecked((prev) => [
                                           ...prev,
-                                          e.target.value,
+                                          Number(e.target.value),
                                         ]);
                                       } else {
                                         setIsChecked(

@@ -1,24 +1,23 @@
-import { TourPackage } from "../../__interface/tourpackage.interface";
+import { TravelPackage } from "../../__interface/travel_package.interface";
 import { Columns } from "../../components/table/table-v2";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import ActionButtonTable from "../../components/button/action-table.button";
-import ToggleSwitch from "../../components/toggle";
+
 export const HeaderTourPackage = (
-  handleDeletePopUp?: (id: string) => void,
-  handleUpdateStatusPopUp?: (id: string, newStatus: boolean) => void
-): Columns<TourPackage>[] => {
+  handleDeletePopUp?: (id: number) => void
+): Columns<TravelPackage>[] => {
   const navigate = useNavigate(); // Initialize the navigate function
   const menuOptions = () => [
     {
       label: "Edit",
-      action: (id?: string) => navigate(`/admin/tour-package/update/${id}`),
+      action: (id?: number) => navigate(`/admin/tour-package/update/${id}`),
       icon: <RiEdit2Fill />,
     },
     {
       label: "Delete",
-      action: (id?: string) => {
+      action: (id?: number) => {
         handleDeletePopUp!(id!);
       },
       icon: <MdDelete />,
@@ -32,7 +31,8 @@ export const HeaderTourPackage = (
     // },
     {
       fieldId: "index",
-      label: "No",
+      label: "ID",
+      render: (data) => <p>{data?.id}</p>,
     },
     {
       fieldId: "package_name",
@@ -79,15 +79,6 @@ export const HeaderTourPackage = (
       ),
     },
     {
-      fieldId: "children_price",
-      label: "Children Price",
-      render: (data) => (
-        <p className="font-semibold">
-          ${data?.children_price?.toFixed(2) ?? "N/A"}
-        </p>
-      ),
-    },
-    {
       fieldId: "duration",
       label: "Duration",
       render: (data) => (
@@ -101,14 +92,14 @@ export const HeaderTourPackage = (
       ),
     },
     {
-      fieldId: "max_group_size",
-      label: "Max Group Size",
+      fieldId: "max_persons",
+      label: "Max Persons",
       render: (data) => (
         <p>
-          {data?.max_group_size
-            ? data?.max_group_size > 1
-              ? `${data.max_group_size} persons`
-              : `${data.max_group_size} person`
+          {data?.max_persons
+            ? data?.max_persons > 1
+              ? `${data.max_persons} persons`
+              : `${data.max_persons} person`
             : "N/A"}
         </p>
       ),
@@ -135,46 +126,6 @@ export const HeaderTourPackage = (
         </ul>
       ),
     },
-    {
-      fieldId: "pickup_areas",
-      label: "Pickup Areas",
-      render: (data) => (
-        <ul className="list-disc list-inside">
-          {data?.pickup_areas?.map((pickup, index) => (
-            <li key={index}>{pickup}</li>
-          )) ?? "No Pickup Areas"}
-        </ul>
-      ),
-    },
-    {
-      fieldId: "terms_conditions",
-      label: "Terms & Conditions",
-      render: (data) => (
-        <ul className="list-disc list-inside">
-          {data?.terms_conditions?.map((terms, index) => (
-            <li key={index}>{terms}</li>
-          )) ?? "No Terms & Conditions"}
-        </ul>
-      ),
-    },
-
-    {
-      fieldId: "status",
-      label: "Status",
-      render: (data) => (
-        <ToggleSwitch
-          isChecked={data?.status ?? false}
-          onChange={(e) => {
-            if (handleUpdateStatusPopUp) {
-              handleUpdateStatusPopUp!(data?.id ?? "", e);
-            }
-          }}
-          id={data?.id ?? ""}
-          label={data?.status ? "Active" : "Inactive"}
-        />
-      ),
-    },
-
     {
       fieldId: "id",
       label: "Action",

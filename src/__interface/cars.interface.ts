@@ -1,19 +1,19 @@
-import { Brand } from "./brands.interface";
+
 
 export interface Cars {
-  id: string;
-  car_name: string;
-  car_image: string;
-  description: string;
-  min_person: number;
-  max_person: number;
-  price: number;
-  includes: string[];
-  status: boolean;
-  created_at: string;
-  updated_at: string;
+  id: number
+  car_name: string
+  car_image?: string
+  car_color: string
+  police_number: string
+  transmission: string
+  description: string
+  max_persons: number
+  price_per_day: number
+  includes: string[]
+  created_at: string
+  updated_at: string
   deleted_at: string;
-  brand: Brand;
 }
 
 export interface Meta {
@@ -31,17 +31,18 @@ export interface ListCarsResI {
 }
 
 export interface CarsReqI {
-  id: string;
+  id: number;
 }
 
 export interface CreateCarsReqI {
-  car_name: string;
-  brand_id: string;
-  description: string;
-  min_person: number;
-  max_person: number;
-  price: number;
-  includes: string[];
+  car_name: string
+  car_color: string
+  police_number: string
+  transmission: string
+  description: string
+  max_persons: number
+  price_per_day: number
+  includes: string[]
 }
 
 export interface UpdateCarsReqI extends CarsReqI, CreateCarsReqI {}
@@ -51,13 +52,9 @@ export interface CarsResI {
   message: string;
 }
 
-export interface UpdateStatusCarsReqI {
-  id: string;
-  status: boolean;
-}
 
 export interface UploadImageCarsReqI {
-  id: string;
+  id: number;
   image: File;
   access_token: string;
 }

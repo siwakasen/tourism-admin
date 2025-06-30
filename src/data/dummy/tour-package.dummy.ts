@@ -1,4 +1,4 @@
-import { TourPackage } from "../../__interface/tourpackage.interface";
+import { TourPackage } from "../../__interface/travel_package.interface";
 
 export const tourPackagesDummy: TourPackage[] = [
   {

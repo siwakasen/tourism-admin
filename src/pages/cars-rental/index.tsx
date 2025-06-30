@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useListCarsQuery } from "../../_service/cars";
 
 import { carsRentalRouteCreate } from "./create";
-import { PaginationI } from "../../__interface/tourpackage.interface";
-import { useDeleteCarsForm, useUpdateStatusCarsForm } from "../../_hooks/cars";
+import { PaginationI } from "../../__interface/travel_package.interface";
+import { useDeleteCarsForm } from "../../_hooks/cars";
 import { Cars } from "../../__interface/cars.interface";
 import { HeaderCars } from "../../data/header-table/cars.header";
 interface OutletContext {
@@ -20,7 +20,7 @@ export default function CarsRentalPage(): React.ReactElement {
   const navigate = useNavigate();
 
   const { setShowSidebar, showSidebar } = useOutletContext<OutletContext>();
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const handleCreate = () => {
     navigate(carsRentalRouteCreate);
@@ -37,19 +37,14 @@ export default function CarsRentalPage(): React.ReactElement {
     refetch();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setIsDelete(true);
     setSelectedId(id);
-  };
-
-  const handleUpdateStatus = (id: string, newStatus: boolean) => {
-    onUpdate({ id: id!, status: newStatus });
   };
 
   const { data: cars, isLoading, refetch } = useListCarsQuery(paginationParams);
 
   const { onDelete } = useDeleteCarsForm(refetch);
-  const { onUpdate } = useUpdateStatusCarsForm(refetch);
 
   return (
     <>
@@ -61,13 +56,12 @@ export default function CarsRentalPage(): React.ReactElement {
         setSelectedId={() => {}}
         loading={isLoading}
         handleDelete={handleDelete}
-        handleUpdateStatus={handleUpdateStatus}
         handleSearch={handleSearch}
         setShowSidebar={setShowSidebar}
         showSidebar={showSidebar}
       />
       <Modal
-        title="Delete Tour Package"
+        title="Delete Cars Rental"
         children={<>Are you sure to delete this cars rental?</>}
         isOpen={isDelete}
         btnColor="bg-red-600"

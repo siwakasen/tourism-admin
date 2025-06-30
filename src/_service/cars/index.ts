@@ -1,19 +1,18 @@
-import { Api } from "../api";
+import { Api } from "./api";
 import axios from "axios";
 
 import {
   CarsReqI,
   CreateCarsReqI,
   UpdateCarsReqI,
-  UpdateStatusCarsReqI,
   CarsResI,
   ListCarsResI,
   UploadImageCarsReqI,
 } from "../../__interface/cars.interface";
 import toast from "react-hot-toast";
 
-import { PaginationI } from "../../__interface/tourpackage.interface";
-import { VITE_APP_REST_HOST } from "../../_constants/constant";
+import { PaginationI } from "../../__interface/travel_package.interface";
+import { VITE_APP_RENT_CAR } from "../../_constants/constant";
 
 export const CarsApi = Api.injectEndpoints({
   endpoints(build) {
@@ -55,16 +54,7 @@ export const CarsApi = Api.injectEndpoints({
           };
         },
       }),
-      updateStatusCars: build.mutation<CarsResI, UpdateStatusCarsReqI>({
-        query: (data) => {
-          const { id, ...body } = data;
-          return {
-            url: `/cars/status/${id}`,
-            method: "PATCH",
-            body: body,
-          };
-        },
-      }),
+      
       deleteCars: build.mutation<CarsResI, CarsReqI>({
         query: (params) => {
           const id = String(params.id);
@@ -84,7 +74,6 @@ export const {
   useGetCarsByIdQuery,
   useCreateCarsMutation,
   useUpdateCarsMutation,
-  useUpdateStatusCarsMutation,
   useDeleteCarsMutation,
 } = CarsApi;
 
@@ -96,7 +85,7 @@ export const uploadCarsImage = async (data: UploadImageCarsReqI) => {
     formData.append("image", data.image);
 
     const res = await axios.post(
-      `${VITE_APP_REST_HOST}/cars/upload-image/${id}`,
+      `${VITE_APP_RENT_CAR}/cars/upload-image/${id}`,
       formData,
       {
         headers: {

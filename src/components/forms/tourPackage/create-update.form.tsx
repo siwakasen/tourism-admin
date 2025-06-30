@@ -1,4 +1,4 @@
-import { TourPackage } from "../../../__interface/tourpackage.interface";
+import { TravelPackage } from "../../../__interface/travel_package.interface";
 
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import MultipleImageForm from "./images-form";
 import InitialForm from "./initial-form";
 
 interface CreateUpdateTourFormProps {
-  data: TourPackage | null;
+  data: TravelPackage | null;
   title: string;
   route: string;
   refetch?: () => void;
@@ -30,7 +30,7 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const [id, setId] = useState<string | null>(data?.id || "");
+  const [id, setId] = useState<number | null>(data?.id || null);
 
   return (
     <>
@@ -147,7 +147,7 @@ export const CreateUpdateTourForm: React.FC<CreateUpdateTourFormProps> = ({
             >
               <MultipleImageForm
                 images={Array.isArray(data?.images) ? data?.images : []}
-                id={data?.id ? data?.id : id || ""}
+                id={data?.id ? data?.id : id || 0}
                 refetch={refetch}
               />
             </div>

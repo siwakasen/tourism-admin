@@ -5,12 +5,12 @@ import { useUploadImageCars } from "../../../../_hooks/cars";
 
 interface ImageFormProps {
   image?: string;
-  id: string;
+  id: number;
   refetch?: () => void;
 }
 import { carsRentalRoute } from "../../../../pages/cars-rental";
 import { useAppSelector } from "../../../../store";
-import { VITE_APP_REST_HOST } from "../../../../_constants/constant";
+import { VITE_APP_RENT_CAR } from "../../../../_constants/constant";
 
 const ImageForm: React.FC<ImageFormProps> = ({
   image,
@@ -75,7 +75,7 @@ const ImageForm: React.FC<ImageFormProps> = ({
                 <img
                   src={
                     filePreview.startsWith("image")
-                      ? `${VITE_APP_REST_HOST}/public/car-images/${filePreview}`
+                      ? `${VITE_APP_RENT_CAR}/public/car-images/${filePreview}`
                       : filePreview
                   }
                   alt="Preview"
@@ -101,7 +101,7 @@ const ImageForm: React.FC<ImageFormProps> = ({
               <img
                 src={
                   filePreview.startsWith("image")
-                    ? `${VITE_APP_REST_HOST}/public/car-images/${filePreview}`
+                    ? `${VITE_APP_RENT_CAR}/public/car-images/${filePreview}`
                     : filePreview
                 }
                 alt="Zoomed"

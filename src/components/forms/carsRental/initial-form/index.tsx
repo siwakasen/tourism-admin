@@ -2,13 +2,12 @@ import { useState } from "react";
 import { CreateCarsReqI, Cars } from "../../../../__interface/cars.interface";
 import ItemsMultipleInput from "../../../input/items-multiple-input";
 import { useCreateUpdateCarsForm } from "../../../../_hooks/cars";
-import { useListBrandsQuery } from "../../../../_service/brands";
 
 interface InitialFormProps {
   data: Cars | null;
   setIsCreated: (value: boolean) => void;
   isCreated: boolean;
-  setId: (value: string) => void;
+  setId: (value: number) => void;
   handleNextToImages: (index: number) => void;
 }
 
@@ -30,21 +29,17 @@ const InitialForm: React.FC<InitialFormProps> = ({
     {
       car_name: data?.car_name || "",
       description: data?.description || "",
-      price: data?.price || 0,
+      price_per_day: data?.price_per_day || 0,
       includes: data?.includes || [],
-      brand_id: data?.brand.id || "",
-      min_person: data?.min_person || 0,
-      max_person: data?.max_person || 0,
+      car_color: data?.car_color || "",
+      police_number: data?.police_number || "",
+      transmission: data?.transmission || "",
+      max_persons: data?.max_persons || 0,
     },
     data
   );
   const [includes, setIncludes] = useState<string[]>(data?.includes || []);
 
-  const { data: brands } = useListBrandsQuery({
-    limit: 100,
-    page: 1,
-    search: "",
-  });
   return (
     <form
       onKeyDown={(e) => {
@@ -57,31 +52,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
       })}
       className="grid grid-cols-2 gap-4 rounded-lg bg-white pt-4 px-4 pb-8"
     >
-      {/* Brand */}
-      <div>
-        <label htmlFor="brand_id" className="label">
-          <span className="label-text text-slate-800">Brands</span>
-        </label>
-        <select
-          id="brand_id"
-          className={`select select-bordered w-full ${
-            errors.brand_id ? "select-error" : ""
-          }`}
-          {...register("brand_id")}
-        >
-          <option value="">Select brand</option>
-          {brands?.data.map((brand) => (
-            <option key={brand.id} value={brand.id}>
-              {brand.brand_name}
-            </option>
-          ))}
-        </select>
-        {errors.brand_id && (
-          <span className="text-xs text-red-500">
-            {errors.brand_id.message}
-          </span>
-        )}
-      </div>
       {/* Car Name */}
       <div>
         <label htmlFor="car_name" className="label">
@@ -103,6 +73,74 @@ const InitialForm: React.FC<InitialFormProps> = ({
           </span>
         )}
       </div>
+
+      {/* Car Color */}
+      <div>
+        <label htmlFor="car_color" className="label">
+          <span className="label-text text-slate-800">Car Color</span>
+        </label>
+        <input
+          type="text"
+          id="car_color"
+          className={`input input-bordered w-full ${
+            errors.car_color ? "input-error" : ""
+          }`}
+          placeholder="Enter car color"
+          defaultValue={data?.car_color}
+          {...register("car_color")}
+        />
+        {errors.car_color && (
+          <span className="text-xs text-red-500">
+            {errors.car_color.message}
+          </span>
+        )}
+      </div>
+
+      {/* Transmission */}
+      <div>
+        <label htmlFor="transmission" className="label">
+          <span className="label-text text-slate-800">Transmission</span>
+        </label>
+        <select
+          id="transmission"
+          className={`select select-bordered w-full ${
+            errors.transmission ? "select-error" : ""
+          }`}
+          {...register("transmission")}
+        >
+          <option value="">Select transmission</option>
+          <option value="MANUAL">MANUAL</option>
+          <option value="AUTO">AUTO</option>
+        </select>
+        {errors.transmission && (
+          <span className="text-xs text-red-500">
+            {errors.transmission.message}
+          </span>
+        )}
+      </div>
+
+      {/* Police Number */}
+      <div>
+        <label htmlFor="police_number" className="label">
+          <span className="label-text text-slate-800">Police Number</span>
+        </label>
+        <input
+          type="text"
+          id="police_number"
+          className={`input input-bordered w-full ${
+            errors.police_number ? "input-error" : ""
+          }`}
+          placeholder="Enter police number"
+          defaultValue={data?.police_number}
+          {...register("police_number")}
+        />
+        {errors.police_number && (
+          <span className="text-xs text-red-500">
+            {errors.police_number.message}
+          </span>
+        )}
+      </div>
+
       {/* Description */}
       <div className="col-span-2">
         <label className="form-control w-full">
@@ -127,41 +165,22 @@ const InitialForm: React.FC<InitialFormProps> = ({
 
       {/* Price */}
       <div className="col-span-2">
-        <label htmlFor="price" className="label">
+        <label htmlFor="price_per_day" className="label">
           <span className="label-text text-slate-800">Price</span>
         </label>
         <input
           type="number"
-          id="price"
+          id="price_per_day"
           className={`input input-bordered w-full ${
-            errors.price ? "input-error" : ""
+            errors.price_per_day ? "input-error" : ""
           }`}
-          placeholder="Enter price"
-          defaultValue={data?.price}
-          {...register("price")}
+          placeholder="Enter price per day"
+          defaultValue={data?.price_per_day}
+          {...register("price_per_day")}
         />
-        {errors.price && (
-          <span className="text-xs text-red-500">{errors.price.message}</span>
-        )}
-      </div>
-      {/* Min Person */}
-      <div>
-        <label htmlFor="min_person" className="label">
-          <span className="label-text text-slate-800">Min Person</span>
-        </label>
-        <input
-          type="number"
-          id="min_person"
-          className={`input input-bordered w-full ${
-            errors.min_person ? "input-error" : ""
-          }`}
-          placeholder="Enter min person"
-          defaultValue={data?.min_person}
-          {...register("min_person")}
-        />
-        {errors.min_person && (
+        {errors.price_per_day && (
           <span className="text-xs text-red-500">
-            {errors.min_person.message}
+            {errors.price_per_day.message}
           </span>
         )}
       </div>
@@ -175,15 +194,15 @@ const InitialForm: React.FC<InitialFormProps> = ({
           type="number"
           id="max_person"
           className={`input input-bordered w-full ${
-            errors.max_person ? "input-error" : ""
+            errors.max_persons ? "input-error" : ""
           }`}
           placeholder="Enter max person"
-          defaultValue={data?.max_person}
-          {...register("max_person")}
+          defaultValue={data?.max_persons}
+          {...register("max_persons")}
         />
-        {errors.max_person && (
+        {errors.max_persons && (
           <span className="text-xs text-red-500">
-            {errors.max_person.message}
+            {errors.max_persons.message}
           </span>
         )}
       </div>

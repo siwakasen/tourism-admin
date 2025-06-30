@@ -1,4 +1,4 @@
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import {
   BaseQueryFn,
   FetchArgs,
@@ -7,8 +7,8 @@ import {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
-import { deleteTokenAuth } from "../store/auth";
-import { VITE_APP_REST_HOST } from "../_constants/constant";
+import { deleteTokenAuth } from "../../store/auth";
+import { VITE_APP_RENT_CAR } from "../../_constants/constant";
 
 export interface ApiResponseI<T> {
   data: T;
@@ -20,7 +20,7 @@ export interface ApiErrorResponseI {
 }
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: VITE_APP_REST_HOST,
+  baseUrl: VITE_APP_RENT_CAR,
 
   prepareHeaders: (headers, { getState, endpoint }) => {
     const token = (getState() as RootState).auth.accessToken;
@@ -57,6 +57,6 @@ const baseQueryWithInterceptor: BaseQueryFn<
 
 export const Api = createApi({
   baseQuery: baseQueryWithInterceptor,
-  reducerPath: "api",
+  reducerPath: "cars",
   endpoints: () => ({}),
 });

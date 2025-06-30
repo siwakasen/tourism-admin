@@ -28,7 +28,7 @@ export const CreateUpdateCarsForm: React.FC<CreateUpdateCarsFormProps> = ({
     }
     setActiveIndex(activeIndex === index ? null : index);
   };
-  const [id, setId] = useState<string | null>(data?.id || "");
+  const [id, setId] = useState<number | null>(data?.id || null);
 
   return (
     <>
@@ -145,7 +145,7 @@ export const CreateUpdateCarsForm: React.FC<CreateUpdateCarsFormProps> = ({
             >
               <ImageForm
                 image={data?.car_image || ""}
-                id={data?.id ? data?.id : id || ""}
+                id={data?.id ? data?.id : id || 0}
                 refetch={refetch}
               />
             </div>

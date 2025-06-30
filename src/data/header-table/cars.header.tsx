@@ -4,22 +4,20 @@ import { Columns } from "../../components/table";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import ToggleSwitch from "../../components/toggle";
 
 export const HeaderCars = (
-  handleDeletePopUp?: (id: string) => void,
-  handleUpdateStatusPopUp?: (id: string, newStatus: boolean) => void
+  handleDeletePopUp?: (id: number) => void,
 ): Columns<Cars>[] => {
   const navigate = useNavigate(); // Initialize the navigate function
   const menuOptions = () => [
     {
       label: "Edit",
-      action: (id?: string) => navigate(`/admin/cars-rental/update/${id}`),
+      action: (id?: number) => navigate(`/admin/cars-rental/update/${id}`),
       icon: <RiEdit2Fill />,
     },
     {
       label: "Delete",
-      action: (id?: string) => {
+      action: (id?: number) => {
         handleDeletePopUp!(id!);
       },
       icon: <MdDelete />,
@@ -36,16 +34,30 @@ export const HeaderCars = (
       label: "No",
     },
     {
-      fieldId: "brand_name",
-      label: "Brand Name",
-      render: (data) => (
-        <p className="font-semibold">{data?.brand.brand_name ?? ""}</p>
-      ),
-    },
-    {
       fieldId: "car_name",
       label: "Car Name",
       render: (data) => <p className="font-semibold">{data?.car_name ?? ""}</p>,
+    },
+    {
+      fieldId: "car_color",
+      label: "Car Color",
+      render: (data) => (
+        <p className="text-sm text-gray-600 ">{data?.car_color ?? ""}</p>
+      ),
+    },
+    {
+      fieldId: "police_number",
+      label: "Police Number",
+      render: (data) => (
+        <p className="text-sm text-gray-600 ">{data?.police_number ?? ""}</p>
+      ),
+    },
+    {
+      fieldId: "transmission",
+      label: "Transmission",
+      render: (data) => (
+        <p className="text-sm text-gray-600 ">{data?.transmission ?? ""}</p>
+      ),
     },
     {
       fieldId: "description",
@@ -55,24 +67,10 @@ export const HeaderCars = (
       ),
     },
     {
-      fieldId: "min_person",
-      label: "Min Person",
-      render: (data) => (
-        <p className="text-sm text-gray-600 ">{data?.min_person ?? ""}</p>
-      ),
-    },
-    {
-      fieldId: "max_person",
-      label: "Max Person",
-      render: (data) => (
-        <p className="text-sm text-gray-600 ">{data?.max_person ?? ""}</p>
-      ),
-    },
-    {
       fieldId: "price",
       label: "Price",
       render: (data) => (
-        <p className="text-sm text-gray-600 ">{data?.price ?? ""}</p>
+        <p className="text-sm text-gray-600 ">{data?.price_per_day ?? ""}</p>
       ),
     },
     {
@@ -84,22 +82,6 @@ export const HeaderCars = (
             <li key={index}>{include}</li>
           )) ?? "No Includes"}
         </ul>
-      ),
-    },
-    {
-      fieldId: "status",
-      label: "Status",
-      render: (data) => (
-        <ToggleSwitch
-          isChecked={data?.status ?? false}
-          onChange={(e) => {
-            if (handleUpdateStatusPopUp) {
-              handleUpdateStatusPopUp!(data?.id ?? "", e);
-            }
-          }}
-          id={data?.id ?? ""}
-          label={data?.status ? "Active" : "Inactive"}
-        />
       ),
     },
     {

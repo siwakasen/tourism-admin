@@ -1,19 +1,18 @@
 import { useParams } from "react-router-dom";
 import { CreateUpdateTourForm } from "../../../components/forms/tourPackage/create-update.form";
-import { useGetTourPackageByIdQuery } from "../../../_service/package-tour";
+import { useGetTravelPackageByIdQuery } from "../../../_service/travel_package";
 import { useEffect } from "react";
-export const tourPackageUpdateRoute = "/admin/tour-package/update/:id";
-export const tourPackageListRoute = "/admin/tour-package";
+export const travelPackageUpdateRoute = "/admin/tour-package/update/:id";
+export const travelPackageListRoute = "/admin/tour-package";
 
 export default function UpdateTourPackage(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
 
-  const { data, isLoading, refetch } = useGetTourPackageByIdQuery({
-    id: id ?? "",
+  const { data, isLoading, refetch } = useGetTravelPackageByIdQuery({
+    id: Number(id ?? 0),
   });
 
   useEffect(() => {
-    refetch();
   }, [data, isLoading]);
 
   return !data ? (
@@ -24,8 +23,8 @@ export default function UpdateTourPackage(): React.ReactElement {
         <CreateUpdateTourForm
           refetch={refetch}
           data={data.data}
-          title={"Update Tour Package"}
-          route={tourPackageListRoute}
+          title={"Update Travel Package"}
+          route={travelPackageListRoute}
         />
       </div>
     </div>

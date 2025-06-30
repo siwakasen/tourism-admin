@@ -1,24 +1,19 @@
 import { useState } from "react";
 import {
-  CreateTourPackageReqI,
-  TourPackage,
-} from "../../../../__interface/tourpackage.interface";
+  CreateTravelPackageReqI,
+  TravelPackage,
+} from "../../../../__interface/travel_package.interface";
 import ItemsMultipleInput from "../../../input/items-multiple-input";
-import CheckboxMultipleInput from "../../../input/checkbox-multiple-input";
-import { useCreateUpdateTourPackage } from "../../../../_hooks/package-tour";
+import { useCreateUpdateTravelPackage } from "../../../../_hooks/travel_package";
 
 interface InitialFormProps {
-  data: TourPackage | null;
+  data: TravelPackage | null;
   handleNextToImages: (index: number) => void;
   setIsCreated: (value: boolean) => void;
   isCreated: boolean;
-  setId: (value: string) => void;
+  setId: (value: number) => void;
 }
 
-import {
-  pickupAreasDummy,
-  termsConditionsDummy,
-} from "../../../../data/dummy/tour-package.dummy";
 
 const InitialForm: React.FC<InitialFormProps> = ({
   data,
@@ -31,18 +26,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
     data?.itineraries || []
   );
   const [includes, setIncludes] = useState<string[]>(data?.includes || []);
-  const [pickUpAreas, setPickUpAreas] = useState<string[]>(
-    data?.pickup_areas || pickupAreasDummy
-  );
-  const [termsConditions, setTermsConditions] = useState<string[]>(
-    data?.terms_conditions || termsConditionsDummy
-  );
-  const [selectedPickUpAreas, setSelectedPickUpAreas] = useState<string[]>(
-    data?.pickup_areas || pickupAreasDummy
-  );
-  const [selectedTermsConditions, setSelectedTermsConditions] = useState<
-    string[]
-  >(data?.terms_conditions || termsConditionsDummy);
 
   const {
     onSubmit,
@@ -51,22 +34,18 @@ const InitialForm: React.FC<InitialFormProps> = ({
     register,
     setValue,
     isLoading,
-  } = useCreateUpdateTourPackage(
+  } = useCreateUpdateTravelPackage(
     {
       package_name: data?.package_name || "",
       description: data?.description || "",
       package_price: data?.package_price || 0,
       duration: data?.duration || 0,
-      max_group_size: data?.max_group_size || 0,
-      children_price: data?.children_price || 0,
+      max_persons: data?.max_persons || 0,
       itineraries: data?.itineraries || [],
       includes: data?.includes || [],
-      pickup_areas: data?.pickup_areas || [],
-      terms_conditions: data?.terms_conditions || [],
     },
     data
   );
-
   return (
     <form
       onKeyDown={(e) => {
@@ -74,11 +53,9 @@ const InitialForm: React.FC<InitialFormProps> = ({
           e.preventDefault();
         }
       }}
-      onSubmit={handleSubmit((formData: CreateTourPackageReqI) =>
+      onSubmit={handleSubmit((formData: CreateTravelPackageReqI) =>
         onSubmit(
           formData,
-          selectedPickUpAreas,
-          selectedTermsConditions,
           setIsCreated,
           setId
         )
@@ -180,39 +157,16 @@ const InitialForm: React.FC<InitialFormProps> = ({
             </span>
           </div>
           <input
-            {...register("max_group_size")}
+            {...register("max_persons")}
             type="number"
             placeholder="Enter max group size"
             className={`input input-bordered w-full ${
-              errors.max_group_size ? "input-error" : ""
+              errors.max_persons ? "input-error" : ""
             }`}
           />
-          {errors.max_group_size && (
+          {errors.max_persons && (
             <span className="text-red-500 text-sm">
-              {errors.max_group_size.message}
-            </span>
-          )}
-        </label>
-      </div>
-      {/* Children Price */}
-      <div>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-slate-700">
-              Children Price (USD)
-            </span>
-          </div>
-          <input
-            {...register("children_price")}
-            type="number"
-            placeholder="Enter children price"
-            className={`input input-bordered w-full ${
-              errors.children_price ? "input-error" : ""
-            }`}
-          />
-          {errors.children_price && (
-            <span className="text-red-500 text-sm">
-              {errors.children_price.message}
+              {errors.max_persons.message}
             </span>
           )}
         </label>
@@ -239,38 +193,6 @@ const InitialForm: React.FC<InitialFormProps> = ({
         placeholder="Enter included items"
         errors={errors.includes}
       />
-      {/* Pickup Areas */}
-      <div className="col-span-2">
-        <CheckboxMultipleInput
-          label={"Pickup Areas"}
-          placeholder={"Add new pickup areas"}
-          items={pickUpAreas}
-          setItems={setPickUpAreas}
-          selectedItems={selectedPickUpAreas}
-          setSelectedItems={setSelectedPickUpAreas}
-          errors={
-            selectedPickUpAreas.length === 0
-              ? "Pickup Areas must have at least 1 item"
-              : ""
-          }
-        />
-      </div>
-      {/* Terms & Conditions */}
-      <div className="col-span-2">
-        <CheckboxMultipleInput
-          label={"Terms & Conditions"}
-          placeholder={"Add new terms & conditions"}
-          items={termsConditions}
-          setItems={setTermsConditions}
-          selectedItems={selectedTermsConditions}
-          setSelectedItems={setSelectedTermsConditions}
-          errors={
-            selectedTermsConditions.length === 0
-              ? "Terms &  Conditions must have at least 1 item"
-              : ""
-          }
-        />
-      </div>
       {/* Submit Buttons */}
       <div className="col-span-2 flex justify-end gap-4 mt-10 text-right">
         <button

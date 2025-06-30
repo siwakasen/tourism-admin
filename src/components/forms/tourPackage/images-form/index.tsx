@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
-  useUploadImagesTourPackageForm,
-  useDeleteImageTourPackage,
-} from "../../../../_hooks/package-tour";
+  useUploadImagesTravelPackageForm,
+  useDeleteImageTravelPackage,
+} from "../../../../_hooks/travel_package";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAppSelector } from "../../../../store";
 import LoadingPages from "../../../loadings/loading-pages";
-import { VITE_APP_REST_HOST } from "../../../../_constants/constant";
+import { VITE_APP_TRAVEL_PACKAGE } from "../../../../_constants/constant";
 
 interface MultipleImageFormProps {
   images?: string[];
-  id: string;
+  id: number;
   refetch?: () => void;
 }
 
@@ -34,8 +34,8 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
     setFileData((prevFiles) => [...prevFiles, ...acceptedFiles]);
   };
 
-  const { onSubmit } = useUploadImagesTourPackageForm(refetch);
-  const { onDelete, isLoading } = useDeleteImageTourPackage(refetch!);
+  const { onSubmit } = useUploadImagesTravelPackageForm(refetch);
+  const { onDelete, isLoading } = useDeleteImageTravelPackage(refetch!);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -96,7 +96,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
                 <img
                   src={
                     preview.startsWith("image")
-                      ? `${VITE_APP_REST_HOST}/public/tour-images/${preview}`
+                      ? `${VITE_APP_TRAVEL_PACKAGE}/public/travel-images/${preview}`
                       : preview
                   }
                   alt={`Preview ${index}`}
@@ -157,7 +157,7 @@ const MultipleImageForm: React.FC<MultipleImageFormProps> = ({
               <img
                 src={
                   zoomedImage.startsWith("image")
-                    ? `${VITE_APP_REST_HOST}/public/tour-images/${zoomedImage}`
+                    ? `${VITE_APP_TRAVEL_PACKAGE}/public/travel -images/${zoomedImage}`
                     : zoomedImage
                 }
                 alt="Zoomed"

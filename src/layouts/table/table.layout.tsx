@@ -15,25 +15,23 @@ interface PaginationDefaultI {
 
 interface props<T, P extends PaginationDefaultI> {
   title: string;
-  handleDelete(id?: string): void;
+  handleDelete(id?: number): void;
   params?: {
     value: P;
     setValue: React.Dispatch<React.SetStateAction<P>>;
   };
 
-  handleUpdateStatus(id?: string, newStatus?: boolean): void;
   headerTable: (
-    handleDeletePopUp: (id?: string) => void,
-    handleUpdateStatusPopUp: (id?: string, newStatus?: boolean) => void
+    handleDeletePopUp: (id?: number) => void
   ) => Columns<T>[];
 
   data: T[];
   handleCreate?: () => void;
-  setSelectedId: React.Dispatch<SetStateAction<string[]>>;
+  setSelectedId: React.Dispatch<SetStateAction<number[]>>;
   modal?: React.ReactElement;
   remove?: {
     isOpen: boolean;
-    handler: (id?: string) => void;
+    handler: (id?: number) => void;
     handlerClose?: () => void;
   };
   loading?: boolean | false;
@@ -48,7 +46,6 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   setSelectedId,
   data,
   handleDelete,
-  handleUpdateStatus,
   headerTable,
   modal,
   handleSearch,
@@ -60,7 +57,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   //   const handlePageChange = async (page: number): Promise<void> => {
   //     params.setValue({ ...params.value, page });
   //   };
-  const [selectedColumn, setSelectedColumn] = useState<string[]>([]);
+  const [selectedColumn, setSelectedColumn] = useState<number[]>([]);
   useEffect(() => {
     setSelectedId(selectedColumn);
   }, [selectedColumn]);
@@ -121,7 +118,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
                 <div className="align-middle inline-block min-w-full">
                   <div className="overflow-auto rounded-xl  max-h-[calc(100vh-434px)]">
                     <TableV2<T>
-                      columns={headerTable(handleDelete, handleUpdateStatus)}
+                      columns={headerTable(handleDelete)}
                       data={data}
                       isLoading={loading}
                       id={selectedColumn}

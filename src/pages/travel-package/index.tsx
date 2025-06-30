@@ -1,17 +1,13 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
-import {
-  PaginationI,
-  TourPackage,
-} from "../../__interface/tourpackage.interface";
+import { PaginationI, TravelPackage } from "../../__interface/travel_package.interface";
 import { HeaderTourPackage } from "../../data/header-table/tour-package.header";
 import TableLayout from "../../layouts/table/table.layout";
-import { useListTourPackageQuery } from "../../_service/package-tour";
+import { useListTravelPackageQuery } from "../../_service/travel_package";
 import Modal from "../../components/modal/modal";
 import { useState } from "react";
 import {
-  useDeleteTourPackage,
-  useUpdateStatusTourPackage,
-} from "../../_hooks/package-tour";
+  useDeleteTravelPackage,
+} from "../../_hooks/travel_package";
 interface OutletContext {
   setShowSidebar: (show: boolean) => void;
   showSidebar: boolean;
@@ -28,45 +24,40 @@ export default function TourPackagePage(): React.ReactElement {
   });
 
   const {
-    data: tourPackages,
+    data: travelPackages,
     isLoading,
     refetch,
-  } = useListTourPackageQuery(paginationParams);
+  } = useListTravelPackageQuery(paginationParams);
 
   const handleCreate = () => {
     navigate("/admin/tour-package/create");
   };
   const [isDelete, setIsDelete] = useState<boolean>(false);
-  const { onDelete } = useDeleteTourPackage(refetch);
-  const { onUpdate } = useUpdateStatusTourPackage(refetch);
+  const { onDelete } = useDeleteTravelPackage(refetch);
 
   const handleSearch = (query: string) => {
     setPaginationParams((prev) => ({ ...prev, search: query }));
     refetch();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setIsDelete(true);
     setSelectedId(id);
   };
 
-  const handleUpdateStatus = (id: string, newStatus: boolean) => {
-    onUpdate({ id: id!, status: newStatus });
-  };
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   return (
     <>
-      <TableLayout<TourPackage, PaginationI>
-        title="Tour Package"
-        data={tourPackages?.data ?? []}
+      <TableLayout<TravelPackage, PaginationI>
+        title="Travel Package"
+        data={travelPackages?.data ?? []}
         headerTable={HeaderTourPackage}
         handleCreate={handleCreate}
         setSelectedId={() => {}}
         loading={isLoading}
         handleDelete={handleDelete}
-        handleUpdateStatus={handleUpdateStatus}
         handleSearch={handleSearch}
         setShowSidebar={setShowSidebar}
         showSidebar={showSidebar}

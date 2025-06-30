@@ -1,4 +1,3 @@
-import { User } from "./user.interface";
 
 export interface LoginReqI {
   email: string;
@@ -7,7 +6,7 @@ export interface LoginReqI {
 
 export interface LoginResI {
   data: {
-    user: User;
+    message: string;
     token: string;
   };
   success: boolean;
@@ -16,7 +15,6 @@ export interface LoginResI {
 export interface ResetPasswordReqI {
   token: string;
   password: string;
-  confirmPassword: string;
 }
 
 export interface ResetPasswordResI {
@@ -29,6 +27,5 @@ export interface RequestResetPasswordReqI {
 }
 
 export interface RequestResetPasswordResI {
-  success: boolean;
   message: string;
 }

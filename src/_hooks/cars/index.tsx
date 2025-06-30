@@ -1,7 +1,6 @@
 import {
   useCreateCarsMutation,
   useUpdateCarsMutation,
-  useUpdateStatusCarsMutation,
   useDeleteCarsMutation,
   uploadCarsImage,
 } from "../../_service/cars";
@@ -13,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import {
   CreateCarsReqI,
   UploadImageCarsReqI,
-  UpdateStatusCarsReqI,
   Cars,
 } from "../../__interface/cars.interface";
 import { carsRentalRoute } from "../../pages/cars-rental";
@@ -28,25 +26,15 @@ export const useCreateUpdateCarsForm = (
     .object()
     .shape({
       car_name: yup.string().required("Car Name is required"),
-      brand_id: yup.string().required("Brand is required"),
+      car_color: yup.string().required("Car Color is required"),
+      police_number: yup.string().required("Police Number is required"),
+      transmission: yup.string().required("Transmission is required"),
       description: yup.string().required("Description is required"),
-      min_person: yup
+      max_persons: yup
         .number()
         .min(1, "Minimal 1 person")
-        .required("Minimum number of persons is required"),
-      max_person: yup
-        .number()
-        .min(1, "Minimal 1 person")
-        .required("Maximum number of persons is required")
-        .test(
-          "is-greater-than-min",
-          "Max person must be greater than Min person",
-          function (value) {
-            const { min_person } = this.parent; // Access other fields in the schema
-            return value > min_person; // Custom condition
-          }
-        ),
-      price: yup.number().min(1, "Minimal 1 USD").required(),
+        .required("Maximum number of persons is required"),
+      price_per_day: yup.number().min(1, "Minimal 1 USD").required(),
       includes: yup
         .array()
         .of(yup.string().required())
@@ -58,7 +46,7 @@ export const useCreateUpdateCarsForm = (
   const onSubmit = async (
     formData: CreateCarsReqI,
     setIsCreated: (value: boolean) => void,
-    setId: (value: string) => void
+    setId: (value: number) => void
   ) => {
     try {
       if (data?.id) {
@@ -112,25 +100,9 @@ export const useUploadImageCars = (refetch?: () => void) => {
   return { onSubmit };
 };
 
-export const useUpdateStatusCarsForm = (refetch: () => void) => {
-  const [updateStatusCars] = useUpdateStatusCarsMutation();
-  const onUpdate = async (formData: UpdateStatusCarsReqI) => {
-    try {
-      await updateStatusCars(formData).unwrap();
-      refetch();
-      toast.success("Update status success");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error.data.message[0]);
-    }
-  };
-
-  return { onUpdate };
-};
-
 export const useDeleteCarsForm = (refetch: () => void) => {
   const [deleteCars] = useDeleteCarsMutation();
-  const onDelete = async (id: string) => {
+  const onDelete = async (id: number) => {
     try {
       await deleteCars({ id }).unwrap();
       refetch();

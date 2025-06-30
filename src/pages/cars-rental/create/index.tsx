@@ -7,7 +7,7 @@ export default function CreateCarsRental(): React.ReactElement {
       <div className="border-2 rounded-2xl shadow-lg m-4 flex-grow bg-white overflow-auto">
         <CreateUpdateCarsForm
           data={null}
-          title={"Create New Tour Package"}
+          title={"Add New Car"}
           route={carsRentalRoute}
         />
       </div>

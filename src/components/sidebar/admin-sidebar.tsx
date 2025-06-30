@@ -1,8 +1,6 @@
 import { FaCar } from "react-icons/fa";
-import { GiTalk } from "react-icons/gi";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { PiIslandBold } from "react-icons/pi";
-import { MdManageAccounts } from "react-icons/md";
 // import { MdDashboard } from "react-icons/md";
 import logo_tour2 from "../../images/logo_tour2.png";
 import React from "react";
@@ -95,32 +93,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = () => {
             >
               <FaCar className="size-5 text-gray-700" />
               Cars Rental
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/admin/testimonials"}
-              className={`flex items-center gap-x-3.5 py-2 px-3 text-sm font-medium rounded-lg ${
-                isActiveRoute("/admin/testimonials")
-                  ? "bg-gray-100 text-gray-800 shadow"
-                  : "hover:bg-gray-100 hover:text-gray-900 transition"
-              }`}
-            >
-              <GiTalk className="size-5 text-gray-700" />
-              Testimonials
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/admin/drivers"}
-              className={`flex items-center gap-x-3.5 py-2 px-3 text-sm font-medium rounded-lg ${
-                isActiveRoute("/admin/drivers")
-                  ? "bg-gray-100 text-gray-800 shadow"
-                  : "hover:bg-gray-100 hover:text-gray-900 transition"
-              }`}
-            >
-              <MdManageAccounts className="size-5 text-gray-700" />
-              Drivers
             </Link>
           </li>
         </ul>

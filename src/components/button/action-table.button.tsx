@@ -3,13 +3,13 @@ import { FaEllipsisV } from "react-icons/fa";
 
 interface MenuOption {
   label: string; // Label untuk setiap item menu
-  action: (id?: string) => void;
+  action: (id?: number) => void;
   icon?: ReactNode; // Ikon opsional untuk setiap item menu
 }
 
 interface ActionButtonTableProps {
   menuOptions: MenuOption[]; // Array menu dinamis
-  id?: string;
+  id?: number;
 }
 
 const ActionButtonTable: React.FC<ActionButtonTableProps> = ({

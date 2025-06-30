@@ -7,7 +7,7 @@ export const carsRentalRouteUpdate = "/admin/cars-rental/update/:id";
 export default function UpdateCarsRental(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, refetch } = useGetCarsByIdQuery({
-    id: id ?? "",
+    id: Number(id ?? 0),
   });
 
   useEffect(() => {}, [data, isLoading]);

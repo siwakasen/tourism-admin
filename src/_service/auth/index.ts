@@ -6,17 +6,17 @@ import {
   ResetPasswordReqI,
   ResetPasswordResI,
 } from "../../__interface/auth.interface";
-import {} from "../../__interface/tourpackage.interface";
+import {} from "../../__interface/travel_package.interface";
 import { VITE_APP_REST_AUTH } from "../../_constants/constant";
 
-import { Api } from "../api";
+import { Api } from "./api";
 
 export const AuthApi = Api.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<LoginResI, LoginReqI>({
       query(body) {
         return {
-          url: `${VITE_APP_REST_AUTH}/auth/login`,
+          url: `${VITE_APP_REST_AUTH}/employees/login`,
           method: "POST",
           body,
         };
@@ -28,7 +28,7 @@ export const AuthApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `${VITE_APP_REST_AUTH}/auth/request-reset-password`,
+          url: `${VITE_APP_REST_AUTH}/employees/request-reset-password`,
           method: "POST",
           body,
         };
@@ -37,7 +37,7 @@ export const AuthApi = Api.injectEndpoints({
     resetPassword: build.mutation<ResetPasswordResI, ResetPasswordReqI>({
       query(body) {
         return {
-          url: `${VITE_APP_REST_AUTH}/auth/reset-password`,
+          url: `${VITE_APP_REST_AUTH}/employees/reset-password`,
           method: "POST",
           body,
         };
